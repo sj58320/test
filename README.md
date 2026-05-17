@@ -16,13 +16,13 @@ rss_motd.html 부분
 양식만 지키면 쉬움
 아래와 같은 주석 처리된 부분 아래쪽을 설정하면된다.
 
-찾기목록 (rss_motd.html)[검색하면됨]
+찾기목록 (rss_motd.html)[앞은 코드내부 주석 , 뒤는 무슨 기능에 들어가는것인지]
 =======================
 
-FAQ(Create)<br/>
-마지막 업데이트 날짜 갱신(Update)<br/>
-일반 사용자(Create)<br/>
-VIP(Create)<br/>
+FAQ(Create) = 질문 및 답글<br/>
+마지막 업데이트 날짜 갱신(Update) = 단순 업데이트 날짜 갱신<br/>
+일반 사용자(Create) = 명령어리스트<br/>
+VIP(Create) = 명령어리스트<br/>
 
 
 보통 수정하면 건드려줘야되는 부분
