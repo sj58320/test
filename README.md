@@ -17,6 +17,17 @@ rss_motd.html 부분
 양식만 지키면 쉬움
 아래와 같은 주석 처리된 부분 아래쪽을 설정하면된다.
 
+찾기목록 (rss_motd.html)[검색하면됨]
+=======================
+FAQ(Create)
+마지막 업데이트 날짜 갱신(Update)
+일반 사용자(Create)
+VIP(Create)
+=======================
+보통 수정하면 건드려줘야되는 부분
+lang.js , rss_motd.html
+=======================
+
 FAQ(Create) -> FAQ 부분
 
 <img src="guide_image/readme_1.png" alt="설명" style="max-width: 100%;" />
