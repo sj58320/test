@@ -19,21 +19,7 @@ rss_motd.html 부분
 
 FAQ(Create) -> FAQ 부분
 
-<details>
-    <summary>
-        <span data-lang="faq_4">문의/신고는 어디로 하나요?</span> -> 질문임
-        <span class="chev" data-lang="toggle">열기/닫기</span> -> 버튼임
-        </summary>
-        <div class="answer"> -> 대답에대한 클래스임
-        <a href="https://discord.com/channels/850664390779731978/1321861335520120882/1384827886946484245"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-lang="discord_link">
-            디스코드 링크
-        </a>
-        <span data-lang="answer_4">로 들어와서 문의 및 신고 바랍니다.</span>
-    </div>
-</details> -->
+<img src="guide_image/readme_1.png" alt="설명" style="max-width: 100%;" />
 
 질문글을 추가할때 lang에서 위의 주석에서 코드에서 faq_4 처럼 해당되는 노드를 추가해주고 answer_4로 마찬가지로 구현해준다음에 위와같이 만들면됨.
 
@@ -41,11 +27,7 @@ FAQ(Create) -> FAQ 부분
 
 일반 사용자(Create) ->  명령어 리스트 추가 (일반 사용자)
 
-<tr>
-    <td><span class="cmd">!admins</span></td>  -> 명령어
-    <td><span data-lang="cmd_1">접속중인 어드민 목록</span></td> -> 설명
-    <td><span class="cmd">!admins</span></td> -> 예시
-</tr>
+<img src="guide_image/readme_2.png" alt="설명" style="max-width: 100%;" />
 
 명령어 리스트를 추가할때 위와 같다. lang에 node를 추가해주고 cmd_1자리에 넣어주면된다.
 
