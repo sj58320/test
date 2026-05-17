@@ -47,7 +47,7 @@ FAQ(Create) -> FAQ 부분
 
 <img src="guide_image/readme_2.png" alt="설명" style="max-width: 100%;" />
 
-명령어 리스트를 추가할때 위와 같다. lang에 node를 추가해주고 cmd_1자리에 넣어주면된다.
+명령어 리스트를 추가할때 위와 같다. lang.js에 node를 추가해주고 cmd_1자리에 새로만든 노드를 넣어주면된다.
 
 VIP(Create) 
 =======================
@@ -56,4 +56,13 @@ VIP(Create)
 일반 사용자 명령어 리스트 추가와 같음
 
 이미지파일을 넣는 방식은 rss_motd.html에서 경로를 그대로 따라간다. 현재사용중인 폴더 (guide_image)
+
+파일 작동 방식
+=======================
+
+rss_motd.html(뼈대) <- lang.js(언어파일) , script.js(스크립트파일) , style.css(스타일)
+lang에선 문자를 가져오고
+script에선 기능을 가져오고
+style에선 생긴 스타일을 가져온다
+rss_motd에는 뼈대이기에 뼈에 장기붙인다는 느낌에 가까움
 
