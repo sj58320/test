@@ -17,9 +17,9 @@ rss_motd.html 부분
 양식만 지키면 쉬움
 아래와 같은 주석 처리된 부분 아래쪽을 설정하면된다.
 
-<!-- FAQ(Create) --> FAQ 부분
+FAQ(Create) -> FAQ 부분
 
-<!-- <details>
+<details>
     <summary>
         <span data-lang="faq_4">문의/신고는 어디로 하나요?</span> -> 질문임
         <span class="chev" data-lang="toggle">열기/닫기</span> -> 버튼임
@@ -37,19 +37,19 @@ rss_motd.html 부분
 
 질문글을 추가할때 lang에서 위의 주석에서 코드에서 faq_4 처럼 해당되는 노드를 추가해주고 answer_4로 마찬가지로 구현해준다음에 위와같이 만들면됨.
 
-<!-- 마지막 업데이트 날짜 갱신(Update) --> 업데이트 마지막 날짜 갱신
+마지막 업데이트 날짜 갱신(Update) -> 업데이트 마지막 날짜 갱신
 
-<!-- 일반 사용자(Create) -->  명령어 리스트 추가 (일반 사용자)
+일반 사용자(Create) ->  명령어 리스트 추가 (일반 사용자)
 
-<!-- <tr>
+<tr>
     <td><span class="cmd">!admins</span></td>  -> 명령어
     <td><span data-lang="cmd_1">접속중인 어드민 목록</span></td> -> 설명
     <td><span class="cmd">!admins</span></td> -> 예시
-</tr> -->
+</tr>
 
 명령어 리스트를 추가할때 위와 같다. lang에 node를 추가해주고 cmd_1자리에 넣어주면된다.
 
-<!-- VIP(Create) --> -> 명령어 리스트 추가 (VIP 사용자)
+VIP(Create) -> 명령어 리스트 추가 (VIP 사용자)
 
 일반 사용자 명령어 리스트 추가와 같음
 
