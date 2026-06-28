@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RSS 좀비탈출서버</title>
+  <meta name="description" content="서버 FAQ 및 명령어 목록" />
+
+  <!-- 스타일 css 경로 -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- 자바스크립트 연결 (번역 -> 스크립트) -->
+  <!-- 자바스크립트 언어(한국,영어,일본,중국) 스크립트 -->
+  <script src="lang.js" defer></script>
+  <!-- 기능 스크립트 경로 -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <div class="top">
+      <div class="title">
+        <h1 data-lang="site_title">RSS 좀비탈출서버</h1>
+        <p data-lang="site_subtitle">FAQ / 명령어 목록</p>
+      
+      <!-- 버튼 생성기 (만약, 본인이 추가하고싶거나 버튼을 바꾸고싶으면 수정) -->
+      </div>
+      <div class="lang">
+        <button class="langbtn active" data-lang="ko">KR</button>
+        <button class="langbtn" data-lang="en">EN</button>
+        <button class="langbtn" data-lang="jp">JP</button>
+        <button class="langbtn" data-lang="cn">CN</button>
+      </div>
+      <!-- 디스코드 링크 -->
+      <a class="discord" href="https://discord.gg/rssze" target="_blank" rel="noopener noreferrer">
+        <span class="dot"></span>
+        <span>디스코드 링크</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="tabs" role="tablist" aria-label="메뉴 탭">
+        <button class="tab active" data-tab="faq" role="tab" aria-selected="true">
+          <span data-lang="tab_faq">1) 자주묻는 질문</span>
+        </button>
+        <button class="tab" data-tab="cmds" role="tab" aria-selected="false">
+          <span data-lang="tab_cmds">2) 명령어 목록</span>
+        </button>
+      </div>
+
+      <section id="faq" class="panel active" role="tabpanel">
+        <div class="section-title">
+          <h2 data-lang="faq_title">자주묻는 질문</h2>
+          <div class="hint" data-lang="faq_hint">질문을 누르면 답이 펼쳐집니다.</div>
+        </div>
+      <!-- FAQ(Create) -->
+        <details>
+          <summary>
+            <span data-lang="faq_1">스토어 어떻게 사용하나요?</span>
+            <span class="chev" data-lang="toggle">열기/닫기</span>
+          </summary>
+
+          <div class="answer">
+            <span data-lang="answer_1_1">CS2에서 콘솔창을 열고</span>
+            <code>exec menu_bind</code>
+            <span data-lang="answer_1_2">를 입력하세요.</span>
+            <br />
+            <span data-lang="answer_1_3">또는 아래 명령어를 콘솔창에 입력해 단축키를 설정할 수도 있습니다.</span><br/>
+            <span data-lang="answer_1_4">하단의 오른쪽위의 복사하기를 누르고 콘솔창에 붙여넣기(Ctrl+V)로 명령어를 입력해주세요.</span>
+
+            <!-- 복사 버튼 -->
+            <div class="code-container" style="position: relative; margin-top: 10px;">
+              <button class="copy-btn" onclick="copyCode(this)">복사하기</button>
+              <pre><code id="bindCommands">bind 1 "slot1; menuselect 1";
+bind 2 "slot2; menuselect 2";
+bind 3 "slot3; menuselect 3";
+bind 4 "slot4; menuselect 4";
+bind 5 "slot5; menuselect 5";
+bind 6 "slot6; menuselect 6";
+bind 7 "slot7; menuselect 7";
+bind 8 "slot8; menuselect 8";
+bind 9 "slot9; menuselect 9";</code></pre>
+            </div>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span data-lang="faq_2">프레임이 너무 안 나와요 ㅠㅠ</span>
+            <span class="chev" data-lang="toggle">열기/닫기</span>
+          </summary>
+          <div class="answer">
+            <span data-lang="answer_2_1">
+              총소리를 끄거나 하이드를 쓰면 프레임이 올라갈 수 있습니다.
+            </span>
+            <br />      
+            <code>!stopsound</code>, <code>!hide 300</code>
+            <span data-lang="answer_2_2">명령어를 사용해 보세요.</span>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span data-lang="faq_3">소리가 너무 커요 ㅠㅠ</span>
+            <span class="chev" data-lang="toggle">열기/닫기</span>
+          </summary>
+          <div class="answer">
+            <span data-lang="answer_3_1">노래 소리가 너무 커요 :</span>
+            <code>snd_musicvolume (0~2)</code>
+            <span data-lang="answer_3_2">콘솔창에 입력</span>
+            <br />
+            <span data-lang="answer_3_3">다른 사람 총소리가 너무 커요 :</span>
+            <code>!stopsound</code>
+            <span data-lang="answer_3_4">채팅창에 입력</span>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span data-lang="faq_4">문의/신고는 어디로 하나요?</span>
+            <span class="chev" data-lang="toggle">열기/닫기</span>
+          </summary>
+          <div class="answer">
+            <a href="https://discord.com/channels/850664390779731978/1321861335520120882/1384827886946484245"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-lang="discord_link">
+              디스코드 링크
+            </a>
+            <span data-lang="answer_4">로 들어와서 문의 및 신고 바랍니다.</span>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span data-lang="faq_5">서버 규칙을 어디서 볼 수 있나요?</span>
+            <span class="chev" data-lang="toggle">열기/닫기</span>
+          </summary>
+          <div class="answer">
+            <a href="https://discord.com/channels/850664390779731978/1321861335520120882/1384827886946484245"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-lang="discord_link">
+              디스코드 링크
+            </a>
+            <span data-lang="answer_5">
+              로 들어와서 확인해주세요
+            </span>
+          </div>
+        </details>
+
+      <details>
+          <summary>
+            <span data-lang="faq_6">콘솔은 어떻게 여나요?</span>
+            <span class="chev" data-lang="toggle">열기/닫기</span>
+          </summary>
+          <div class="answer">
+            <span data-lang="answer_6_1">콘솔은 (~ , `) 키로 열 수 있습니다.</span>
+            <br /><br />
+            <span data-lang="answer_6_2">이때, 키를 게임내에서 입력했는데도 불구하고 콘솔이 안켜지면 아래와 같이 설정해주시면 됩니다.</span>
+            <br /><br />
+            <div class="guide-step" style="margin-bottom: 20px;">
+              <span data-lang="answer_6_step1">1. 설정</span><br />
+              <img src="guide_image/settings_1.png" alt="설명 사진 1" style="max-width: 100%; border-radius: 6px; border: 1px solid var(--line); margin-top: 6px;" />
+            </div><br />
+
+            <div class="guide-step" style="margin-bottom: 20px;">
+              <span data-lang="answer_6_step2">2. 게임 클릭</span><br />
+              <img src="guide_image/settings_2.png" alt="설명 사진 2" style="max-width: 100%; border-radius: 6px; border: 1px solid var(--line); margin-top: 6px;" />
+            </div><br />
+
+            <div class="guide-step" style="margin-bottom: 20px;">
+              <span data-lang="answer_6_step3">3. 게임 - 개발자 콘솔 사용(~) - 사용</span><br />
+              <img src="guide_image/settings_3.png" alt="설명 사진 3" style="max-width: 100%; border-radius: 6px; border: 1px solid var(--line); margin-top: 6px;" />
+            </div><br />
+
+            <div class="guide-step">
+              <span data-lang="answer_6_step4">4. 게임내에서 ~를 입력하여 아래 사진과 같은 콘솔창이 켜지면 성공</span><br />
+              <img src="guide_image/settings_4.png" alt="설명 사진 4" style="max-width: 100%; border-radius: 6px; border: 1px solid var(--line); margin-top: 6px;" />
+            </div><br />
+          </div>
+        </details>
+      
+      <!-- 마지막 업데이트 날짜 갱신(Update) -->
+        <footer>
+          <span data-lang="last_update">마지막 업데이트:</span> <span id="lastUpdate">2026-05-18</span>
+        </footer>
+      </section>
+
+      <!-- 명령어 -->
+      <section id="cmds" class="panel" role="tabpanel">
+        <div class="section-title">
+          <h2 data-lang="cmds_title">명령어 목록</h2>
+          <div class="hint" data-lang="cmds_hint">모든 명령어는 !와 / 둘 다 가능합니다.</div>
+        </div>
+
+<!-- 일반 사용자(Create) -->
+        <h3 class="subhead" data-lang="cmds_user">일반 사용자 명령어</h3>
+        <div class="tablewrap">
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th style="width: 28%;" data-lang="th_cmd">명령어</th>
+                <th data-lang="th_desc">설명</th>
+                <th style="width: 30%;" data-lang="th_example">예시</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="cmd">!admins</span></td>
+                <td><span data-lang="cmd_1">접속중인 어드민 목록</span></td>
+                <td><span class="cmd">!admins</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!emote</span></td>
+                <td><span data-lang="cmd_2">춤, 감정표현 사용</span></td>
+                <td><span class="cmd">!emote, !dance</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!getvip</span></td>
+                <td><span data-lang="cmd_3">VIP 구매 링크 안내</span></td>
+                <td><span class="cmd">!getvip</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!kev</span></td>
+                <td><span data-lang="cmd_4">방탄복을 구매합니다.</span></td>
+                <td><span class="cmd">!kev, !kevlar</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!mapcooldowns</span></td>
+                <td><span data-lang="cmd_5">쿨다운인 맵 목록을 출력합니다</span></td>
+                <td><span class="cmd">!mapcooldowns</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!noshake</span></td>
+                <td><span data-lang="cmd_6">화면 흔들림 효과를 제거합니다.</span></td>
+                <td><span class="cmd">!noshake</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!rtv</span></td>
+                <td><span data-lang="cmd_7">맵 변경에 동의합니다.</span></td>
+                <td><span class="cmd">!rtv</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!tp</span></td>
+                <td><span data-lang="cmd_8">3인칭 &lt;-&gt; 1인칭 전환</span></td>
+                <td><span class="cmd">!tp, !thirdperson</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- VIP(Create) -->
+        <h3 class="subhead vip" data-lang="cmds_vip">후원자 전용 명령어</h3>
+        <p class="subnote" data-lang="cmds_vip_note">후원자 권한이 있는 유저만 사용할 수 있습니다.</p>
+        <div class="tablewrap">
+          <table class="cmd-table vip-table">
+            <thead>
+              <tr>
+                <th style="width: 28%;" data-lang="th_cmd">명령어</th>
+                <th data-lang="th_desc">설명</th>
+                <th style="width: 30%;" data-lang="th_example">예시</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="cmd">!modelcolor</span></td>
+                <td><span data-lang="cmd_vip_1">내 캐릭터의 색깔을 정합니다.</span></td>
+                <td><span class="cmd">!modelcolor 255 255 255</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!tag</span></td>
+                <td><span data-lang="cmd_vip_2">채팅 태그를 설정합니다</span></td>
+                <td><span class="cmd">!tag 빛이나는솔로</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!tagcolor</span></td>
+                <td><span data-lang="cmd_vip_3">채팅 태그의 색깔을 정합니다.</span></td>
+                <td><span class="cmd">!tagcolor [0~15]</span></td>
+              </tr>
+              <tr>
+                <td><span class="cmd">!vip</span></td>
+                <td><span data-lang="cmd_vip_4">VIP 남은 기간을 확인합니다.</span></td>
+                <td><span class="cmd">!vip</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <footer>
+          <span data-lang="cmds_footer">모든 명령어를 확인하려면 디스코드를 확인해주세요.</span>
+        </footer>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

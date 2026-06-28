@@ -1,0 +1,333 @@
+:root{
+  --bg:#070a0f;
+  --panel:#0f1522;
+  --panel2:#0b111c;
+  --text:#e9eef7;
+  --muted:#a9b6c7;
+  --line:#1f2a3d;
+  --accent:#4da3ff;
+  --accent2:#53d28c;
+  --shadow: 0 16px 40px rgba(0,0,0,.45);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(900px 500px at 18% 10%, rgba(77,163,255,.16), transparent 60%),
+    radial-gradient(800px 500px at 85% 0%, rgba(83,210,140,.12), transparent 55%),
+    var(--bg);
+  line-height:1.65;
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+
+.wrap{max-width:980px; margin:0 auto; padding:18px 18px 70px}
+header{
+  position:sticky; top:0; z-index:20;
+  backdrop-filter: blur(10px);
+  background: rgba(7,10,15,.75);
+  border-bottom:1px solid rgba(31,42,61,.8);
+}
+.top{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px;
+  padding:14px 18px;
+  max-width:980px;
+  margin:0 auto;
+}
+.title{
+  display:flex; flex-direction:column; gap:2px;
+}
+.title h1{margin:0; font-size:16px; letter-spacing:.2px}
+.title p{margin:0; font-size:12px; color:var(--muted)}
+.discord{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:9px 12px;
+  border:1px solid rgba(31,42,61,.9);
+  background: rgba(15,21,34,.7);
+  border-radius:999px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.25);
+  font-size:13px;
+  white-space:nowrap;
+}
+.discord .dot{
+  width:8px; height:8px; border-radius:999px;
+  background: var(--accent2);
+  box-shadow: 0 0 0 4px rgba(83,210,140,.12);
+}
+
+.card{
+  margin-top:18px;
+  background: rgba(15,21,34,.86);
+  border:1px solid rgba(31,42,61,.85);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  gap:8px;
+  padding:12px;
+  background: rgba(11,17,28,.65);
+  border-bottom:1px solid rgba(31,42,61,.8);
+}
+.tab{
+  appearance:none;
+  border:1px solid rgba(31,42,61,.9);
+  background: rgba(7,10,15,.25);
+  color:var(--muted);
+  border-radius:12px;
+  padding:10px 12px;
+  font-weight:600;
+  font-size:13px;
+  cursor:pointer;
+  transition: .15s ease;
+}
+.tab:hover{
+  filter: brightness(1.1);
+  color: var(--text);
+  border-color: rgba(77,163,255,.25);
+  background: rgba(77,163,255,.08);
+}
+.tab.active{
+  color: var(--text);
+  border-color: rgba(77,163,255,.45);
+  background: rgba(77,163,255,.14);
+}
+
+.panel{display:none; padding:16px}
+.panel.active{display:block}
+
+.section-title{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:10px;
+  margin:4px 0 12px;
+}
+.section-title h2{margin:0; font-size:25px}
+.hint{font-size:12px; color:var(--muted)}
+
+/* FAQ (Accordion) */
+details{
+  background: rgba(7,10,15,.25);
+  border:1px solid rgba(31,42,61,.8);
+  border-radius:14px;
+  padding:10px 12px;
+  margin:10px 0;
+}
+
+/* 질문(summary) - 헤더처럼 보이게 + 구분선 */
+details > summary{
+  cursor:pointer;
+  font-weight:800;
+  color: var(--text);
+  outline:none;
+  list-style:none;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px;
+
+  font-size: 17.5px; 
+
+  /* ✨ 추가 */
+  background: rgba(11,17,28,.45);
+  padding:10px 12px;
+  border-radius:10px;
+
+  /* ✨ 추가: 답변과 분리 */
+  margin:-2px -2px 8px;                 /* 배경이 더 꽉 차 보이게 */
+  border-bottom:1px solid rgba(31,42,61,.75);
+}
+
+details > summary::-webkit-details-marker{display:none}
+
+.chev{
+  color: var(--muted);
+  font-size:12px;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(31,42,61,.85);
+  background: rgba(11,17,28,.35);
+  white-space:nowrap;
+}
+details[open] .chev{
+  color: var(--text);
+  border-color: rgba(77,163,255,.35);
+  background: rgba(77,163,255,.10)
+}
+
+/* 답변 - 왼쪽 포인트 라인 + 여백 */
+.answer{
+  color: var(--muted);
+
+  /* 기존 padding 대신 ✨ 이렇게 추천 */
+  margin-top: 20px;
+  padding: 8px 2px 2px 10px;
+  border-left: 3px solid rgba(77,163,255,.35);
+}
+
+.answer code{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: rgba(11,17,28,.55);
+  border:1px solid rgba(31,42,61,.85);
+  border-radius:10px;
+  padding:2px 6px;
+  color: var(--text);
+  white-space:nowrap;
+}
+
+/* 여러 줄 코드용 */
+.answer pre{
+  margin: 10px 0 0;
+  padding: 12px;              /* 박스 여백은 유지 */
+  border-radius: 14px;
+  border: 1px solid rgba(31,42,61,.85);
+  background: rgba(11,17,28,.55);
+  overflow-x: auto;
+}
+
+.answer pre code{
+  display: block;
+  padding-left: 0;
+  margin-left: 0;      
+  white-space: pre;
+  background: none;
+  border: none;
+  text-indent: 0;             /* 혹시 모를 들여쓰기 제거 */
+}
+
+/* 명령어 테이블 헤더 글씨 키우기 */
+table th{
+  font-size: 18.5px;   /* 기본보다 살짝 큼 */
+  font-weight: 700; 
+}
+
+/* 커맨드 테이블 */
+.tablewrap{
+  overflow:auto;
+  border-radius:14px;
+  border:1px solid rgba(31,42,61,.85);
+  background: rgba(7,10,15,.22);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:620px;
+}
+th, td{
+  padding:10px 10px;
+  border-bottom:1px solid rgba(31,42,61,.75);
+  border-right:1px solid rgba(31,42,61,.6);
+  text-align:left;
+  font-size:13px;
+  vertical-align:top;
+}
+th{color:var(--muted); font-weight:700; background: rgba(11,17,28,.35)}
+th:last-child, td:last-child{ border-right:none; }
+.cmd{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: var(--text);
+  white-space:nowrap;
+}
+.tag{
+  display:inline-block;
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  border:1px solid rgba(31,42,61,.85);
+  color: var(--muted);
+  background: rgba(11,17,28,.35);
+  margin-left:6px;
+  white-space:nowrap;
+}
+
+footer{
+  color: var(--muted);
+  font-size:12px;
+  padding:12px 16px;
+  border-top:1px solid rgba(31,42,61,.75);
+  background: rgba(11,17,28,.35);
+}
+
+/* 명령어 목록 섹션 제목 */
+.subhead{
+  margin: 14px 0 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: .2px;
+}
+
+.subhead.vip{
+  color: #d6ffe9; /* 너무 튀면 var(--text)로 */
+}
+
+/* 섹션 설명 */
+.subnote{
+  margin: -6px 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* (선택) VIP 테이블을 살짝 다른 톤으로 */
+.vip-table th{
+  border-bottom: 2px solid rgba(83,210,140,.35);
+}
+
+.lang{
+  display:flex;
+  gap:6px;
+}
+
+.langbtn{
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(31,42,61,.85);
+  background: rgba(11,17,28,.35);
+  color: var(--muted);
+  font-size:12px;
+  cursor:pointer;
+}
+
+.langbtn.active{
+  color: var(--text);
+  border-color: rgba(77,163,255,.45);
+  background: rgba(77,163,255,.14);
+}
+
+/* 코드 컨테이너 */
+.code-container {
+  position: relative;
+}
+
+/* 복사 버튼 스타일 */
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(77, 163, 255, 0.15);
+  border: 1px solid rgba(77, 163, 255, 0.4);
+  color: var(--text);
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.copy-btn:hover {
+  background: rgba(77, 163, 255, 0.3);
+  border-color: var(--accent);
+}
+
+/* 복사 완료 스타일 */
+.copy-btn.copied {
+  background: rgba(83, 210, 140, 0.2);
+  border-color: var(--accent2);
+  color: var(--accent2);
+}
