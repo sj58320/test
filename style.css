@@ -466,3 +466,13 @@ footer{
     padding-left: 0;
   }
 }
+
+.console-guide-image img {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+}
