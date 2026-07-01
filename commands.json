@@ -24,6 +24,14 @@
                 "en": "Teleport to spawn",
                 "jp": "スポーン地点へ移動"
               }
+            },
+            {
+              "command": "/bomb",
+              "description": {
+                "ko": "zm 맵에서만 사용 가능한 프롭 밀치기 명령어",
+                "en": "Push props command, only available on zm maps",
+                "jp": "zmマップでのみ使用できるプロップ押しコマンド"
+              }
             }
           ]
         },
@@ -64,6 +72,14 @@
                 "ko": "sfx 소리 볼륨 조절",
                 "en": "Set SFX volume",
                 "jp": "SFX音量を設定"
+              }
+            },
+            {
+              "command": "/zvolume <0~100>",
+              "description": {
+                "ko": "zombie와 관련된 사운드 볼륨 조절",
+                "en": "Adjust volume for zombie-related sounds",
+                "jp": "ゾンビ関連サウンドの音量を調整"
               }
             }
           ]
@@ -206,6 +222,14 @@
                 "ko": "보스허드 켜기, 끄기",
                 "en": "Toggle boss HUD",
                 "jp": "ボスHUDを切り替え"
+              }
+            },
+            {
+              "command": "/menupos",
+              "description": {
+                "ko": "메뉴 위치 조절 (4:3 16:9 16:10)",
+                "en": "Adjust menu position (4:3 16:9 16:10)",
+                "jp": "メニュー位置を調整 (4:3 16:9 16:10)"
               }
             }
           ]
@@ -423,7 +447,7 @@
               }
             },
             {
-              "command": "/hudepos <X> <Y>",
+              "command": "/hudpos <X> <Y>",
               "description": {
                 "ko": "허드 위치 변경",
                 "en": "Change HUD position",
