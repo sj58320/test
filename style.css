@@ -100,6 +100,48 @@ header{
   background: rgba(77,163,255,.14);
 }
 
+.global-search-wrap{
+  padding:16px 16px 0;
+}
+.global-search-wrap .term-search{margin-bottom:0}
+.global-search-results{margin-top:8px}
+.global-search-summary{
+  margin:0 0 8px;
+  color:var(--muted);
+  font-size:12px;
+}
+.global-search-list{
+  display:grid;
+  gap:6px;
+  margin:0 0 12px;
+}
+.global-search-item{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:6px 10px;
+  width:100%;
+  padding:9px 11px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(7,10,15,.3);
+  color:var(--text);
+  text-align:left;
+  cursor:pointer;
+}
+.global-search-item:hover{border-color:rgba(77,163,255,.55)}
+.global-search-type{
+  grid-row:1 / span 2;
+  align-self:start;
+  padding:2px 7px;
+  border-radius:999px;
+  background:rgba(77,163,255,.14);
+  color:var(--accent);
+  font-size:11px;
+  font-weight:700;
+}
+.global-search-title{font-weight:750}
+.global-search-snippet{color:var(--muted); font-size:12px}
+
 .panel{display:none; padding:16px}
 .panel.active{display:block}
 
@@ -250,7 +292,17 @@ footer{
   padding:12px 16px;
   border-top:1px solid rgba(31,42,61,.75);
   background: rgba(11,17,28,.35);
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 16px;
+  justify-content:space-between;
 }
+
+:where(button,a,input,summary):focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+footer a{color:var(--accent)}
 
 /* 명령어 목록 섹션 제목 */
 .subhead{
@@ -382,6 +434,21 @@ footer{
   display: grid;
   gap: 18px;
 }
+.command-tools{margin:0 0 18px}
+.command-filters{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px}
+.command-filter{
+  padding:5px 9px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(11,17,28,.35);
+  color:var(--muted);
+  font-size:12px;
+  cursor:pointer;
+}
+.command-filter.active{color:var(--text); border-color:var(--accent); background:rgba(77,163,255,.14)}
+.favorite-filter{display:inline-flex; align-items:center; gap:7px; color:var(--muted); font-size:12px}
+.favorite-filter input{margin:0}
+.command-result-count{margin:7px 0 0; color:var(--muted); font-size:12px}
 
 .command-page {
   padding: 14px;
@@ -419,10 +486,34 @@ footer{
 
 .command-row {
   display: grid;
-  grid-template-columns: minmax(260px, 36%) 1fr;
+  grid-template-columns: minmax(240px, 34%) 1fr auto;
   gap: 18px;
   align-items: start;
   padding: 2px 0;
+}
+.command-actions{display:flex; gap:5px; align-items:center}
+.command-action{
+  padding:4px 8px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:rgba(11,17,28,.45);
+  color:var(--muted);
+  font-size:11px;
+  cursor:pointer;
+}
+.command-action:hover,.command-action.favorite{color:var(--accent); border-color:rgba(77,163,255,.55)}
+.share-button,.pico .share-button{display:inline-grid; place-items:center; width:26px; min-width:26px; height:26px; margin:0; padding:0; border:1px solid transparent; border-radius:7px; background:transparent; box-shadow:none; color:var(--muted); font-size:15px; line-height:1; opacity:.42; cursor:pointer}
+.share-button:hover,.share-button:focus-visible,.pico .share-button:hover,.pico .share-button:focus-visible{color:var(--accent); border-color:rgba(77,163,255,.45); background:rgba(77,163,255,.08); box-shadow:none; opacity:1}
+.faq-share{float:right; margin:0 0 6px 8px}
+.term-row .share-button{float:right; margin:-3px 0 -3px 6px}
+.term-row:hover .share-button{opacity:.85}
+.deep-link-target{outline:2px solid rgba(77,163,255,.7); outline-offset:4px}
+
+.toast{position:fixed; z-index:1000; left:50%; bottom:24px; max-width:min(420px,calc(100vw - 32px)); padding:10px 14px; transform:translate(-50%,16px); border:1px solid rgba(77,163,255,.4); border-radius:10px; background:rgba(11,17,28,.96); box-shadow:0 12px 32px rgba(0,0,0,.35); color:var(--text); font-size:13px; text-align:center; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .18s ease,transform .18s ease,visibility .18s}
+.toast.show{transform:translate(-50%,0); opacity:1; visibility:visible}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important}
 }
 
 .command-name {
@@ -457,6 +548,7 @@ footer{
     grid-template-columns: 1fr;
     gap: 2px;
   }
+  .command-actions{justify-content:flex-start}
 
   .command-desc::before {
     content: "";
