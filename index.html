@@ -6,320 +6,30 @@
   <title>RSS 좀비탈출서버</title>
   <meta name="description" content="서버 FAQ 및 명령어 목록" />
 
-  <style>
-    :root{
-      --bg:#070a0f;
-      --panel:#0f1522;
-      --panel2:#0b111c;
-      --text:#e9eef7;
-      --muted:#a9b6c7;
-      --line:#1f2a3d;
-      --accent:#4da3ff;
-      --accent2:#53d28c;
-      --shadow: 0 16px 40px rgba(0,0,0,.45);
-      --radius:18px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 500px at 18% 10%, rgba(77,163,255,.16), transparent 60%),
-        radial-gradient(800px 500px at 85% 0%, rgba(83,210,140,.12), transparent 55%),
-        var(--bg);
-      line-height:1.65;
-    }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
+  <!-- 스타일 css 경로 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.1.1/css/pico.conditional.min.css" />
+  <link rel="stylesheet" href="style.css" />
 
-    .wrap{max-width:980px; margin:0 auto; padding:18px 18px 70px}
-    header{
-      position:sticky; top:0; z-index:20;
-      backdrop-filter: blur(10px);
-      background: rgba(7,10,15,.75);
-      border-bottom:1px solid rgba(31,42,61,.8);
-    }
-    .top{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
-      padding:14px 18px;
-      max-width:980px;
-      margin:0 auto;
-    }
-    .title{
-      display:flex; flex-direction:column; gap:2px;
-    }
-    .title h1{margin:0; font-size:16px; letter-spacing:.2px}
-    .title p{margin:0; font-size:12px; color:var(--muted)}
-    .discord{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:9px 12px;
-      border:1px solid rgba(31,42,61,.9);
-      background: rgba(15,21,34,.7);
-      border-radius:999px;
-      box-shadow: 0 10px 26px rgba(0,0,0,.25);
-      font-size:13px;
-      white-space:nowrap;
-    }
-    .discord .dot{
-      width:8px; height:8px; border-radius:999px;
-      background: var(--accent2);
-      box-shadow: 0 0 0 4px rgba(83,210,140,.12);
-    }
-
-    .card{
-      margin-top:18px;
-      background: rgba(15,21,34,.86);
-      border:1px solid rgba(31,42,61,.85);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
-    /* Tabs */
-    .tabs{
-      display:flex;
-      gap:8px;
-      padding:12px;
-      background: rgba(11,17,28,.65);
-      border-bottom:1px solid rgba(31,42,61,.8);
-    }
-    .tab{
-      appearance:none;
-      border:1px solid rgba(31,42,61,.9);
-      background: rgba(7,10,15,.25);
-      color:var(--muted);
-      border-radius:12px;
-      padding:10px 12px;
-      font-weight:600;
-      font-size:13px;
-      cursor:pointer;
-      transition: .15s ease;
-    }
-    .tab:hover{
-      filter: brightness(1.1);
-      color: var(--text);
-      border-color: rgba(77,163,255,.25);
-      background: rgba(77,163,255,.08);
-    }
-    .tab.active{
-      color: var(--text);
-      border-color: rgba(77,163,255,.45);
-      background: rgba(77,163,255,.14);
-    }
-
-    .panel{display:none; padding:16px}
-    .panel.active{display:block}
-
-    .section-title{
-      display:flex; align-items:baseline; justify-content:space-between;
-      gap:10px;
-      margin:4px 0 12px;
-    }
-    .section-title h2{margin:0; font-size:25px}
-    .hint{font-size:12px; color:var(--muted)}
-
-    /* FAQ (Accordion) */
-    details{
-      background: rgba(7,10,15,.25);
-      border:1px solid rgba(31,42,61,.8);
-      border-radius:14px;
-      padding:10px 12px;
-      margin:10px 0;
-    }
-
-    /* 질문(summary) - 헤더처럼 보이게 + 구분선 */
-    details > summary{
-      cursor:pointer;
-      font-weight:800;
-      color: var(--text);
-      outline:none;
-      list-style:none;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
-
-      font-size: 17.5px; 
-
-      /* ✨ 추가 */
-      background: rgba(11,17,28,.45);
-      padding:10px 12px;
-      border-radius:10px;
-
-      /* ✨ 추가: 답변과 분리 */
-      margin:-2px -2px 8px;                 /* 배경이 더 꽉 차 보이게 */
-      border-bottom:1px solid rgba(31,42,61,.75);
-    }
-
-    details > summary::-webkit-details-marker{display:none}
-
-    .chev{
-      color: var(--muted);
-      font-size:12px;
-      padding:4px 10px;
-      border-radius:999px;
-      border:1px solid rgba(31,42,61,.85);
-      background: rgba(11,17,28,.35);
-      white-space:nowrap;
-    }
-    details[open] .chev{
-      color: var(--text);
-      border-color: rgba(77,163,255,.35);
-      background: rgba(77,163,255,.10)
-    }
-
-    /* 답변 - 왼쪽 포인트 라인 + 여백 */
-    .answer{
-      color: var(--muted);
-
-      /* 기존 padding 대신 ✨ 이렇게 추천 */
-      margin-top: 20px;
-      padding: 8px 2px 2px 10px;
-      border-left: 3px solid rgba(77,163,255,.35);
-    }
-
-    .answer code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      background: rgba(11,17,28,.55);
-      border:1px solid rgba(31,42,61,.85);
-      border-radius:10px;
-      padding:2px 6px;
-      color: var(--text);
-      white-space:nowrap;
-    }
-
-    /* 여러 줄 코드용 */
-    .answer pre{
-      margin: 10px 0 0;
-      padding: 12px;              /* 박스 여백은 유지 */
-      border-radius: 14px;
-      border: 1px solid rgba(31,42,61,.85);
-      background: rgba(11,17,28,.55);
-      overflow-x: auto;
-    }
-
-    .answer pre code{
-      display: block;
-      padding-left: 0;
-      margin-left: 0;       
-      white-space: pre;
-      background: none;
-      border: none;
-      text-indent: 0;             /* 혹시 모를 들여쓰기 제거 */
-    }
-
-    /* 명령어 테이블 헤더 글씨 키우기 */
-    table th{
-      font-size: 18.5px;   /* 기본보다 살짝 큼 */
-      font-weight: 700; 
-    }
-
-    /* Commands table */
-    .tablewrap{
-      overflow:auto;
-      border-radius:14px;
-      border:1px solid rgba(31,42,61,.85);
-      background: rgba(7,10,15,.22);
-    }
-    table{
-      width:100%;
-      border-collapse:collapse;
-      min-width:620px;
-    }
-    th, td{
-      padding:10px 10px;
-      border-bottom:1px solid rgba(31,42,61,.75);
-      border-right:1px solid rgba(31,42,61,.6);
-      text-align:left;
-      font-size:13px;
-      vertical-align:top;
-    }
-    th{color:var(--muted); font-weight:700; background: rgba(11,17,28,.35)}
-    th:last-child, td:last-child{ border-right:none; }
-    .cmd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      color: var(--text);
-      white-space:nowrap;
-    }
-    .tag{
-      display:inline-block;
-      font-size:11px;
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid rgba(31,42,61,.85);
-      color: var(--muted);
-      background: rgba(11,17,28,.35);
-      margin-left:6px;
-      white-space:nowrap;
-    }
-
-    footer{
-      color: var(--muted);
-      font-size:12px;
-      padding:12px 16px;
-      border-top:1px solid rgba(31,42,61,.75);
-      background: rgba(11,17,28,.35);
-    }
-
-    /* 명령어 목록 섹션 제목 */
-    .subhead{
-      margin: 14px 0 10px;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: .2px;
-    }
-
-    .subhead.vip{
-      color: #d6ffe9; /* 너무 튀면 var(--text)로 */
-    }
-
-    /* 섹션 설명 */
-    .subnote{
-      margin: -6px 0 10px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* (선택) VIP 테이블을 살짝 다른 톤으로 */
-    .vip-table th{
-      border-bottom: 2px solid rgba(83,210,140,.35);
-    }
-
-    .lang{
-      display:flex;
-      gap:6px;
-    }
-
-    .langbtn{
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(31,42,61,.85);
-      background: rgba(11,17,28,.35);
-      color: var(--muted);
-      font-size:12px;
-      cursor:pointer;
-    }
-
-    .langbtn.active{
-      color: var(--text);
-      border-color: rgba(77,163,255,.45);
-      background: rgba(77,163,255,.14);
-    }
-  </style>
+  <!-- 자바스크립트 연결 (번역 -> 스크립트) -->
+  <!-- 자바스크립트 언어(한국,영어,일본) 스크립트 -->
+  <script src="lang.js" defer></script>
+  <!-- 기능 스크립트 경로 -->
+  <script type="module" src="script.js"></script>
 </head>
 
 <body>
   <header>
     <div class="top">
       <div class="title">
-        <h1 data-i18n="site_title">RSS 좀비탈출서버</h1>
-        <p data-i18n="site_subtitle">FAQ / 명령어 목록</p>
-        
+        <h1 data-lang="site_title">RSS 좀비탈출서버</h1>
+        <p data-lang="site_subtitle">FAQ / 명령어 목록</p>
+      
+      <!-- 버튼 생성기 (만약, 본인이 추가하고싶거나 버튼을 바꾸고싶으면 수정) -->
       </div>
       <div class="lang">
-        <button class="langbtn active" data-lang="ko">KOR</button>
-        <button class="langbtn" data-lang="en">ENG</button>
+        <button class="langbtn active" data-lang="ko">KR</button>
+        <button class="langbtn" data-lang="en">EN</button>
+        <button class="langbtn" data-lang="jp">JP</button>
       </div>
       <!-- 디스코드 링크 -->
       <a class="discord" href="https://discord.gg/rssze" target="_blank" rel="noopener noreferrer">
@@ -333,410 +43,65 @@
     <div class="card">
       <div class="tabs" role="tablist" aria-label="메뉴 탭">
         <button class="tab active" data-tab="faq" role="tab" aria-selected="true">
-          <span data-i18n="tab_faq">1) 자주묻는 질문</span>
+          <span data-lang="tab_faq">1) 자주묻는 질문</span>
         </button>
         <button class="tab" data-tab="cmds" role="tab" aria-selected="false">
-          <span data-i18n="tab_cmds">2) 명령어 목록</span>
+          <span data-lang="tab_cmds">2) 명령어 목록</span>
+        </button>
+        <button class="tab" data-tab="guide" role="tab" aria-selected="false">
+          <span data-lang="tab_guide">3) 용어 사전</span>
         </button>
       </div>
 
-      <!-- FAQ -->
       <section id="faq" class="panel active" role="tabpanel">
         <div class="section-title">
-          <h2 data-i18n="faq_title">자주묻는 질문</h2>
-          <div class="hint" data-i18n="faq_hint">질문을 누르면 답이 펼쳐집니다.</div>
+          <h2 data-lang="faq_title">자주묻는 질문</h2>
+          <div class="hint" data-lang="faq_hint">질문을 누르면 답이 펼쳐집니다.</div>
         </div>
-
-        <!-- 아래 질문/답을 네 규칙에 맞게 추가/수정하면 됨 -->
-        <details>
-          <summary>
-            <span data-i18n="faq_1">스토어 어떻게 사용하나요?</span>
-            <span class="chev" data-i18n="toggle">열기/닫기</span>
-          </summary>
-
-          <div class="answer">
-            <span data-i18n="answer_1_1">
-              CS2에서 콘솔창을 열고
-            </span>
-            <code>exec menu_bind</code>
-            <span data-i18n="answer_1_2">
-              를 입력하세요.
-            </span>
-            <br />
-            <span data-i18n="answer_1_3">
-              또는 아래 명령어를 콘솔창에 입력해 단축키를 설정할 수도 있습니다.
-            </span>
-
-            <pre><code>bind 1 "slot1; menuselect 1";
-bind 2 "slot2; menuselect 2";
-bind 3 "slot3; menuselect 3";
-bind 4 "slot4; menuselect 4";
-bind 5 "slot5; menuselect 5";
-bind 6 "slot6; menuselect 6";
-bind 7 "slot7; menuselect 7";
-bind 8 "slot8; menuselect 8";
-bind 9 "slot9; menuselect 9";</code></pre>
-          </div>
-        </details>
-
-        <details>
-          <summary>
-            <span data-i18n="faq_2">프레임이 너무 안 나와요 ㅠㅠ</span>
-            <span class="chev" data-i18n="toggle">열기/닫기</span>
-          </summary>
-          <div class="answer">
-            <span data-i18n="answer_2_1">
-              총소리를 끄거나 하이드를 쓰면 프레임이 올라갈 수 있습니다.
-            </span>
-            <br />      
-            <code>!stopsound</code>, <code>!hide 300</code>
-            <span data-i18n="answer_2_2">명령어를 사용해 보세요.</span>
-          </div>
-        </details>
-
-        <details>
-          <summary>
-            <span data-i18n="faq_3">소리가 너무 커요 ㅠㅠ</span>
-            <span class="chev" data-i18n="toggle">열기/닫기</span>
-          </summary>
-          <div class="answer">
-            <span data-i18n="answer_3_1">노래 소리가 너무 커요 :</span>
-            <code>snd_musicvolume (0~2)</code>
-            <span data-i18n="answer_3_2">콘솔창에 입력</span>
-            <br />
-            <span data-i18n="answer_3_3">다른 사람 총소리가 너무 커요 :</span>
-            <code>!stopsound</code>
-            <span data-i18n="answer_3_4">채팅창에 입력</span>
-          </div>
-        </details>
-
-        <details>
-          <summary>
-            <span data-i18n="faq_4">문의/신고는 어디로 하나요?</span>
-            <span class="chev" data-i18n="toggle">열기/닫기</span>
-          </summary>
-          <div class="answer">
-            <span data-i18n="answer_4_1">상단의</span>
-            <b data-i18n="discord_link">디스코드 링크</b>
-            <span data-i18n="answer_4_2">
-              로 들어와서 문의/신고 채널을 이용해 주세요.
-            </span>
-          </div>
-        </details>
-
-        <details>
-          <summary>
-            <span data-i18n="faq_5">서버 규칙을 어디서 볼 수 있나요?</span>
-            <span class="chev" data-i18n="toggle">열기/닫기</span>
-          </summary>
-          <div class="answer">
-            <a href="https://discord.com/channels/850664390779731978/1321861335520120882/1384827886946484245"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-i18n="discord_link">
-              디스코드 링크
-            </a>
-            <span data-i18n="answer_5">
-              로 들어와서 확인해주세요
-            </span>
-          </div>
-        </details>
-
+      <!-- FAQ(Create) -->
+        <div id="faqList" class="faq-list" aria-live="polite">
+          <p class="faq-loading">Loading FAQ...</p>
+        </div>
         <footer>
-          <span data-i18n="last_update">마지막 업데이트:</span> <span id="lastUpdate">2026-01-30</span>
+          <span data-lang="last_update">마지막 업데이트:</span> <span id="lastUpdate">2026-05-18</span>
         </footer>
       </section>
 
-      <!-- Commands -->
+      <!-- 명령어 -->
       <section id="cmds" class="panel" role="tabpanel">
         <div class="section-title">
-          <h2 data-i18n="cmds_title">명령어 목록</h2>
-          <div class="hint" data-i18n="cmds_hint">모든 명령어는 !와 / 둘 다 가능합니다.</div>
+          <h2 data-lang="cmds_title">명령어 목록</h2>
+          <div class="hint" data-lang="cmds_hint">모든 명령어는 !와 / 둘 다 가능합니다.</div>
         </div>
 
-        <!-- 일반 사용자 -->
-        <h3 class="subhead" data-i18n="cmds_user">일반 사용자 명령어</h3>
-        <div class="tablewrap">
-          <table class="cmd-table">
-            <thead>
-              <tr>
-                <th style="width: 28%;" data-i18n="th_cmd">명령어</th>
-                <th data-i18n="th_desc">설명</th>
-                <th style="width: 30%;" data-i18n="th_example">예시</th>
-              </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td><span class="cmd">!admins</span></td>
-              <td>접속중인 어드민 목록</td>
-              <td><span class="cmd">!admins</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!emote</span></td>
-              <td>춤, 감정표현 사용</td>
-              <td><span class="cmd">!emote, !dance</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!kev</span></td>
-              <td>방탄복을 구매합니다.</td>
-              <td><span class="cmd">!kev, !kevlar</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!mapcooldowns</span></td>
-              <td>쿨다운인 맵 목록을 출력합니다</td>
-              <td><span class="cmd">!mapcooldowns</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!noshake</span></td>
-              <td>화면 흔들림 효과를 제거합니다.</td>
-              <td><span class="cmd">!noshake</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!rtv</span></td>
-              <td>맵 변경에 동의합니다.</td>
-              <td><span class="cmd">!rtv</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!tp</span></td>
-              <td>3인칭 &lt;-&gt; 1인칭 전환</td>
-              <td><span class="cmd">!tp, !thirdperson</span></td>
-            </tr>
-            </tbody>
-          </table>
+        <div id="commandGuide" class="command-guide" aria-live="polite">
+          <p class="command-loading">Loading commands...</p>
         </div>
-
-        <!-- VIP -->
-        <h3 class="subhead vip" data-i18n="cmds_vip">후원자 전용 명령어</h3>
-        <p class="subnote" data-i18n="cmds_vip_note">후원자 권한이 있는 유저만 사용할 수 있습니다.</p>
-        <div class="tablewrap">
-          <table class="cmd-table vip-table">
-            <thead>
-              <tr>
-                <th style="width: 28%;" data-i18n="th_cmd">명령어</th>
-                <th data-i18n="th_desc">설명</th>
-                <th style="width: 30%;" data-i18n="th_example">예시</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- VIP 명령어들 여기 -->
-            <tr>
-              <td><span class="cmd">!modelcolor</span></td>
-              <td>내 캐릭터의 색깔을 정합니다.</td>
-              <td><span class="cmd">!modelcolor 255 255 255</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!tag</span></td>
-              <td>채팅 태그를 설정합니다</td>
-              <td><span class="cmd">!tag 빛이나는솔로</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!tagcolor</span></td>
-              <td>채팅 태그의 색깔을 정합니다.</td>
-              <td><span class="cmd">!tagcolor [0~15]</span></td>
-            </tr>
-            <tr>
-              <td><span class="cmd">!vip</span></td>
-              <td>VIP 남은 기간을 확인합니다.</td>
-              <td><span class="cmd">!vip</span></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        
         <footer>
-          <span data-i18n="cmds_footer">모든 명령어를 확인하려면 디스코드를 확인해주세요.</span>
+          <span data-lang="cmds_footer">모든 명령어를 확인하려면 디스코드를 확인해주세요.</span>
+        </footer>
+      </section>
+
+      <!-- 용어 사전 -->
+      <section id="guide" class="panel pico" data-theme="dark" role="tabpanel">
+        <div class="section-title">
+          <h2 data-lang="guide_title">좀비탈출 용어 사전</h2>
+          <div class="hint" data-lang="guide_hint">용어 또는 설명을 검색할 수 있습니다.</div>
+        </div>
+
+        <label class="term-search-label" for="termSearch" data-lang="term_search_label">용어 검색</label>
+        <input id="termSearch" class="term-search" type="search" data-lang-placeholder="term_search_placeholder" placeholder="용어 또는 설명 검색" autocomplete="off" />
+
+        <div id="termGuide" class="term-guide" aria-live="polite">
+          <p class="term-loading" data-lang="term_loading">Loading terms...</p>
+        </div>
+
+        <footer class="term-footer">
+          <a href="guide_image/guide_1.pdf" target="_blank" rel="noopener noreferrer" data-lang="guide_1_label">원본 PDF 보기</a>
         </footer>
       </section>
     </div>
   </div>
-
-  <script>
-    // 탭 전환 + URL 해시(#faq / #cmds) 지원 (공유 링크에도 좋음)
-    const tabs = document.querySelectorAll(".tab");
-    const panels = document.querySelectorAll(".panel");
-
-    function openTab(name, pushHash=true){
-      tabs.forEach(t => {
-        const active = t.dataset.tab === name;
-        t.classList.toggle("active", active);
-        t.setAttribute("aria-selected", active ? "true" : "false");
-      });
-      panels.forEach(p => p.classList.toggle("active", p.id === name));
-      if(pushHash) location.hash = name;
-    }
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => openTab(tab.dataset.tab));
-    });
-
-    window.addEventListener("load", () => {
-      const hash = (location.hash || "").replace("#", "");
-      if(hash === "faq" || hash === "cmds") openTab(hash, false);
-      else openTab("faq", false); // 기본은 FAQ
-    });
-
-    // async function setLastUpdateFromGitHub() {
-    //   const owner = "sj58320";
-    //   const repo  = "test";
-
-    //   try {
-    //     const res = await fetch(
-    //       `https://api.github.com/repos/${owner}/${repo}/commits?per_page=1`
-    //     );
-    //     if (!res.ok) throw new Error(res.status);
-
-    //     const data = await res.json();
-    //     const iso = data[0]?.commit?.committer?.date;
-    //     if (!iso) throw new Error("no date");
-
-    //     const d = new Date(iso);
-    //     const yyyy = d.getFullYear();
-    //     const mm = String(d.getMonth() + 1).padStart(2, "0");
-    //     const dd = String(d.getDate()).padStart(2, "0");
-
-    //     document.getElementById("lastUpdate").textContent =
-    //       `${yyyy}-${mm}-${dd}`;
-    //   } catch (e) {
-    //     console.warn("lastUpdate failed:", e);
-    //   }
-    // }
-
-    // window.addEventListener("load", setLastUpdateFromGitHub);
-
-    const I18N = {
-      ko: {
-        site_title: "RSS 좀비탈출서버",
-        site_subtitle: "FAQ / 명령어 목록",
-
-        tab_faq: "1) 자주묻는 질문",
-        tab_cmds: "2) 명령어 목록",
-
-        faq_title: "자주묻는 질문",
-        faq_hint: "질문을 누르면 답이 펼쳐집니다.",
-
-        cmds_title: "명령어 목록",
-        cmds_hint: "모든 명령어는 !와 / 둘 다 가능합니다.",
-
-        cmds_user: "일반 사용자 명령어",
-        cmds_vip: "후원자 전용 명령어",
-        cmds_vip_note: "후원자 권한이 있는 유저만 사용할 수 있습니다.",
-
-        th_cmd: "명령어",
-        th_desc: "설명",
-        th_example: "예시",
-
-        last_update: "마지막 업데이트:",
-        cmds_footer: "모든 명령어를 확인하려면 디스코드를 확인해주세요.",
-
-        toggle: "열기/닫기",
-        faq_1: "스토어 어떻게 사용하나요?",
-        faq_2: "프레임이 너무 안 나와요 ㅠㅠ",
-        faq_3: "소리가 너무 커요 ㅠㅠ",
-        faq_4: "문의/신고는 어디로 하나요?",
-        faq_5: "서버 규칙을 어디서 볼 수 있나요?",
-
-        answer_1_1: "CS2에서 콘솔창을 열고",
-        answer_1_2: "를 입력하세요.",
-        answer_1_3: "또는 아래 명령어를 콘솔창에 입력해 단축키를 설정할 수도 있습니다.",
-
-        answer_2_1: "총소리를 끄거나 하이드를 쓰면 프레임이 올라갈 수 있습니다.",
-        answer_2_2: "명령어를 사용해 보세요.",
-
-        answer_3_1: "노래 소리가 너무 커요 :",
-        answer_3_2: "콘솔창에 입력",
-        answer_3_3: "다른 사람 총소리가 너무 커요 :",
-        answer_3_4: "채팅창에 입력",
-
-        answer_4_1: "상단의",
-        answer_4_2: "로 들어와서 문의/신고 채널을 이용해 주세요.",
-        discord_link: "디스코드 링크",
-
-        answer_5: "로 들어와서 확인해주세요",
-        // faq_6: "스토어 어떻게 사용하나요?",        
-      },
-
-      en: {
-        site_title: "RSS Zombie Escape Server",
-        site_subtitle: "FAQ / Command List",
-
-        tab_faq: "1) FAQ",
-        tab_cmds: "2) Commands",
-
-        faq_title: "Frequently Asked Questions",
-        faq_hint: "Click a question to view the answer.",
-
-        cmds_title: "Command List",
-        cmds_hint: "All commands work with both ! and /",
-
-        cmds_user: "General Commands",
-        cmds_vip: "Donator (VIP) Commands",
-        cmds_vip_note: "Only available to donators",
-
-        th_cmd: "Command",
-        th_desc: "Description",
-        th_example: "Example",
-
-        last_update: "Last updated:",
-        cmds_footer: "For the full command list, please check Discord.",
-
-        toggle: "Open / Close",
-        faq_1: "How to use !store?",
-        faq_2: "My FPS is very low",
-        faq_3: "Too loud sound",
-        faq_4: "How can i report or unban?",
-        faq_5: "Where to see server rules?",
-
-        answer_1_1: "In CS2, open the console and type",
-        answer_1_2: ".",
-        answer_1_3: "Alternatively, you can copy and paste the following commands in the console.",
-        answer_2_1: "Disabling gun sounds or using hide can improve performance.",
-        answer_2_2: "Try using the following commands.",
-
-        answer_3_1: "Music volume is too loud:",
-        answer_3_2: "Type this in the console",
-        answer_3_3: "Other players' gun sounds are too loud:",
-        answer_3_4: "Type this in chat",
-
-        answer_4_1: "Please use the",
-        answer_4_2: "at the top and visit the contact/report channels.",
-        discord_link: "Discord link",
-        answer_5: "and check the rules there.",
-        // faq_6: "How to use !store?",
-      }
-    };
-
-    function setLanguage(lang){
-      // 텍스트 교체
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.dataset.i18n;
-        const value = I18N?.[lang]?.[key];
-        if(value != null) el.textContent = value;
-      });
-
-      // 버튼 상태
-      document.querySelectorAll(".langbtn").forEach(b=>{
-        b.classList.toggle("active", b.dataset.lang === lang);
-      });
-
-      // 선택 저장
-      localStorage.setItem("lang", lang);
-
-      // 문서 lang 속성도 변경(접근성/번역기 도움)
-      document.documentElement.lang = lang;
-    }
-
-    // 버튼 클릭 이벤트
-    document.querySelectorAll(".langbtn").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        setLanguage(btn.dataset.lang);
-      });
-    });
-
-    // 로드시 저장된 언어 적용
-    window.addEventListener("load", ()=>{
-      const saved = localStorage.getItem("lang") || "ko";
-      setLanguage(saved);
-    });
-  </script>
 </body>
 </html>
+
