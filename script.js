@@ -150,6 +150,50 @@ function openTab(name, pushHash = true) {
   if (pushHash) location.hash = name;
 }
 
+function slugify(value) {
+  return String(value || "item").normalize("NFKC").toLocaleLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "") || "item";
+}
+
+function deepLinkId(type, value) {
+  return `${type}-${slugify(value)}`;
+}
+
+function makeShareButton(targetId, extraClass = "") {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `share-button ${extraClass}`.trim();
+  button.textContent = window.LANG?.[getCurrentLang()]?.share_link || "Copy link";
+  button.addEventListener("click", event => {
+    event.preventDefault();
+    event.stopPropagation();
+    const url = new URL(location.href);
+    url.hash = targetId;
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      button.textContent = window.LANG?.[getCurrentLang()]?.share_done || "Link copied";
+      setTimeout(() => { button.textContent = window.LANG?.[getCurrentLang()]?.share_link || "Copy link"; }, 1500);
+    }).catch(() => window.prompt("Copy link", url.toString()));
+  });
+  return button;
+}
+
+function applyDeepLink() {
+  const hash = decodeURIComponent((location.hash || "").slice(1));
+  if (!hash || validTabs.includes(hash)) return;
+  const tab = hash.startsWith("faq-") ? "faq" : hash.startsWith("command-") ? "cmds" : hash.startsWith("term-") ? "guide" : null;
+  if (!tab) return;
+  openTab(tab, false);
+  requestAnimationFrame(() => {
+    const target = document.getElementById(hash);
+    if (!target) return;
+    if (target.tagName === "DETAILS") target.open = true;
+    document.querySelectorAll(".deep-link-target").forEach(el => el.classList.remove("deep-link-target"));
+    target.classList.add("deep-link-target");
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    setTimeout(() => target.classList.remove("deep-link-target"), 2200);
+  });
+}
+
 tabs.forEach(tab => {
   tab.addEventListener("click", () => openTab(tab.dataset.tab));
 });
@@ -159,8 +203,10 @@ const validTabs = [...tabs].map(tab => tab.dataset.tab);
 window.addEventListener("load", () => {
   const hash = (location.hash || "").replace("#", "");
   if (validTabs.includes(hash)) openTab(hash, false);
+  else if (/^(faq|command|term)-/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
 });
+window.addEventListener("hashchange", applyDeepLink);
 
 
 // 2. GitHub 최신 커밋 날짜 반영 (현재 : 비활성화)
@@ -221,6 +267,7 @@ function renderCommandGuide() {
     return;
   }
   guide.replaceChildren(...rendered);
+  applyDeepLink();
 }
 
 function renderCommandFilters() {
@@ -309,6 +356,11 @@ function makeGlobalSearchItem(type, title, snippet, tab, onOpen) {
   return button;
 }
 
+function navigateToDeepLink(targetId) {
+  location.hash = targetId;
+  applyDeepLink();
+}
+
 function renderGlobalSearch() {
   const results = document.getElementById("globalSearchResults");
   if (!results) return;
@@ -343,17 +395,16 @@ function renderGlobalSearch() {
   list.className = "global-search-list";
 
   faqMatches.slice(0, 6).forEach(item => list.appendChild(makeGlobalSearchItem(
-    "faq", localizeContent(item.question), faqSearchText(item).slice(0, 140), "faq", () => {
-      const details = document.querySelector(`[data-faq-id="${CSS.escape(item.id || "")}"]`);
-      if (details) { details.open = true; details.scrollIntoView({ behavior: "smooth", block: "center" }); }
-    }
+    "faq", localizeContent(item.question), faqSearchText(item).slice(0, 140), "faq",
+    () => navigateToDeepLink(deepLinkId("faq", item.id || localizeContent(item.question)))
   )));
   commandMatches.slice(0, 10).forEach(({ item, section }) => list.appendChild(makeGlobalSearchItem(
-    "command", item.command, `${localizeText(section.title)} · ${localizeText(item.description)}`, "cmds"
+    "command", item.command, `${localizeText(section.title)} · ${localizeText(item.description)}`, "cmds",
+    () => navigateToDeepLink(deepLinkId("command", item.command))
   )));
   termMatches.slice(0, 10).forEach(({ item, section }) => list.appendChild(makeGlobalSearchItem(
     "term", item.term, `${section.title} · ${item.description}`, "guide", () => {
-      document.getElementById("termGuide")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      navigateToDeepLink(deepLinkId("term", item.term));
     }
   )));
 
@@ -409,6 +460,7 @@ function renderFaq() {
   if (!faqList || !faqData) return;
 
   faqList.replaceChildren(...faqData.items.map(createFaqItem));
+  applyDeepLink();
 }
 
 function localizeContent(value, lang = getCurrentLang()) {
@@ -425,6 +477,7 @@ function localizeContent(value, lang = getCurrentLang()) {
 function createFaqItem(item) {
   const details = document.createElement("details");
   details.dataset.faqId = item.id || "";
+  details.id = deepLinkId("faq", item.id || localizeContent(item.question));
 
   const summary = document.createElement("summary");
 
@@ -440,6 +493,7 @@ function createFaqItem(item) {
 
   const answer = document.createElement("div");
   answer.className = "answer";
+  answer.appendChild(makeShareButton(details.id, "faq-share"));
   (item.body || []).forEach(block => answer.appendChild(createFaqBlock(block)));
 
   details.append(summary, answer);
@@ -557,6 +611,7 @@ function createCommandPage(page) {
       commandCount += 1;
       const row = document.createElement("div");
       row.className = "command-row";
+      row.id = deepLinkId("command", item.command);
 
       const command = document.createElement("code");
       command.className = "cmd command-name";
@@ -579,7 +634,7 @@ function createCommandPage(page) {
       copy.className = "command-action";
       copy.textContent = window.LANG?.[getCurrentLang()]?.command_copy || "Copy";
       copy.addEventListener("click", () => copyCommand(item.command, copy));
-      actions.append(favorite, copy);
+      actions.append(favorite, copy, makeShareButton(row.id));
 
       row.append(command, desc, actions);
       list.appendChild(row);
@@ -670,6 +725,7 @@ function renderTermGuide() {
   }
 
   guide.replaceChildren(fragment);
+  applyDeepLink();
 }
 
 function createTermSection(section) {
@@ -692,6 +748,7 @@ function createTermSection(section) {
   section.terms.forEach(item => {
     const row = document.createElement("tr");
     row.className = "term-row";
+    row.id = deepLinkId("term", item.term);
 
     const name = document.createElement("th");
     name.scope = "row";
@@ -703,6 +760,7 @@ function createTermSection(section) {
       aliases.textContent = item.aliases.join(" · ");
       name.appendChild(aliases);
     }
+    name.appendChild(makeShareButton(row.id));
 
     const description = document.createElement("td");
     description.textContent = item.description || "";

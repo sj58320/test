@@ -500,6 +500,10 @@ footer{
   cursor:pointer;
 }
 .command-action:hover,.command-action.favorite{color:var(--accent); border-color:rgba(77,163,255,.55)}
+.share-button{display:inline-flex; align-items:center; padding:4px 8px; border:1px solid var(--line); border-radius:7px; background:rgba(11,17,28,.45); color:var(--muted); font-size:11px; cursor:pointer}
+.share-button:hover{color:var(--accent); border-color:rgba(77,163,255,.55)}
+.faq-share{margin:0 0 8px}
+.deep-link-target{outline:2px solid rgba(77,163,255,.7); outline-offset:4px}
 
 .command-name {
   display: block;
