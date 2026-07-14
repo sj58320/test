@@ -356,6 +356,11 @@ function makeGlobalSearchItem(type, title, snippet, tab, onOpen) {
   return button;
 }
 
+function setContentUpdatedAt(elementId, data) {
+  const element = document.getElementById(elementId);
+  if (element) element.textContent = data?.updatedAt || "-";
+}
+
 function navigateToDeepLink(targetId) {
   location.hash = targetId;
   applyDeepLink();
@@ -445,11 +450,13 @@ async function loadFaq() {
 
   try {
     faqData = await fetchJsonWithFallback("faq.json");
+    setContentUpdatedAt("faqLastUpdate", faqData);
     renderFaq();
     renderGlobalSearch();
   } catch (err) {
     console.error("FAQ load failed:", err);
     faqData = FAQ_FALLBACK;
+    setContentUpdatedAt("faqLastUpdate", faqData);
     renderFaq();
     faqList.title = `faq.json load failed: ${err.message}`;
   }
@@ -571,6 +578,7 @@ async function loadCommandGuide() {
 
   try {
     commandGuideData = await fetchJsonWithFallback("commands.json");
+    setContentUpdatedAt("commandLastUpdate", commandGuideData);
     renderCommandGuide();
     renderGlobalSearch();
   } catch (err) {
@@ -688,6 +696,7 @@ async function loadTermGuide() {
 
   try {
     termGuideData = await fetchJsonWithFallback("terms.json");
+    setContentUpdatedAt("termLastUpdate", termGuideData);
     renderTermGuide();
     renderGlobalSearch();
   } catch (err) {
