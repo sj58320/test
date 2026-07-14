@@ -27,9 +27,9 @@
       <!-- 버튼 생성기 (만약, 본인이 추가하고싶거나 버튼을 바꾸고싶으면 수정) -->
       </div>
       <div class="lang">
-        <button class="langbtn active" data-lang="ko">KR</button>
-        <button class="langbtn" data-lang="en">EN</button>
-        <button class="langbtn" data-lang="jp">JP</button>
+        <button class="langbtn active" data-lang="ko" aria-label="한국어로 보기">KR</button>
+        <button class="langbtn" data-lang="en" aria-label="View in English">EN</button>
+        <button class="langbtn" data-lang="jp" aria-label="日本語で表示">JP</button>
       </div>
       <!-- 디스코드 링크 -->
       <a class="discord" href="https://discord.gg/rssze" target="_blank" rel="noopener noreferrer">
@@ -42,13 +42,13 @@
   <div class="wrap">
     <div class="card">
       <div class="tabs" role="tablist" aria-label="메뉴 탭">
-        <button class="tab active" data-tab="faq" role="tab" aria-selected="true">
+        <button id="tab-faq" class="tab active" data-tab="faq" role="tab" aria-selected="true" aria-controls="faq" tabindex="0">
           <span data-lang="tab_faq">1) 자주묻는 질문</span>
         </button>
-        <button class="tab" data-tab="cmds" role="tab" aria-selected="false">
+        <button id="tab-cmds" class="tab" data-tab="cmds" role="tab" aria-selected="false" aria-controls="cmds" tabindex="-1">
           <span data-lang="tab_cmds">2) 명령어 목록</span>
         </button>
-        <button class="tab" data-tab="guide" role="tab" aria-selected="false">
+        <button id="tab-guide" class="tab" data-tab="guide" role="tab" aria-selected="false" aria-controls="guide" tabindex="-1">
           <span data-lang="tab_guide">3) 용어 사전</span>
         </button>
       </div>
@@ -59,7 +59,7 @@
         <div id="globalSearchResults" class="global-search-results" aria-live="polite"></div>
       </div>
 
-      <section id="faq" class="panel active" role="tabpanel">
+      <section id="faq" class="panel active" role="tabpanel" aria-labelledby="tab-faq">
         <div class="section-title">
           <h2 data-lang="faq_title">자주묻는 질문</h2>
           <div class="hint" data-lang="faq_hint">질문을 누르면 답이 펼쳐집니다.</div>
@@ -75,7 +75,7 @@
       </section>
 
       <!-- 명령어 -->
-      <section id="cmds" class="panel" role="tabpanel">
+      <section id="cmds" class="panel" role="tabpanel" aria-labelledby="tab-cmds" hidden>
         <div class="section-title">
           <h2 data-lang="cmds_title">명령어 목록</h2>
           <div class="hint" data-lang="cmds_hint">모든 명령어는 !와 / 둘 다 가능합니다.</div>
@@ -99,7 +99,7 @@
       </section>
 
       <!-- 용어 사전 -->
-      <section id="guide" class="panel pico" data-theme="dark" role="tabpanel">
+      <section id="guide" class="panel pico" data-theme="dark" role="tabpanel" aria-labelledby="tab-guide" hidden>
         <div class="section-title">
           <h2 data-lang="guide_title">좀비탈출 용어 사전</h2>
           <div class="hint" data-lang="guide_hint">용어 또는 설명을 검색할 수 있습니다.</div>

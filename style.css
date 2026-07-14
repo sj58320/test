@@ -297,6 +297,11 @@ footer{
   gap:8px 16px;
   justify-content:space-between;
 }
+
+:where(button,a,input,summary):focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
 footer a{color:var(--accent)}
 
 /* 명령어 목록 섹션 제목 */
@@ -509,6 +514,10 @@ footer a{color:var(--accent)}
 .share-button:hover{color:var(--accent); border-color:rgba(77,163,255,.55)}
 .faq-share{margin:0 0 8px}
 .deep-link-target{outline:2px solid rgba(77,163,255,.7); outline-offset:4px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important}
+}
 
 .command-name {
   display: block;

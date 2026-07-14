@@ -145,8 +145,13 @@ function openTab(name, pushHash = true) {
     const active = t.dataset.tab === name;
     t.classList.toggle("active", active);
     t.setAttribute("aria-selected", active ? "true" : "false");
+    t.tabIndex = active ? 0 : -1;
   });
-  panels.forEach(p => p.classList.toggle("active", p.id === name));
+  panels.forEach(p => {
+    const active = p.id === name;
+    p.classList.toggle("active", active);
+    p.hidden = !active;
+  });
   if (pushHash) location.hash = name;
 }
 
@@ -164,6 +169,8 @@ function makeShareButton(targetId, extraClass = "") {
   button.type = "button";
   button.className = `share-button ${extraClass}`.trim();
   button.textContent = window.LANG?.[getCurrentLang()]?.share_link || "Copy link";
+  button.title = button.textContent;
+  button.setAttribute("aria-label", button.textContent);
   button.addEventListener("click", event => {
     event.preventDefault();
     event.stopPropagation();
@@ -171,7 +178,11 @@ function makeShareButton(targetId, extraClass = "") {
     url.hash = targetId;
     navigator.clipboard.writeText(url.toString()).then(() => {
       button.textContent = window.LANG?.[getCurrentLang()]?.share_done || "Link copied";
-      setTimeout(() => { button.textContent = window.LANG?.[getCurrentLang()]?.share_link || "Copy link"; }, 1500);
+      button.setAttribute("aria-label", button.textContent);
+      setTimeout(() => {
+        button.textContent = window.LANG?.[getCurrentLang()]?.share_link || "Copy link";
+        button.setAttribute("aria-label", button.textContent);
+      }, 1500);
     }).catch(() => window.prompt("Copy link", url.toString()));
   });
   return button;
@@ -196,6 +207,16 @@ function applyDeepLink() {
 
 tabs.forEach(tab => {
   tab.addEventListener("click", () => openTab(tab.dataset.tab));
+  tab.addEventListener("keydown", event => {
+    const current = [...tabs].indexOf(tab);
+    const next = event.key === "ArrowRight" ? (current + 1) % tabs.length
+      : event.key === "ArrowLeft" ? (current - 1 + tabs.length) % tabs.length
+      : event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : -1;
+    if (next < 0) return;
+    event.preventDefault();
+    openTab(tabs[next].dataset.tab);
+    tabs[next].focus();
+  });
 });
 
 const validTabs = [...tabs].map(tab => tab.dataset.tab);
@@ -280,6 +301,7 @@ function renderCommandFilters() {
     button.type = "button";
     button.className = `command-filter${commandPageFilter === filter.id ? " active" : ""}`;
     button.textContent = filter.title;
+    button.setAttribute("aria-pressed", commandPageFilter === filter.id ? "true" : "false");
     button.addEventListener("click", () => { commandPageFilter = filter.id; renderCommandGuide(); });
     return button;
   }));
@@ -428,6 +450,20 @@ document.getElementById("globalSearch")?.addEventListener("input", event => {
   renderGlobalSearch();
 });
 
+document.addEventListener("keydown", event => {
+  const target = event.target;
+  const isEditing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable;
+  const search = document.getElementById("globalSearch");
+  if (event.key === "/" && !isEditing) {
+    event.preventDefault();
+    search?.focus();
+  } else if (event.key === "Escape" && document.activeElement === search && search?.value) {
+    search.value = "";
+    globalSearchQuery = "";
+    renderGlobalSearch();
+  }
+});
+
 // 언어 버튼 클릭 이벤트 바인딩
 document.querySelectorAll(".langbtn").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -529,6 +565,7 @@ function createFaqBlock(block) {
         button.className = "copy-btn";
         button.type = "button";
         button.textContent = window.LANG?.[getCurrentLang()]?.copy || "Copy";
+        button.setAttribute("aria-label", button.textContent);
         button.addEventListener("click", () => copyCode(button));
         container.appendChild(button);
       }
@@ -636,11 +673,13 @@ function createCommandPage(page) {
       favorite.className = `command-action${favoriteCommands.has(item.command) ? " favorite" : ""}`;
       favorite.textContent = favoriteCommands.has(item.command) ? "★" : "☆";
       favorite.title = window.LANG?.[getCurrentLang()]?.[favoriteCommands.has(item.command) ? "command_favorite_remove" : "command_favorite_add"] || "Favorite";
+      favorite.setAttribute("aria-label", favorite.title);
       favorite.addEventListener("click", () => toggleFavoriteCommand(item.command));
       const copy = document.createElement("button");
       copy.type = "button";
       copy.className = "command-action";
       copy.textContent = window.LANG?.[getCurrentLang()]?.command_copy || "Copy";
+      copy.setAttribute("aria-label", `${copy.textContent}: ${item.command}`);
       copy.addEventListener("click", () => copyCommand(item.command, copy));
       actions.append(favorite, copy, makeShareButton(row.id));
 
