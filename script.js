@@ -3,6 +3,138 @@
 const DEFAULT_LANG = "ko";
 const SUPPORTED_LANGS = new Set(["ko", "en", "jp"]);
 let commandGuideData = null;
+let faqData = null;
+const FAQ_FALLBACK = {
+  version: 1,
+  updatedAt: "",
+  items: [
+    {
+      id: "store_bind",
+      question: "How to use !store?",
+      body: [
+        { type: "text", text: "In CS2, open the console and type " },
+        { type: "inlineCode", value: "exec menu_bind" },
+        { type: "text", text: ", then press Enter." },
+        { type: "break" },
+        { type: "text", text: "Alternatively, copy and paste the following commands in the console." },
+        { type: "break" },
+        { type: "text", text: "Click 'Copy' on the top right, then paste (Ctrl+V) the commands into the console." },
+        {
+          type: "code",
+          id: "bindCommands",
+          copy: true,
+          value: "bind 1 \"slot1; menuselect 1\";\nbind 2 \"slot2; menuselect 2\";\nbind 3 \"slot3; menuselect 3\";\nbind 4 \"slot4; menuselect 4\";\nbind 5 \"slot5; menuselect 5\";\nbind 6 \"slot6; menuselect 6\";\nbind 7 \"slot7; menuselect 7\";\nbind 8 \"slot8; menuselect 8\";\nbind 9 \"slot9; menuselect 9\";"
+        }
+      ]
+    },
+    {
+      id: "low_fps",
+      question: "My FPS is very low",
+      body: [
+        { type: "text", text: "Disable gun sounds or use hide to improve performance." },
+        { type: "break" },
+        { type: "inlineCode", value: "!stopsound" },
+        { type: "text", text: " / " },
+        { type: "inlineCode", value: "!hide 300" },
+        { type: "text", text: " and try again." }
+      ]
+    },
+    {
+      id: "loud_sound",
+      question: "Too loud sound",
+      body: [
+        { type: "text", text: "Music volume is too loud: " },
+        { type: "inlineCode", value: "snd_musicvolume (0~2)" },
+        { type: "text", text: "." },
+        { type: "break" },
+        { type: "text", text: "Other players' gun sounds are too loud: " },
+        { type: "inlineCode", value: "!stopsound" },
+        { type: "text", text: "." }
+      ]
+    },
+    {
+      id: "report_unban",
+      question: "How can I report or unban?",
+      body: [
+        { type: "link", href: "https://discord.com/channels/850664390779731978/1321861335520120882/1384827886946484245", text: "Discord link" },
+        { type: "text", text: " and please submit your request." }
+      ]
+    },
+    {
+      id: "server_rules",
+      question: "Where can I check server rules?",
+      body: [
+        { type: "link", href: "https://discord.com/channels/850664390779731978/1321861335520120882/1384827886946484245", text: "Discord link" },
+        { type: "text", text: " and check them there." }
+      ]
+    },
+    {
+      id: "console_howto",
+      question: "How do I open the console?",
+      body: [
+        { type: "text", text: "Press (~, `) in game." },
+        { type: "spacer" },
+        { type: "text", text: "If it still doesn't open, go to Settings -> Game -> Enable Developer Console and turn it on." }
+      ]
+    }
+  ]
+};
+const scriptBase = (() => {
+  const current = document.currentScript;
+  if (current && current.getAttribute("src")) {
+    return new URL(current.getAttribute("src"), location.href);
+  }
+  return new URL(location.href);
+})();
+
+function assetUrl(filename) {
+  return new URL(filename, scriptBase).toString();
+}
+function getJsonCandidateUrls(filename) {
+  const candidates = new Set();
+  const pageUrl = new URL(location.href);
+  const pageDir = new URL("./", pageUrl);
+  const scriptDir = new URL("./", scriptBase);
+
+  const push = (base) => {
+    if (!base) return;
+    try {
+      candidates.add(new URL(filename, base).toString());
+    } catch (_err) {
+      // ignore invalid urls
+    }
+  };
+
+  push(pageUrl);
+  push(pageDir);
+  push(scriptBase);
+  push(scriptDir);
+  push(new URL(`./test/${filename}`, pageDir));
+  push(new URL(`../test/${filename}`, pageDir));
+
+  return [...candidates];
+}
+
+async function fetchJsonWithFallback(filename) {
+  const urls = getJsonCandidateUrls(filename);
+  const errors = [];
+
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      if (!res.ok) {
+        errors.push(`${url} -> ${res.status}`);
+        continue;
+      }
+      return await res.json();
+    } catch (err) {
+      errors.push(`${url} -> ${err.message || err}`);
+    }
+  }
+
+  throw new Error(errors.join(" | "));
+}
+
 const tabs = document.querySelectorAll(".tab");
 const panels = document.querySelectorAll(".panel");
 
@@ -92,6 +224,7 @@ function setLanguage(lang) {
   localStorage.setItem("lang", lang);
   document.documentElement.lang = lang;
   renderCommandGuide();
+  renderFaq();
 }
 
 // 언어 버튼 클릭 이벤트 바인딩
@@ -109,20 +242,140 @@ window.addEventListener("load", () => {
 
 
 
+// 4. FAQ from JSON
+async function loadFaq() {
+  const faqList = document.getElementById("faqList");
+  if (!faqList) return;
+
+  try {
+    faqData = await fetchJsonWithFallback("faq.json");
+    renderFaq();
+  } catch (err) {
+    console.error("FAQ load failed:", err);
+    faqData = FAQ_FALLBACK;
+    renderFaq();
+    faqList.title = `faq.json load failed: ${err.message}`;
+  }
+}
+
+function renderFaq() {
+  const faqList = document.getElementById("faqList");
+  if (!faqList || !faqData) return;
+
+  faqList.replaceChildren(...faqData.items.map(createFaqItem));
+}
+
+function localizeContent(value, lang = getCurrentLang()) {
+  if (value == null) return "";
+  if (typeof value === "string") return value;
+
+  const base = value.langKey
+    ? (window.LANG?.[lang]?.[value.langKey] || window.LANG?.[DEFAULT_LANG]?.[value.langKey] || "")
+    : localizeText(value, lang);
+
+  return `${value.prefix || ""}${base}${value.suffix || ""}`;
+}
+
+function createFaqItem(item) {
+  const details = document.createElement("details");
+  details.dataset.faqId = item.id || "";
+
+  const summary = document.createElement("summary");
+
+  const question = document.createElement("span");
+  question.textContent = localizeContent(item.question);
+
+  const chev = document.createElement("span");
+  chev.className = "chev";
+  chev.textContent = localizeText({ langKey: "toggle" });
+  chev.textContent = window.LANG?.[getCurrentLang()]?.toggle || window.LANG?.[DEFAULT_LANG]?.toggle || "Open / Close";
+
+  summary.append(question, chev);
+
+  const answer = document.createElement("div");
+  answer.className = "answer";
+  (item.body || []).forEach(block => answer.appendChild(createFaqBlock(block)));
+
+  details.append(summary, answer);
+  return details;
+}
+
+function createFaqBlock(block) {
+  switch (block.type) {
+    case "text": {
+      const span = document.createElement("span");
+      span.textContent = localizeContent(block.text);
+      return span;
+    }
+    case "inlineCode": {
+      const code = document.createElement("code");
+      code.textContent = block.value || "";
+      return code;
+    }
+    case "code": {
+      const container = document.createElement("div");
+      container.className = "code-container";
+      container.style.marginTop = "10px";
+
+      if (block.copy) {
+        const button = document.createElement("button");
+        button.className = "copy-btn";
+        button.type = "button";
+        button.textContent = window.LANG?.[getCurrentLang()]?.copy || "Copy";
+        button.addEventListener("click", () => copyCode(button));
+        container.appendChild(button);
+      }
+
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      if (block.id) code.id = block.id;
+      code.textContent = block.value || "";
+      pre.appendChild(code);
+      container.appendChild(pre);
+      return container;
+    }
+    case "link": {
+      const link = document.createElement("a");
+      link.href = block.href || "#";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = localizeContent(block.text);
+      return link;
+    }
+    case "image": {
+      const wrapper = document.createElement("div");
+      wrapper.className = "guide-step console-guide-image";
+
+      const img = document.createElement("img");
+      img.src = block.src || "";
+      img.alt = localizeContent(block.alt);
+      wrapper.appendChild(img);
+      return wrapper;
+    }
+    case "spacer": {
+      const span = document.createElement("span");
+      span.append(document.createElement("br"), document.createElement("br"));
+      return span;
+    }
+    case "break":
+    default:
+      return document.createElement("br");
+  }
+}
+
+window.addEventListener("load", loadFaq);
 // 4. Command guide from JSON
 async function loadCommandGuide() {
   const guide = document.getElementById("commandGuide");
   if (!guide) return;
 
   try {
-    const res = await fetch("commands.json", { cache: "no-store" });
-    if (!res.ok) throw new Error(`commands.json ${res.status}`);
-
-    commandGuideData = await res.json();
+    commandGuideData = await fetchJsonWithFallback("commands.json");
     renderCommandGuide();
   } catch (err) {
     console.error("command guide load failed:", err);
     guide.textContent = "Failed to load commands.json";
+    guide.title = `commands.json load failed: ${err.message}`;
   }
 }
 
@@ -179,23 +432,21 @@ function createCommandPage(page) {
 window.addEventListener("load", loadCommandGuide);
 // 5. 클립보드 명령어 복사 기능
 function copyCode(button) {
-  // 버튼 옆의 pre code 태그 안의 텍스트 가져오기
-  const codeText = document.getElementById("bindCommands").innerText;
+  const code = button.closest(".code-container")?.querySelector("pre code") || document.getElementById("bindCommands");
+  const codeText = code?.innerText || "";
+  const originalText = button.textContent;
 
-  // 클립보드 복사 실행
   navigator.clipboard.writeText(codeText).then(() => {
-    // 복사 성공 시 버튼 텍스트 변경 및 클래스 추가
-    button.textContent = "복사 완료!";
+    button.textContent = window.LANG?.[getCurrentLang()]?.copy_done || "Copied!";
     button.classList.add("copied");
 
-    // 2초 후에 원래 상태로 되돌리기
     setTimeout(() => {
-      button.textContent = "복사하기";
+      button.textContent = originalText || window.LANG?.[getCurrentLang()]?.copy || "Copy";
       button.classList.remove("copied");
     }, 2000);
   }).catch(err => {
-    console.error("복사 실패:", err);
-    alert("복사에 실패했습니다. 수동으로 복사해주세요.");
+    console.error("copy failed:", err);
+    alert("Copy failed. Please copy manually.");
   });
 }
 
