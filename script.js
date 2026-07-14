@@ -9,6 +9,10 @@ let faqData = null;
 let termGuideData = null;
 let termSearchQuery = "";
 let globalSearchQuery = "";
+let commandSearchQuery = "";
+let commandPageFilter = "all";
+let favoriteCommandsOnly = false;
+const favoriteCommands = new Set(JSON.parse(localStorage.getItem("favoriteCommands") || "[]"));
 const FAQ_FALLBACK = {
   version: 1,
   updatedAt: "",
@@ -202,7 +206,37 @@ function localizeText(value, lang = getCurrentLang()) {
 function renderCommandGuide() {
   const guide = document.getElementById("commandGuide");
   if (!guide || !commandGuideData) return;
-  guide.replaceChildren(...commandGuideData.pages.map(createCommandPage));
+  renderCommandFilters();
+  const rendered = commandGuideData.pages
+    .filter(page => commandPageFilter === "all" || page.id === commandPageFilter)
+    .map(createCommandPage)
+    .filter(Boolean);
+  const count = rendered.reduce((total, page) => total + Number(page.dataset.commandCount || 0), 0);
+  const countLabel = document.getElementById("commandResultCount");
+  if (countLabel) countLabel.textContent = (window.LANG?.[getCurrentLang()]?.command_result_count || "{count} commands").replace("{count}", count);
+  if (!rendered.length) {
+    const empty = document.createElement("p");
+    empty.className = "term-empty";
+    empty.textContent = window.LANG?.[getCurrentLang()]?.command_empty || "No matching commands.";
+    guide.replaceChildren(empty);
+    return;
+  }
+  guide.replaceChildren(...rendered);
+}
+
+function renderCommandFilters() {
+  const container = document.getElementById("commandFilters");
+  if (!container || !commandGuideData) return;
+  const filters = [{ id: "all", title: window.LANG?.[getCurrentLang()]?.command_filter_all || "All" },
+    ...commandGuideData.pages.map(page => ({ id: page.id, title: localizeText(page.title) }))];
+  container.replaceChildren(...filters.map(filter => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `command-filter${commandPageFilter === filter.id ? " active" : ""}`;
+    button.textContent = filter.title;
+    button.addEventListener("click", () => { commandPageFilter = filter.id; renderCommandGuide(); });
+    return button;
+  }));
 }
 
 function setLanguage(lang) {
@@ -503,7 +537,14 @@ function createCommandPage(page) {
   title.textContent = localizeText(page.title);
   pageEl.appendChild(title);
 
+  let commandCount = 0;
   page.sections.forEach(section => {
+    const commands = section.commands.filter(item => {
+      const searchText = [item.command, localizeText(item.description), localizeText(item.note)].join(" ");
+      return (!commandSearchQuery || matchesSearch(searchText, commandSearchQuery))
+        && (!favoriteCommandsOnly || favoriteCommands.has(item.command));
+    });
+    if (!commands.length) return;
     const sectionEl = document.createElement("section");
     sectionEl.className = "command-section";
 
@@ -514,7 +555,8 @@ function createCommandPage(page) {
     const list = document.createElement("div");
     list.className = "command-list";
 
-    section.commands.forEach(item => {
+    commands.forEach(item => {
+      commandCount += 1;
       const row = document.createElement("div");
       row.className = "command-row";
 
@@ -526,7 +568,22 @@ function createCommandPage(page) {
       desc.className = "command-desc";
       desc.textContent = localizeText(item.description);
 
-      row.append(command, desc);
+      const actions = document.createElement("div");
+      actions.className = "command-actions";
+      const favorite = document.createElement("button");
+      favorite.type = "button";
+      favorite.className = `command-action${favoriteCommands.has(item.command) ? " favorite" : ""}`;
+      favorite.textContent = favoriteCommands.has(item.command) ? "★" : "☆";
+      favorite.title = window.LANG?.[getCurrentLang()]?.[favoriteCommands.has(item.command) ? "command_favorite_remove" : "command_favorite_add"] || "Favorite";
+      favorite.addEventListener("click", () => toggleFavoriteCommand(item.command));
+      const copy = document.createElement("button");
+      copy.type = "button";
+      copy.className = "command-action";
+      copy.textContent = window.LANG?.[getCurrentLang()]?.command_copy || "Copy";
+      copy.addEventListener("click", () => copyCommand(item.command, copy));
+      actions.append(favorite, copy);
+
+      row.append(command, desc, actions);
       list.appendChild(row);
 
       if (item.note) {
@@ -540,9 +597,34 @@ function createCommandPage(page) {
     sectionEl.appendChild(list);
     pageEl.appendChild(sectionEl);
   });
-
+  if (!commandCount) return null;
+  pageEl.dataset.commandCount = commandCount;
   return pageEl;
 }
+
+function toggleFavoriteCommand(command) {
+  if (favoriteCommands.has(command)) favoriteCommands.delete(command);
+  else favoriteCommands.add(command);
+  localStorage.setItem("favoriteCommands", JSON.stringify([...favoriteCommands]));
+  renderCommandGuide();
+}
+
+function copyCommand(command, button) {
+  navigator.clipboard.writeText(command).then(() => {
+    const original = button.textContent;
+    button.textContent = window.LANG?.[getCurrentLang()]?.command_copied || "Copied";
+    setTimeout(() => { button.textContent = original; }, 1500);
+  }).catch(() => window.prompt("Copy command", command));
+}
+
+document.getElementById("commandSearch")?.addEventListener("input", event => {
+  commandSearchQuery = (event.target.value || "").trim().toLocaleLowerCase(getCurrentLang());
+  renderCommandGuide();
+});
+document.getElementById("favoriteCommandsOnly")?.addEventListener("change", event => {
+  favoriteCommandsOnly = event.target.checked;
+  renderCommandGuide();
+});
 
 window.addEventListener("load", loadCommandGuide);
 

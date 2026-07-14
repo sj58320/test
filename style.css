@@ -432,6 +432,29 @@ footer{
   display: grid;
   gap: 18px;
 }
+.command-tools{margin:0 0 18px}
+.command-tools > label:first-child{
+  display:block;
+  margin-bottom:6px;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+#commandSearch{width:100%; margin:0 0 10px}
+.command-filters{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px}
+.command-filter{
+  padding:5px 9px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(11,17,28,.35);
+  color:var(--muted);
+  font-size:12px;
+  cursor:pointer;
+}
+.command-filter.active{color:var(--text); border-color:var(--accent); background:rgba(77,163,255,.14)}
+.favorite-filter{display:inline-flex; align-items:center; gap:7px; color:var(--muted); font-size:12px}
+.favorite-filter input{margin:0}
+.command-result-count{margin:7px 0 0; color:var(--muted); font-size:12px}
 
 .command-page {
   padding: 14px;
@@ -469,11 +492,22 @@ footer{
 
 .command-row {
   display: grid;
-  grid-template-columns: minmax(260px, 36%) 1fr;
+  grid-template-columns: minmax(240px, 34%) 1fr auto;
   gap: 18px;
   align-items: start;
   padding: 2px 0;
 }
+.command-actions{display:flex; gap:5px; align-items:center}
+.command-action{
+  padding:4px 8px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:rgba(11,17,28,.45);
+  color:var(--muted);
+  font-size:11px;
+  cursor:pointer;
+}
+.command-action:hover,.command-action.favorite{color:var(--accent); border-color:rgba(77,163,255,.55)}
 
 .command-name {
   display: block;
@@ -507,6 +541,7 @@ footer{
     grid-template-columns: 1fr;
     gap: 2px;
   }
+  .command-actions{justify-content:flex-start}
 
   .command-desc::before {
     content: "";

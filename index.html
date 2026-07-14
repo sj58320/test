@@ -80,6 +80,14 @@
           <div class="hint" data-lang="cmds_hint">모든 명령어는 !와 / 둘 다 가능합니다.</div>
         </div>
 
+        <div class="command-tools">
+          <label for="commandSearch" data-lang="command_search_label">명령어 검색</label>
+          <input id="commandSearch" type="search" data-lang-placeholder="command_search_placeholder" placeholder="명령어 또는 설명 검색" autocomplete="off" />
+          <div id="commandFilters" class="command-filters" aria-label="명령어 카테고리"></div>
+          <label class="favorite-filter"><input id="favoriteCommandsOnly" type="checkbox" /> <span data-lang="command_favorites_only">즐겨찾기만 보기</span></label>
+          <p id="commandResultCount" class="command-result-count" aria-live="polite"></p>
+        </div>
+
         <div id="commandGuide" class="command-guide" aria-live="polite">
           <p class="command-loading">Loading commands...</p>
         </div>
