@@ -811,10 +811,16 @@ function toggleFavoriteCommand(command) {
   renderCommandGuide();
 }
 
+function commandCopyText(command) {
+  const name = String(command || "").trim().split(/\s+/, 1)[0].replace(/^[!/]/, "/");
+  return name ? `${name} ` : "";
+}
+
 function copyCommand(command) {
-  copyText(command).then(() => {
+  const text = commandCopyText(command);
+  copyText(text).then(() => {
     showToast(window.LANG?.[getCurrentLang()]?.copy_done || "Copied to clipboard.");
-  }).catch(() => window.prompt("Copy command", command));
+  }).catch(() => window.prompt("Copy command", text));
 }
 
 document.getElementById("favoriteCommandsOnly")?.addEventListener("change", event => {
