@@ -208,6 +208,7 @@ function makeShareButton(targetId, itemLabel, extraClass = "") {
     event.preventDefault();
     event.stopPropagation();
     const url = new URL(location.href);
+    url.searchParams.set("lang", getCurrentLang());
     url.hash = targetId;
     copyText(url.toString()).then(() => {
       showToast(window.LANG?.[getCurrentLang()]?.share_done || "Link copied");
@@ -222,6 +223,16 @@ function applyDeepLink() {
   const tab = hash.startsWith("faq-") ? "faq" : hash.startsWith("command-") ? "cmds" : hash.startsWith("term-") ? "guide" : null;
   if (!tab) return;
   openTab(tab, false);
+  if (tab === "cmds" && (commandPageFilter !== "all" || favoriteCommandsOnly)) {
+    commandPageFilter = "all";
+    favoriteCommandsOnly = false;
+    const favoritesOnly = document.getElementById("favoriteCommandsOnly");
+    if (favoritesOnly) favoritesOnly.checked = false;
+    if (commandGuideData) {
+      renderCommandGuide();
+      return;
+    }
+  }
   requestAnimationFrame(() => {
     const target = document.getElementById(hash);
     if (!target) return;
@@ -249,13 +260,14 @@ tabs.forEach(tab => {
 
 const validTabs = [...tabs].map(tab => tab.dataset.tab);
 
-window.addEventListener("load", () => {
+function applyLocationState() {
   const hash = (location.hash || "").replace("#", "");
   if (validTabs.includes(hash)) openTab(hash, false);
   else if (/^(faq|command|term)-/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
-});
-window.addEventListener("hashchange", applyDeepLink);
+}
+window.addEventListener("load", applyLocationState);
+window.addEventListener("hashchange", applyLocationState);
 
 
 // 2. GitHub 최신 커밋 날짜 반영 (현재 : 비활성화)
@@ -335,7 +347,7 @@ function renderCommandFilters() {
   }));
 }
 
-function setLanguage(lang) {
+function setLanguage(lang, syncUrl = true) {
   // 텍스트 교체
   document.querySelectorAll("[data-lang]").forEach(el => {
     const key = el.dataset.lang;
@@ -360,6 +372,11 @@ function setLanguage(lang) {
   // 선택한 언어 저장 및 HTML 문서속서를 반영
   localStorage.setItem("lang", lang);
   document.documentElement.lang = lang;
+  if (syncUrl) {
+    const url = new URL(location.href);
+    url.searchParams.set("lang", lang);
+    history.replaceState(null, "", url);
+  }
   renderCommandGuide();
   renderFaq();
   renderTermGuide();
@@ -579,8 +596,12 @@ document.querySelectorAll(".langbtn").forEach(btn => {
 
 // 로드 시 기존에 저장된언어 자동적용
 window.addEventListener("load", () => {
+  const requested = new URL(location.href).searchParams.get("lang");
   const saved = localStorage.getItem("lang");
-  setLanguage(SUPPORTED_LANGS.has(saved) ? saved : DEFAULT_LANG);
+  const lang = SUPPORTED_LANGS.has(requested)
+    ? requested
+    : SUPPORTED_LANGS.has(saved) ? saved : DEFAULT_LANG;
+  setLanguage(lang, !SUPPORTED_LANGS.has(requested));
 });
 
 
