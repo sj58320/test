@@ -841,11 +841,11 @@ footer a{color:var(--accent)}
   min-width:0;
   margin:0;
   padding:16px;
-  border:1px solid rgba(31,42,61,.85);
+  border:1px solid rgba(77,163,255,.24);
   border-radius:14px;
-  background:rgba(7,10,15,.25);
-  box-shadow:none;
-  transition:background-color .15s ease,border-color .15s ease;
+  background:rgba(7,10,15,.4);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025),0 8px 24px rgba(0,0,0,.14);
+  transition:background-color .15s ease,border-color .15s ease,box-shadow .15s ease;
 }
 
 @media (hover:hover){
@@ -855,8 +855,9 @@ footer a{color:var(--accent)}
   }
 
   .news-item:hover{
-    border-color:rgba(77,163,255,.35);
-    background:rgba(77,163,255,.035);
+    border-color:rgba(77,163,255,.62);
+    background:rgba(77,163,255,.065);
+    box-shadow:inset 0 0 0 1px rgba(77,163,255,.28),0 10px 30px rgba(0,0,0,.22);
   }
 }
 
