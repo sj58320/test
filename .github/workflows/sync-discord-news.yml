@@ -1,6 +1,12 @@
 name: Sync Discord news
 
 on:
+  push:
+    branches:
+      - dev
+    paths:
+      - .github/workflows/sync-discord-news.yml
+      - scripts/sync-discord-news.mjs
   workflow_dispatch:
     inputs:
       target_branch:
@@ -26,7 +32,7 @@ jobs:
     if: ${{ vars.DISCORD_NEWS_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     env:
-      TARGET_BRANCH: ${{ github.event_name == 'schedule' && 'main' || inputs.target_branch }}
+      TARGET_BRANCH: ${{ github.event_name == 'schedule' && 'main' || github.event_name == 'push' && 'dev' || inputs.target_branch }}
     steps:
       - name: Check out target branch
         uses: actions/checkout@v4

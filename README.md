@@ -101,7 +101,7 @@ FAQ 구조는 `faq.json`에서 관리하고 번역 문구는 `lang.js`에서 관
 | Variable | `DISCORD_NEWS_LIMIT` | 가져올 공지 개수, 생략 시 20 |
 | Variable | `DISCORD_NEWS_ENABLED` | 준비가 끝난 뒤 `true` |
 
-토큰은 `news.json`, JavaScript, 워크플로 파일에 직접 적지 않습니다. 워크플로는 기본 브랜치에 병합된 후 15분마다 실행하며 공지 내용이 바뀐 경우에만 `news.json`을 `main`에 커밋합니다. 수동 확인은 GitHub의 **Actions → Sync Discord news → Run workflow**에서 `dev`를 대상으로 먼저 시험할 수 있습니다.
+토큰은 `news.json`, JavaScript, 워크플로 파일에 직접 적지 않습니다. 최초 연동은 워크플로 또는 동기화 스크립트를 `dev`에 푸시할 때 `dev`를 대상으로 시험합니다. 워크플로가 기본 브랜치에 병합된 뒤에는 15분마다 실행하며, 공지 내용이 바뀐 경우에만 `news.json`을 `main`에 커밋합니다. 이후 수동 확인은 GitHub의 **Actions → Sync Discord news → Run workflow**에서 할 수 있습니다.
 
 ## 로컬에서 확인하기
 
