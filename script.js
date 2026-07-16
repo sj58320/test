@@ -453,6 +453,7 @@ function makeGlobalSearchItem(type, title, snippet, tab, onOpen) {
   description.className = "global-search-snippet";
   description.textContent = snippet;
 
+  button.setAttribute("aria-label", [badge.textContent, title, snippet].filter(Boolean).join(" ").slice(0, 240));
   button.append(badge, heading, description);
   button.addEventListener("click", () => {
     openTab(tab);
@@ -527,14 +528,28 @@ function renderGlobalSearch() {
       })
     }))
   ).filter(result => result.score != null).sort((a, b) => a.score - b.score);
+  const newsMatches = (newsData?.items || []).map(item => ({
+    item,
+    score: getSearchScore({
+      primary: item.title || "",
+      details: [
+        item.content,
+        item.summary,
+        item.author,
+        ...(item.attachments || []).map(attachment => attachment.filename)
+      ],
+      query
+    })
+  })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
 
-  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms}";
+  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms} · News {news}";
   const summary = document.createElement("p");
   summary.className = "global-search-summary";
   summary.textContent = summaryTemplate
     .replace("{faq}", faqMatches.length)
     .replace("{commands}", commandMatches.length)
-    .replace("{terms}", termMatches.length);
+    .replace("{terms}", termMatches.length)
+    .replace("{news}", newsMatches.length);
 
   const list = document.createElement("div");
   list.className = "global-search-list";
@@ -562,6 +577,16 @@ function renderGlobalSearch() {
       element: makeGlobalSearchItem(
         "term", item.term, `${section.title} · ${item.description}`, "guide",
         () => navigateToDeepLink(deepLinkId("term", item.term))
+      )
+    })),
+    ...newsMatches.slice(0, 10).map(({ item, score }) => ({
+      score,
+      element: makeGlobalSearchItem(
+        "news",
+        item.title || "Announcement",
+        normalizeSearchText(item.content || item.summary || item.author || "").slice(0, 180),
+        "news",
+        () => navigateToDeepLink(deepLinkId("news", item.id || item.title || item.publishedAt))
       )
     }))
   ].sort((a, b) => a.score - b.score);
@@ -1133,10 +1158,12 @@ async function loadNews() {
     const updatedAt = document.getElementById("newsLastUpdate");
     if (updatedAt) updatedAt.textContent = formatNewsDate(newsData.updatedAt) || "-";
     renderNews();
+    renderGlobalSearch();
   } catch (err) {
     console.error("news load failed:", err);
     newsData = { updatedAt: "", items: [] };
     renderNews();
+    renderGlobalSearch();
     list.title = `news.json load failed: ${err.message}`;
   }
 }
