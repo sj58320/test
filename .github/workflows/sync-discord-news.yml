@@ -6,6 +6,7 @@ on:
       - dev
     paths:
       - .github/workflows/sync-discord-news.yml
+      - scripts/discord-news-converter.mjs
       - scripts/sync-discord-news.mjs
   workflow_dispatch:
   schedule:
