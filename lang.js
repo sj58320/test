@@ -279,7 +279,7 @@ ko: {
     quick_start_title: "初めての方はこちら",
     quick_start_description: "よく使う設定と基本案内を先に確認できます。",
     guide_title: "ゾンビエスケープ用語集",
-    guide_hint: "この言語の用語集は準備中です。",
+    guide_hint: "用語または説明を検索できます。",
     term_search_label: "用語検索",
     term_search_placeholder: "用語または説明を検索",
     term_loading: "用語集を読み込み中...",
