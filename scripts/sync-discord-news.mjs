@@ -95,7 +95,7 @@ const items = channels.flatMap(channel => channel.messages
       content,
       publishedAt: message.timestamp,
       editedAt: message.edited_timestamp || null,
-      author: message.author?.global_name || message.author?.username || "Discord",
+      author: message.member?.nick || message.author?.global_name || message.author?.username || "Discord",
       channelId: channel.id,
       channelName: channel.name,
       url: `https://discord.com/channels/${guildId}/${channel.id}/${message.id}`,
