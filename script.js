@@ -237,7 +237,11 @@ function openTab(name, pushHash = true) {
     p.classList.toggle("active", active);
     p.hidden = !active;
   });
-  if (pushHash) location.hash = name;
+  if (pushHash && location.hash !== `#${name}`) {
+    const url = new URL(location.href);
+    url.hash = name;
+    history.pushState(null, "", url);
+  }
 }
 
 function slugify(value) {
@@ -366,6 +370,7 @@ function applyLocationState() {
 }
 window.addEventListener("load", applyLocationState);
 window.addEventListener("hashchange", applyLocationState);
+window.addEventListener("popstate", applyLocationState);
 
 
 // 2. GitHub 최신 커밋 날짜 반영 (현재 : 비활성화)
