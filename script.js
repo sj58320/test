@@ -18,7 +18,7 @@ const FAQ_FALLBACK = {
   items: [
     {
       id: "store_bind",
-      question: "How to use !store?",
+      question: "How to use /store?",
       body: [
         { type: "text", text: "In CS2, open the console and type " },
         { type: "inlineCode", value: "exec menu_bind" },
@@ -41,9 +41,9 @@ const FAQ_FALLBACK = {
       body: [
         { type: "text", text: "Disable gun sounds or use hide to improve performance." },
         { type: "break" },
-        { type: "inlineCode", value: "!stopsound" },
+        { type: "inlineCode", value: "/stopsound" },
         { type: "text", text: " / " },
-        { type: "inlineCode", value: "!hide 300" },
+        { type: "inlineCode", value: "/hide 300" },
         { type: "text", text: " and try again." }
       ]
     },
@@ -56,7 +56,7 @@ const FAQ_FALLBACK = {
         { type: "text", text: "." },
         { type: "break" },
         { type: "text", text: "Other players' gun sounds are too loud: " },
-        { type: "inlineCode", value: "!stopsound" },
+        { type: "inlineCode", value: "/stopsound" },
         { type: "text", text: "." }
       ]
     },

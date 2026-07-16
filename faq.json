@@ -28,9 +28,9 @@
       "body": [
         { "type": "text", "text": { "langKey": "answer_2_1" } },
         { "type": "break" },
-        { "type": "inlineCode", "value": "!stopsound" },
+        { "type": "inlineCode", "value": "/stopsound" },
         { "type": "text", "text": " " },
-        { "type": "inlineCode", "value": "!hide 300" },
+        { "type": "inlineCode", "value": "/hide 300" },
         { "type": "text", "text": { "langKey": "answer_2_2", "prefix": " " } }
       ]
     },
@@ -43,7 +43,7 @@
         { "type": "text", "text": { "langKey": "answer_3_2", "prefix": " " } },
         { "type": "break" },
         { "type": "text", "text": { "langKey": "answer_3_3" } },
-        { "type": "inlineCode", "value": "!stopsound" },
+        { "type": "inlineCode", "value": "/stopsound" },
         { "type": "text", "text": { "langKey": "answer_3_4", "prefix": " " } }
       ]
     },

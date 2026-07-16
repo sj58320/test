@@ -132,7 +132,7 @@ ko: {
     last_update: "Last updated:",
     cmds_footer: "For the full command list, please check Discord.",
     toggle: "Open / Close",
-    faq_1: "How to use !store?",
+    faq_1: "How to use /store?",
     faq_2: "My FPS is very low",
     faq_3: "Too loud sound",
     faq_4: "How can i report or unban?",
