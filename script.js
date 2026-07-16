@@ -18,7 +18,7 @@ const FAQ_FALLBACK = {
   items: [
     {
       id: "store_bind",
-      question: "How to use !store?",
+      question: "How to use /store?",
       body: [
         { type: "text", text: "In CS2, open the console and type " },
         { type: "inlineCode", value: "exec menu_bind" },
@@ -41,9 +41,9 @@ const FAQ_FALLBACK = {
       body: [
         { type: "text", text: "Disable gun sounds or use hide to improve performance." },
         { type: "break" },
-        { type: "inlineCode", value: "!stopsound" },
+        { type: "inlineCode", value: "/stopsound" },
         { type: "text", text: " / " },
-        { type: "inlineCode", value: "!hide 300" },
+        { type: "inlineCode", value: "/hide 300" },
         { type: "text", text: " and try again." }
       ]
     },
@@ -56,7 +56,7 @@ const FAQ_FALLBACK = {
         { type: "text", text: "." },
         { type: "break" },
         { type: "text", text: "Other players' gun sounds are too loud: " },
-        { type: "inlineCode", value: "!stopsound" },
+        { type: "inlineCode", value: "/stopsound" },
         { type: "text", text: "." }
       ]
     },
@@ -208,6 +208,7 @@ function makeShareButton(targetId, itemLabel, extraClass = "") {
     event.preventDefault();
     event.stopPropagation();
     const url = new URL(location.href);
+    url.searchParams.set("lang", getCurrentLang());
     url.hash = targetId;
     copyText(url.toString()).then(() => {
       showToast(window.LANG?.[getCurrentLang()]?.share_done || "Link copied");
@@ -222,6 +223,16 @@ function applyDeepLink() {
   const tab = hash.startsWith("faq-") ? "faq" : hash.startsWith("command-") ? "cmds" : hash.startsWith("term-") ? "guide" : null;
   if (!tab) return;
   openTab(tab, false);
+  if (tab === "cmds" && (commandPageFilter !== "all" || favoriteCommandsOnly)) {
+    commandPageFilter = "all";
+    favoriteCommandsOnly = false;
+    const favoritesOnly = document.getElementById("favoriteCommandsOnly");
+    if (favoritesOnly) favoritesOnly.checked = false;
+    if (commandGuideData) {
+      renderCommandGuide();
+      return;
+    }
+  }
   requestAnimationFrame(() => {
     const target = document.getElementById(hash);
     if (!target) return;
@@ -249,13 +260,14 @@ tabs.forEach(tab => {
 
 const validTabs = [...tabs].map(tab => tab.dataset.tab);
 
-window.addEventListener("load", () => {
+function applyLocationState() {
   const hash = (location.hash || "").replace("#", "");
   if (validTabs.includes(hash)) openTab(hash, false);
   else if (/^(faq|command|term)-/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
-});
-window.addEventListener("hashchange", applyDeepLink);
+}
+window.addEventListener("load", applyLocationState);
+window.addEventListener("hashchange", applyLocationState);
 
 
 // 2. GitHub 최신 커밋 날짜 반영 (현재 : 비활성화)
@@ -335,7 +347,7 @@ function renderCommandFilters() {
   }));
 }
 
-function setLanguage(lang) {
+function setLanguage(lang, syncUrl = true) {
   // 텍스트 교체
   document.querySelectorAll("[data-lang]").forEach(el => {
     const key = el.dataset.lang;
@@ -352,33 +364,70 @@ function setLanguage(lang) {
 
   // 버튼 상태 클래스 토글 (함수 내부로 격리)
   document.querySelectorAll(".langbtn").forEach(b => {
-    b.classList.toggle("active", b.dataset.lang === lang);
+    const isActive = b.dataset.lang === lang;
+    b.classList.toggle("active", isActive);
+    b.setAttribute("aria-pressed", isActive ? "true" : "false");
   });
 
   // 선택한 언어 저장 및 HTML 문서속서를 반영
   localStorage.setItem("lang", lang);
   document.documentElement.lang = lang;
+  if (syncUrl) {
+    const url = new URL(location.href);
+    url.searchParams.set("lang", lang);
+    history.replaceState(null, "", url);
+  }
   renderCommandGuide();
   renderFaq();
   renderTermGuide();
   renderGlobalSearch();
 }
 
-function faqSearchText(item) {
-  const blocks = (item.body || []).map(block => {
+function faqAnswerText(item) {
+  return (item.body || []).map(block => {
     if (block.type === "text" || block.type === "link") return localizeContent(block.text);
     if (block.type === "inlineCode" || block.type === "code") return block.value || "";
     return "";
-  });
-  return [localizeContent(item.question), ...blocks].join(" ");
+  }).join(" ").trim();
+}
+
+function faqSearchText(item) {
+  return [localizeContent(item.question), faqAnswerText(item)].join(" ");
+}
+
+function normalizeSearchText(value) {
+  const locale = getCurrentLang() === "jp" ? "ja" : getCurrentLang();
+  return String(value || "").trim().replace(/\s+/g, " ").toLocaleLowerCase(locale);
+}
+
+function normalizeCommandSearchText(value) {
+  return normalizeSearchText(value).replace(/^[!/]/, "");
+}
+
+function normalizeCommandPrefixes(value) {
+  return normalizeSearchText(value).replace(/(^|\s)[!/](?=\S)/g, "$1/");
 }
 
 function matchesSearch(text, query) {
-  const normalized = String(text || "").toLocaleLowerCase(getCurrentLang());
-  if (normalized.includes(query)) return true;
-  const compact = query.replace(/\s+/g, "");
+  const normalized = normalizeCommandPrefixes(text);
+  const normalizedQuery = normalizeCommandPrefixes(query);
+  if (normalized.includes(normalizedQuery)) return true;
+  const compact = normalizedQuery.replace(/\s+/g, "");
   return compact.length > 0 && /^[ㄱ-ㅎ]+$/.test(compact)
     && getChoseong(normalized).replace(/\s+/g, "").includes(compact);
+}
+
+function getSearchScore({ primary, aliases = [], details = [], query, command = false }) {
+  const normalizePrimary = command ? normalizeCommandSearchText : normalizeSearchText;
+  const normalizedQuery = normalizePrimary(query);
+  const normalizedPrimary = normalizePrimary(primary);
+  if (!normalizedQuery) return null;
+  if (normalizedPrimary === normalizedQuery) return 0;
+  if (normalizedPrimary.startsWith(normalizedQuery)) return 1;
+  if (aliases.some(alias => matchesSearch(alias, query))) return 2;
+  if (matchesSearch(primary, command ? normalizedQuery : query)) return 3;
+  if (details.some(detail => matchesSearch(detail, query))) return 4;
+  return null;
 }
 
 function makeGlobalSearchItem(type, title, snippet, tab, onOpen) {
@@ -419,7 +468,7 @@ function navigateToDeepLink(targetId) {
 function renderGlobalSearch() {
   const results = document.getElementById("globalSearchResults");
   if (!results) return;
-  const query = globalSearchQuery.trim().toLocaleLowerCase(getCurrentLang());
+  const query = normalizeSearchText(globalSearchQuery);
 
   if (!query) {
     const hint = document.createElement("p");
@@ -429,14 +478,49 @@ function renderGlobalSearch() {
     return;
   }
 
-  const faqMatches = (faqData?.items || []).filter(item => matchesSearch(faqSearchText(item), query));
+  const faqMatches = (faqData?.items || []).map(item => ({
+    item,
+    score: getSearchScore({
+      primary: localizeContent(item.question),
+      details: [faqSearchText(item)],
+      query
+    })
+  })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
   const commandMatches = (commandGuideData?.pages || []).flatMap(page =>
-    (page.sections || []).flatMap(section => (section.commands || []).map(item => ({ item, section })))
-  ).filter(({ item }) => matchesSearch([item.command, localizeText(item.description), localizeText(item.note)].join(" "), query));
+    (page.sections || []).flatMap(section => (section.commands || []).map(item => {
+      const aliases = [...(item.aliases || []), ...(item.keywords || [])].map(value => localizeText(value));
+      return {
+        item,
+        page,
+        section,
+        score: getSearchScore({
+          primary: item.command,
+          aliases,
+          details: [
+            localizeText(item.description),
+            localizeText(item.note),
+            localizeText(page.title),
+            localizeText(section.title)
+          ],
+          query,
+          command: true
+        })
+      };
+    }))
+  ).filter(result => result.score != null).sort((a, b) => a.score - b.score);
   const locale = termGuideData?.locales?.[getCurrentLang()];
   const termMatches = (locale?.sections || []).flatMap(section =>
-    (section.terms || []).map(item => ({ item, section }))
-  ).filter(({ item }) => matchesSearch([item.term, ...(item.aliases || []), item.description].join(" "), query));
+    (section.terms || []).map(item => ({
+      item,
+      section,
+      score: getSearchScore({
+        primary: item.term,
+        aliases: item.aliases || [],
+        details: [item.description, section.title],
+        query
+      })
+    }))
+  ).filter(result => result.score != null).sort((a, b) => a.score - b.score);
 
   const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms}";
   const summary = document.createElement("p");
@@ -449,19 +533,33 @@ function renderGlobalSearch() {
   const list = document.createElement("div");
   list.className = "global-search-list";
 
-  faqMatches.slice(0, 6).forEach(item => list.appendChild(makeGlobalSearchItem(
-    "faq", localizeContent(item.question), faqSearchText(item).slice(0, 140), "faq",
-    () => navigateToDeepLink(deepLinkId("faq", item.id || localizeContent(item.question)))
-  )));
-  commandMatches.slice(0, 10).forEach(({ item, section }) => list.appendChild(makeGlobalSearchItem(
-    "command", item.command, `${localizeText(section.title)} · ${localizeText(item.description)}`, "cmds",
-    () => navigateToDeepLink(deepLinkId("command", item.command))
-  )));
-  termMatches.slice(0, 10).forEach(({ item, section }) => list.appendChild(makeGlobalSearchItem(
-    "term", item.term, `${section.title} · ${item.description}`, "guide", () => {
-      navigateToDeepLink(deepLinkId("term", item.term));
-    }
-  )));
+  const displayedMatches = [
+    ...faqMatches.slice(0, 6).map(({ item, score }) => ({
+      score,
+      element: makeGlobalSearchItem(
+        "faq", localizeContent(item.question), faqSearchText(item).slice(0, 140), "faq",
+        () => navigateToDeepLink(deepLinkId("faq", item.id || localizeContent(item.question)))
+      )
+    })),
+    ...commandMatches.slice(0, 10).map(({ item, page, section, score }) => ({
+      score,
+      element: makeGlobalSearchItem(
+        "command",
+        item.command,
+        `${localizeText(page.title)} · ${localizeText(section.title)} · ${localizeText(item.description)}`,
+        "cmds",
+        () => navigateToDeepLink(deepLinkId("command", item.command))
+      )
+    })),
+    ...termMatches.slice(0, 10).map(({ item, section, score }) => ({
+      score,
+      element: makeGlobalSearchItem(
+        "term", item.term, `${section.title} · ${item.description}`, "guide",
+        () => navigateToDeepLink(deepLinkId("term", item.term))
+      )
+    }))
+  ].sort((a, b) => a.score - b.score);
+  list.append(...displayedMatches.map(result => result.element));
 
   if (!list.childElementCount) {
     const empty = document.createElement("p");
@@ -482,14 +580,7 @@ document.addEventListener("keydown", event => {
   const target = event.target;
   const isEditing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable;
   const search = document.getElementById("globalSearch");
-  if (!event.defaultPrevented && !isEditing && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
-    const current = [...tabs].findIndex(tab => tab.getAttribute("aria-selected") === "true");
-    const offset = event.key === "ArrowRight" ? 1 : -1;
-    const next = (current + offset + tabs.length) % tabs.length;
-    event.preventDefault();
-    openTab(tabs[next].dataset.tab);
-    tabs[next].focus();
-  } else if (event.key === "/" && !isEditing) {
+  if (event.key === "/" && !isEditing) {
     event.preventDefault();
     search?.focus();
   } else if (event.key === "Escape" && document.activeElement === search && search?.value) {
@@ -508,8 +599,12 @@ document.querySelectorAll(".langbtn").forEach(btn => {
 
 // 로드 시 기존에 저장된언어 자동적용
 window.addEventListener("load", () => {
+  const requested = new URL(location.href).searchParams.get("lang");
   const saved = localStorage.getItem("lang");
-  setLanguage(SUPPORTED_LANGS.has(saved) ? saved : DEFAULT_LANG);
+  const lang = SUPPORTED_LANGS.has(requested)
+    ? requested
+    : SUPPORTED_LANGS.has(saved) ? saved : DEFAULT_LANG;
+  setLanguage(lang, !SUPPORTED_LANGS.has(requested));
 });
 
 
@@ -538,6 +633,7 @@ function renderFaq() {
   if (!faqList || !faqData) return;
 
   faqList.replaceChildren(...faqData.items.map(createFaqItem));
+  renderQuickStart();
   applyDeepLink();
 }
 
@@ -550,6 +646,107 @@ function localizeContent(value, lang = getCurrentLang()) {
     : localizeText(value, lang);
 
   return `${value.prefix || ""}${base}${value.suffix || ""}`;
+}
+
+function findCommandItem(commandId) {
+  for (const page of commandGuideData?.pages || []) {
+    for (const section of page.sections || []) {
+      const item = (section.commands || []).find(command => command.command === commandId);
+      if (item) return item;
+    }
+  }
+  return null;
+}
+
+function resolveGuideReference(reference) {
+  if (reference?.type === "faq") {
+    const item = faqData?.items?.find(faq => faq.id === reference.id);
+    if (!item) return null;
+    return {
+      type: "faq",
+      typeLabel: window.LANG?.[getCurrentLang()]?.search_type_faq || "FAQ",
+      title: localizeContent(item.question),
+      snippet: faqAnswerText(item),
+      targetId: deepLinkId("faq", item.id)
+    };
+  }
+  if (reference?.type === "command") {
+    const item = findCommandItem(reference.id);
+    if (!item) return null;
+    return {
+      type: "command",
+      typeLabel: window.LANG?.[getCurrentLang()]?.search_type_command || "Command",
+      title: item.command,
+      snippet: localizeText(item.description),
+      targetId: deepLinkId("command", item.command)
+    };
+  }
+  return null;
+}
+
+function createRelatedLinks(references, extraClass = "") {
+  const items = (references || []).map(resolveGuideReference).filter(Boolean);
+  if (!items.length) return null;
+
+  const container = document.createElement("aside");
+  container.className = `related-links ${extraClass}`.trim();
+  const label = document.createElement("span");
+  label.className = "related-label";
+  label.textContent = window.LANG?.[getCurrentLang()]?.related_items || "Related";
+  container.appendChild(label);
+  items.forEach(item => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "related-link";
+    button.textContent = item.title;
+    button.title = `${item.typeLabel}: ${item.title}`;
+    button.addEventListener("click", () => navigateToDeepLink(item.targetId));
+    container.appendChild(button);
+  });
+  return container;
+}
+
+function renderQuickStart() {
+  const container = document.getElementById("quickStart");
+  if (!container || !faqData?.quickStart) return;
+  if (faqData.quickStart.some(item => item.type === "command") && !commandGuideData) {
+    container.replaceChildren();
+    return;
+  }
+  const items = faqData.quickStart.map(resolveGuideReference).filter(Boolean);
+  if (!items.length) {
+    container.replaceChildren();
+    return;
+  }
+
+  const heading = document.createElement("div");
+  heading.className = "quick-start-heading";
+  const title = document.createElement("h3");
+  title.id = "quickStartTitle";
+  title.textContent = window.LANG?.[getCurrentLang()]?.quick_start_title || "Quick start";
+  const description = document.createElement("p");
+  description.textContent = window.LANG?.[getCurrentLang()]?.quick_start_description || "Start with these essentials.";
+  heading.append(title, description);
+
+  const list = document.createElement("div");
+  list.className = "quick-start-list";
+  items.forEach(item => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quick-start-item";
+    const badge = document.createElement("span");
+    badge.className = "quick-start-badge";
+    badge.textContent = item.typeLabel;
+    const itemTitle = document.createElement("strong");
+    itemTitle.textContent = item.title;
+    const snippet = document.createElement("span");
+    snippet.className = "quick-start-snippet";
+    snippet.textContent = item.snippet;
+    button.append(badge, itemTitle, snippet);
+    button.addEventListener("click", () => navigateToDeepLink(item.targetId));
+    list.appendChild(button);
+  });
+  container.replaceChildren(heading, list);
 }
 
 function createFaqItem(item) {
@@ -573,6 +770,8 @@ function createFaqItem(item) {
   answer.className = "answer";
   answer.appendChild(makeShareButton(details.id, localizeContent(item.question), "faq-share"));
   (item.body || []).forEach(block => answer.appendChild(createFaqBlock(block)));
+  const related = createRelatedLinks(item.related, "faq-related");
+  if (related) answer.appendChild(related);
 
   details.append(summary, answer);
   return details;
@@ -652,6 +851,7 @@ async function loadCommandGuide() {
     commandGuideData = await fetchJsonWithFallback("commands.json");
     setContentUpdatedAt("commandLastUpdate", commandGuideData);
     renderCommandGuide();
+    if (faqData) renderFaq();
     renderGlobalSearch();
   } catch (err) {
     console.error("command guide load failed:", err);
@@ -740,10 +940,16 @@ function toggleFavoriteCommand(command) {
   renderCommandGuide();
 }
 
+function commandCopyText(command) {
+  const name = String(command || "").trim().split(/\s+/, 1)[0].replace(/^[!/]/, "/");
+  return name ? `${name} ` : "";
+}
+
 function copyCommand(command) {
-  copyText(command).then(() => {
+  const text = commandCopyText(command);
+  copyText(text).then(() => {
     showToast(window.LANG?.[getCurrentLang()]?.copy_done || "Copied to clipboard.");
-  }).catch(() => window.prompt("Copy command", command));
+  }).catch(() => window.prompt("Copy command", text));
 }
 
 document.getElementById("favoriteCommandsOnly")?.addEventListener("change", event => {
