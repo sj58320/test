@@ -57,6 +57,9 @@
         <button id="tab-guide" class="tab" data-tab="guide" role="tab" aria-selected="false" aria-controls="guide" tabindex="-1">
           <span data-lang="tab_guide">3) 용어 사전</span>
         </button>
+        <button id="tab-news" class="tab" data-tab="news" role="tab" aria-selected="false" aria-controls="news" tabindex="-1">
+          <span data-lang="tab_news">4) 공지</span>
+        </button>
       </div>
 
       <div class="global-search-wrap pico" data-theme="dark">
@@ -117,6 +120,23 @@
         <footer class="term-footer">
           <span><span data-lang="last_update">마지막 업데이트:</span> <span id="termLastUpdate">-</span></span>
           <a href="https://discord.gg/rssze" target="_blank" rel="noopener noreferrer" data-lang="report_issue">잘못된 정보 제보</a>
+        </footer>
+      </section>
+
+      <!-- Discord 공지 동기화 예시 -->
+      <section id="news" class="panel" role="tabpanel" aria-labelledby="tab-news" hidden>
+        <div class="section-title">
+          <h2 data-lang="news_title">공지</h2>
+          <div class="hint" data-lang="news_hint">Discord 공지 채널의 최근 소식입니다.</div>
+        </div>
+
+        <div id="newsList" class="news-list" aria-live="polite">
+          <p class="news-empty" data-lang="news_loading">공지를 불러오는 중...</p>
+        </div>
+
+        <footer>
+          <span><span data-lang="last_update">마지막 업데이트:</span> <span id="newsLastUpdate">-</span></span>
+          <a href="https://discord.gg/rssze" target="_blank" rel="noopener noreferrer" data-lang="news_open_discord">Discord에서 보기</a>
         </footer>
       </section>
     </div>

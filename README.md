@@ -1,6 +1,6 @@
 # RSS 좀비탈출서버 가이드
 
-RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitHub Pages에서 별도 서버 없이 동작하며 FAQ, 명령어 목록, 좀비탈출 용어 사전을 제공합니다.
+RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitHub Pages에서 별도 서버 없이 동작하며 FAQ, 명령어 목록, 좀비탈출 용어 사전, 공지를 제공합니다.
 
 - 사이트: https://sj58320.github.io/test/
 - 지원 UI 언어: 한국어, English, 日本語
@@ -14,6 +14,7 @@ RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitH
 - 명령어, 코드, 항목 링크 복사와 다국어 완료 알림
 - URL 해시를 이용한 FAQ·명령어·용어 바로가기
 - 키보드 좌우 방향키 탭 이동
+- Discord 공지 채널을 `news.json`으로 동기화하는 GitHub Actions 예시
 
 즐겨찾기는 브라우저의 `localStorage`에 저장됩니다. 다른 기기나 브라우저와 동기화되지 않으며 사이트 데이터를 삭제하면 함께 사라집니다.
 
@@ -28,6 +29,9 @@ RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitH
 | `faq.json` | FAQ 항목과 답변 블록 |
 | `commands.json` | 명령어 카테고리, 명령어, 설명 |
 | `terms.json` | 언어별 용어 사전 |
+| `news.json` | Discord에서 가져온 최근 공지와 로컬 샘플 |
+| `scripts/sync-discord-news.mjs` | Discord 메시지를 `news.json`으로 변환 |
+| `.github/workflows/sync-discord-news.yml` | 15분마다 공지 동기화 |
 | `vendor/` | PicoCSS와 `es-hangul` 로컬 파일 |
 | `guide_image/` | FAQ에 사용하는 안내 이미지 |
 
@@ -80,6 +84,24 @@ FAQ 구조는 `faq.json`에서 관리하고 번역 문구는 `lang.js`에서 관
 ```
 
 현재는 `locales.ko`만 있습니다. 영어와 일본어 내용은 한국어와 다를 수 있으므로 자동 번역하지 않고, 준비된 언어만 `locales.en` 또는 `locales.jp`로 별도 추가합니다.
+
+### Discord 공지 연동
+
+기본 `news.json`에는 화면 확인용 샘플이 들어 있습니다. 실제 연동은 Discord 봇과 GitHub 저장소 설정을 마친 뒤 활성화합니다.
+
+1. Discord Developer Portal에서 봇을 만들고 **Message Content Intent**를 활성화한 뒤 서버에 추가합니다.
+2. 봇에 공지 채널의 `View Channel`, `Read Message History` 권한을 줍니다.
+3. GitHub 저장소의 **Settings → Secrets and variables → Actions**에서 다음 값을 추가합니다.
+
+| 종류 | 이름 | 값 |
+| --- | --- | --- |
+| Secret | `DISCORD_BOT_TOKEN` | Discord 봇 토큰 |
+| Variable | `DISCORD_NEWS_CHANNEL_ID` | 공지 채널 ID |
+| Variable | `DISCORD_GUILD_ID` | Discord 서버 ID |
+| Variable | `DISCORD_NEWS_LIMIT` | 가져올 공지 개수, 생략 시 20 |
+| Variable | `DISCORD_NEWS_ENABLED` | 준비가 끝난 뒤 `true` |
+
+토큰은 `news.json`, JavaScript, 워크플로 파일에 직접 적지 않습니다. 워크플로는 기본 브랜치에 병합된 후 15분마다 실행하며 공지 내용이 바뀐 경우에만 `news.json`을 `main`에 커밋합니다. 수동 확인은 GitHub의 **Actions → Sync Discord news → Run workflow**에서 `dev`를 대상으로 먼저 시험할 수 있습니다.
 
 ## 로컬에서 확인하기
 

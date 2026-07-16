@@ -7,6 +7,7 @@ const SUPPORTED_LANGS = new Set(["ko", "en", "jp"]);
 let commandGuideData = null;
 let faqData = null;
 let termGuideData = null;
+let newsData = null;
 let globalSearchQuery = "";
 let commandPageFilter = "all";
 let favoriteCommandsOnly = false;
@@ -220,7 +221,11 @@ function makeShareButton(targetId, itemLabel, extraClass = "") {
 function applyDeepLink() {
   const hash = decodeURIComponent((location.hash || "").slice(1));
   if (!hash || validTabs.includes(hash)) return;
-  const tab = hash.startsWith("faq-") ? "faq" : hash.startsWith("command-") ? "cmds" : hash.startsWith("term-") ? "guide" : null;
+  const tab = hash.startsWith("faq-") ? "faq"
+    : hash.startsWith("command-") ? "cmds"
+    : hash.startsWith("term-") ? "guide"
+    : hash.startsWith("news-") ? "news"
+    : null;
   if (!tab) return;
   openTab(tab, false);
   if (tab === "cmds" && (commandPageFilter !== "all" || favoriteCommandsOnly)) {
@@ -263,7 +268,7 @@ const validTabs = [...tabs].map(tab => tab.dataset.tab);
 function applyLocationState() {
   const hash = (location.hash || "").replace("#", "");
   if (validTabs.includes(hash)) openTab(hash, false);
-  else if (/^(faq|command|term)-/.test(decodeURIComponent(hash))) applyDeepLink();
+  else if (/^(faq|command|term|news)-/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
 }
 window.addEventListener("load", applyLocationState);
@@ -380,6 +385,7 @@ function setLanguage(lang, syncUrl = true) {
   renderCommandGuide();
   renderFaq();
   renderTermGuide();
+  renderNews();
   renderGlobalSearch();
 }
 
@@ -1116,6 +1122,122 @@ document.addEventListener("click", event => {
 });
 
 window.addEventListener("load", loadTermGuide);
+
+// 7. Discord announcements from news.json
+async function loadNews() {
+  const list = document.getElementById("newsList");
+  if (!list) return;
+
+  try {
+    newsData = await fetchJsonWithFallback("news.json");
+    setContentUpdatedAt("newsLastUpdate", newsData);
+    renderNews();
+  } catch (err) {
+    console.error("news load failed:", err);
+    newsData = { updatedAt: "", items: [] };
+    renderNews();
+    list.title = `news.json load failed: ${err.message}`;
+  }
+}
+
+function formatNewsDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  const locale = getCurrentLang() === "jp" ? "ja-JP" : getCurrentLang() === "en" ? "en-US" : "ko-KR";
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(date);
+}
+
+function safeHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) ? url.toString() : "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+function renderNews() {
+  const list = document.getElementById("newsList");
+  if (!list || !newsData) return;
+
+  const items = Array.isArray(newsData.items) ? newsData.items : [];
+  if (!items.length) {
+    const empty = document.createElement("p");
+    empty.className = "news-empty";
+    empty.textContent = window.LANG?.[getCurrentLang()]?.news_empty || "No announcements yet.";
+    list.replaceChildren(empty);
+    return;
+  }
+
+  const cards = items.map(item => {
+    const article = document.createElement("article");
+    article.className = "news-item";
+    article.id = deepLinkId("news", item.id || item.title || item.publishedAt);
+
+    const header = document.createElement("div");
+    header.className = "news-item-header";
+
+    const heading = document.createElement("h3");
+    heading.textContent = item.title || "Announcement";
+    header.append(heading, makeShareButton(article.id, heading.textContent));
+
+    const meta = document.createElement("div");
+    meta.className = "news-meta";
+    const published = document.createElement("time");
+    published.dateTime = item.publishedAt || "";
+    published.textContent = formatNewsDate(item.publishedAt);
+    meta.appendChild(published);
+    if (item.author) {
+      const author = document.createElement("span");
+      author.textContent = item.author;
+      meta.appendChild(author);
+    }
+
+    const content = document.createElement("p");
+    content.className = "news-content";
+    content.textContent = item.content || item.summary || "";
+
+    const attachments = document.createElement("div");
+    attachments.className = "news-attachments";
+    (item.attachments || []).forEach(attachment => {
+      const href = safeHttpUrl(attachment.url);
+      if (!href) return;
+      const link = document.createElement("a");
+      link.href = href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      if (String(attachment.contentType || "").startsWith("image/")) {
+        const image = document.createElement("img");
+        image.src = href;
+        image.alt = attachment.filename || "Announcement image";
+        image.loading = "lazy";
+        link.appendChild(image);
+      } else {
+        link.textContent = attachment.filename || href;
+      }
+      attachments.appendChild(link);
+    });
+
+    const originalUrl = safeHttpUrl(item.url);
+    const original = document.createElement("a");
+    original.className = "news-original";
+    original.href = originalUrl || "https://discord.gg/rssze";
+    original.target = "_blank";
+    original.rel = "noopener noreferrer";
+    original.textContent = window.LANG?.[getCurrentLang()]?.news_original || "View original";
+
+    article.append(header, meta, content);
+    if (attachments.childElementCount) article.appendChild(attachments);
+    article.appendChild(original);
+    return article;
+  });
+
+  list.replaceChildren(...cards);
+  applyDeepLink();
+}
+
+window.addEventListener("load", loadNews);
 
 // Remove service workers and caches created by older versions of this site.
 if ("serviceWorker" in navigator) {

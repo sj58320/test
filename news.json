@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-17",
+  "source": "sample",
+  "items": [
+    {
+      "id": "discord-sync-sample",
+      "title": "Discord 공지 연동 예시",
+      "content": "Discord 공지 채널에 작성한 내용이 이 위치에 표시됩니다.\n실제 연동을 활성화하면 이 샘플은 최근 Discord 공지로 교체됩니다.",
+      "publishedAt": "2026-07-17T03:00:00+09:00",
+      "author": "RSS 운영팀",
+      "url": "https://discord.gg/rssze",
+      "attachments": []
+    }
+  ]
+}
