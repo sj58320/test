@@ -12,6 +12,10 @@ let globalSearchQuery = "";
 let commandPageFilter = "all";
 let favoriteCommandsOnly = false;
 let toastTimer = null;
+const NEWS_WIDTH_STORAGE_KEY = "newsPanelWidth";
+const NEWS_DEFAULT_WIDTH = 1160;
+const NEWS_MIN_WIDTH = 760;
+const NEWS_MAX_WIDTH = 1600;
 const favoriteCommands = new Set(JSON.parse(localStorage.getItem("favoriteCommands") || "[]"));
 const FAQ_FALLBACK = {
   version: 1,
@@ -140,6 +144,81 @@ async function fetchJsonWithFallback(filename) {
 
 const tabs = document.querySelectorAll(".tab");
 const panels = document.querySelectorAll(".panel");
+const newsResizeHandle = document.getElementById("newsResizeHandle");
+let newsPanelWidth = Number(localStorage.getItem(NEWS_WIDTH_STORAGE_KEY)) || NEWS_DEFAULT_WIDTH;
+
+function getNewsResizeBounds() {
+  const available = Math.max(0, window.innerWidth - 36);
+  const max = Math.min(NEWS_MAX_WIDTH, available);
+  return { min: Math.min(NEWS_MIN_WIDTH, max), max };
+}
+
+function updateNewsResizeHandle(lang = getCurrentLang()) {
+  if (!newsResizeHandle) return;
+  const { min, max } = getNewsResizeBounds();
+  const effectiveWidth = Math.min(max, Math.max(min, newsPanelWidth));
+  const label = window.LANG?.[lang]?.news_resize || "Resize news width";
+  newsResizeHandle.setAttribute("aria-label", label);
+  newsResizeHandle.title = label;
+  newsResizeHandle.setAttribute("aria-valuemin", String(Math.round(min)));
+  newsResizeHandle.setAttribute("aria-valuemax", String(Math.round(max)));
+  newsResizeHandle.setAttribute("aria-valuenow", String(Math.round(effectiveWidth)));
+}
+
+function setNewsPanelWidth(value, persist = false, clampToViewport = false) {
+  if (!Number.isFinite(value)) return;
+  const bounds = clampToViewport ? getNewsResizeBounds() : { min: NEWS_MIN_WIDTH, max: NEWS_MAX_WIDTH };
+  newsPanelWidth = Math.min(bounds.max, Math.max(bounds.min, Math.round(value)));
+  document.documentElement.style.setProperty("--news-panel-width", `${newsPanelWidth}px`);
+  updateNewsResizeHandle();
+  if (persist) localStorage.setItem(NEWS_WIDTH_STORAGE_KEY, String(newsPanelWidth));
+}
+
+function initNewsResize() {
+  if (!newsResizeHandle) return;
+  setNewsPanelWidth(newsPanelWidth);
+  let dragging = false;
+  let startX = 0;
+  let startWidth = NEWS_DEFAULT_WIDTH;
+
+  newsResizeHandle.addEventListener("mousedown", event => {
+    if (!window.matchMedia("(min-width: 701px)").matches) return;
+    dragging = true;
+    startX = event.clientX;
+    startWidth = document.querySelector(".wrap")?.getBoundingClientRect().width || newsPanelWidth;
+    document.body.classList.add("news-resizing");
+    event.preventDefault();
+  });
+
+  window.addEventListener("mousemove", event => {
+    if (!dragging) return;
+    setNewsPanelWidth(startWidth + event.clientX - startX, false, true);
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!dragging) return;
+    dragging = false;
+    document.body.classList.remove("news-resizing");
+    localStorage.setItem(NEWS_WIDTH_STORAGE_KEY, String(newsPanelWidth));
+  });
+
+  newsResizeHandle.addEventListener("keydown", event => {
+    const { min, max } = getNewsResizeBounds();
+    const next = event.key === "ArrowLeft" ? newsPanelWidth - 40
+      : event.key === "ArrowRight" ? newsPanelWidth + 40
+      : event.key === "Home" ? min
+      : event.key === "End" ? max
+      : null;
+    if (next == null) return;
+    event.preventDefault();
+    setNewsPanelWidth(next, true, true);
+  });
+
+  newsResizeHandle.addEventListener("dblclick", () => setNewsPanelWidth(NEWS_DEFAULT_WIDTH, true, true));
+  window.addEventListener("resize", () => updateNewsResizeHandle());
+}
+
+initNewsResize();
 
 function openTab(name, pushHash = true) {
   document.body.dataset.activeTab = name;
@@ -373,6 +452,7 @@ function setLanguage(lang, syncUrl = true) {
     b.classList.toggle("active", isActive);
     b.setAttribute("aria-pressed", isActive ? "true" : "false");
   });
+  updateNewsResizeHandle(lang);
 
   // 선택한 언어 저장 및 HTML 문서속서를 반영
   localStorage.setItem("lang", lang);
