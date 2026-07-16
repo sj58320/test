@@ -13,10 +13,18 @@ SOURCE_DIR = ROOT / "Human_Skin_List_Extract"
 SOURCE_JSON = SOURCE_DIR / "skins.json"
 OUTPUT_DIR = ROOT / "skin_images"
 OUTPUT_JSON = ROOT / "skins.json"
+BUILD_VERSION = "webp-q82-method4-max800-1280-v1"
+BUILD_VERSION_FILE = OUTPUT_DIR / ".build-version"
 
 
-def convert_image(source: Path, destination: Path, max_width: int) -> tuple[int, int]:
-    if destination.exists() and destination.stat().st_mtime >= source.stat().st_mtime:
+def convert_image(
+    source: Path, destination: Path, max_width: int, force: bool = False
+) -> tuple[int, int]:
+    if (
+        not force
+        and destination.exists()
+        and destination.stat().st_mtime >= source.stat().st_mtime
+    ):
         with Image.open(destination) as image:
             return image.size
     with Image.open(source) as image:
@@ -31,6 +39,12 @@ def convert_image(source: Path, destination: Path, max_width: int) -> tuple[int,
 def main() -> None:
     items = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))
     OUTPUT_DIR.mkdir(exist_ok=True)
+    previous_version = (
+        BUILD_VERSION_FILE.read_text(encoding="utf-8").strip()
+        if BUILD_VERSION_FILE.exists()
+        else ""
+    )
+    force_rebuild = previous_version != BUILD_VERSION
 
     generated = set()
     output_items = []
@@ -39,10 +53,12 @@ def main() -> None:
         third_name = f"{order:03d}-third.webp"
         first_name = f"{order:03d}-first.webp"
         third_size = convert_image(
-            SOURCE_DIR / item["third_person_file"], OUTPUT_DIR / third_name, 800
+            SOURCE_DIR / item["third_person_file"], OUTPUT_DIR / third_name, 800,
+            force_rebuild,
         )
         first_size = convert_image(
-            SOURCE_DIR / item["first_person_file"], OUTPUT_DIR / first_name, 1280
+            SOURCE_DIR / item["first_person_file"], OUTPUT_DIR / first_name, 1280,
+            force_rebuild,
         )
         generated.update((third_name, first_name))
         output_items.append(
@@ -74,6 +90,7 @@ def main() -> None:
     OUTPUT_JSON.write_text(
         json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
+    BUILD_VERSION_FILE.write_text(BUILD_VERSION + "\n", encoding="utf-8")
     print(f"Built {len(output_items)} skins and {len(generated)} preview images.")
 
 

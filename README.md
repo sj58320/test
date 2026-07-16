@@ -4,7 +4,7 @@ RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitH
 
 - 사이트: https://sj58320.github.io/test/
 - 지원 UI 언어: 한국어, English, 日本語
-- 용어 사전 데이터: 현재 한국어만 제공
+- 용어 사전 데이터: 한국어, 日本語 제공 (English 준비 중)
 
 ## 주요 기능
 
@@ -35,13 +35,21 @@ RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitH
 | `skin_images/` | GitHub Pages용 WebP 스킨 미리보기 |
 | `scripts/build_skin_previews.py` | 로컬 Discord 추출 폴더를 웹용 데이터와 이미지로 변환 |
 | `scripts/sync-discord-news.mjs` | Discord 메시지를 `news.json`으로 변환 |
+| `scripts/validate-content.mjs` | JSON 구조, 연결된 항목, 이미지 경로, 번역 키 검증 |
 | `.github/workflows/sync-discord-news.yml` | 15분마다 `dev`의 공지 동기화 |
+| `.github/workflows/validate-content.yml` | `main`·`dev` 푸시와 PR의 콘텐츠 자동 검증 |
 | `vendor/` | PicoCSS, `es-hangul`, `markdown-it` 로컬 파일 |
 | `guide_image/` | FAQ에 사용하는 안내 이미지 |
 
 ## 콘텐츠 수정 방법
 
 콘텐츠를 수정한 뒤 해당 JSON 파일의 `updatedAt`을 `YYYY-MM-DD` 형식으로 함께 변경합니다.
+
+커밋 전에 아래 명령으로 JSON 문법, 중복 ID, FAQ 관련 항목, 번역 키, 스킨 이미지 경로를 한 번에 확인할 수 있습니다.
+
+```powershell
+node scripts/validate-content.mjs
+```
 
 ### FAQ
 
