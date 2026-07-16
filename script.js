@@ -7,11 +7,17 @@ const SUPPORTED_LANGS = new Set(["ko", "en", "jp"]);
 let commandGuideData = null;
 let faqData = null;
 let termGuideData = null;
+let newsData = null;
 let globalSearchQuery = "";
 let commandPageFilter = "all";
 let favoriteCommandsOnly = false;
 let toastTimer = null;
+const NEWS_WIDTH_STORAGE_KEY = "newsPanelWidth";
+const NEWS_DEFAULT_WIDTH = 1160;
+const NEWS_MIN_WIDTH = 760;
+const NEWS_MAX_WIDTH = 1600;
 const favoriteCommands = new Set(JSON.parse(localStorage.getItem("favoriteCommands") || "[]"));
+let newsMarkdownRenderer = null;
 const FAQ_FALLBACK = {
   version: 1,
   updatedAt: "",
@@ -139,6 +145,81 @@ async function fetchJsonWithFallback(filename) {
 
 const tabs = document.querySelectorAll(".tab");
 const panels = document.querySelectorAll(".panel");
+const newsResizeHandle = document.getElementById("newsResizeHandle");
+let newsPanelWidth = Number(localStorage.getItem(NEWS_WIDTH_STORAGE_KEY)) || NEWS_DEFAULT_WIDTH;
+
+function getNewsResizeBounds() {
+  const available = Math.max(0, window.innerWidth - 36);
+  const max = Math.min(NEWS_MAX_WIDTH, available);
+  return { min: Math.min(NEWS_MIN_WIDTH, max), max };
+}
+
+function updateNewsResizeHandle(lang = getCurrentLang()) {
+  if (!newsResizeHandle) return;
+  const { min, max } = getNewsResizeBounds();
+  const effectiveWidth = Math.min(max, Math.max(min, newsPanelWidth));
+  const label = window.LANG?.[lang]?.news_resize || "Resize news width";
+  newsResizeHandle.setAttribute("aria-label", label);
+  newsResizeHandle.title = label;
+  newsResizeHandle.setAttribute("aria-valuemin", String(Math.round(min)));
+  newsResizeHandle.setAttribute("aria-valuemax", String(Math.round(max)));
+  newsResizeHandle.setAttribute("aria-valuenow", String(Math.round(effectiveWidth)));
+}
+
+function setNewsPanelWidth(value, persist = false, clampToViewport = false) {
+  if (!Number.isFinite(value)) return;
+  const bounds = clampToViewport ? getNewsResizeBounds() : { min: NEWS_MIN_WIDTH, max: NEWS_MAX_WIDTH };
+  newsPanelWidth = Math.min(bounds.max, Math.max(bounds.min, Math.round(value)));
+  document.documentElement.style.setProperty("--news-panel-width", `${newsPanelWidth}px`);
+  updateNewsResizeHandle();
+  if (persist) localStorage.setItem(NEWS_WIDTH_STORAGE_KEY, String(newsPanelWidth));
+}
+
+function initNewsResize() {
+  if (!newsResizeHandle) return;
+  setNewsPanelWidth(newsPanelWidth);
+  let dragging = false;
+  let startX = 0;
+  let startWidth = NEWS_DEFAULT_WIDTH;
+
+  newsResizeHandle.addEventListener("mousedown", event => {
+    if (!window.matchMedia("(min-width: 701px)").matches) return;
+    dragging = true;
+    startX = event.clientX;
+    startWidth = document.querySelector(".wrap")?.getBoundingClientRect().width || newsPanelWidth;
+    document.body.classList.add("news-resizing");
+    event.preventDefault();
+  });
+
+  window.addEventListener("mousemove", event => {
+    if (!dragging) return;
+    setNewsPanelWidth(startWidth + event.clientX - startX, false, true);
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!dragging) return;
+    dragging = false;
+    document.body.classList.remove("news-resizing");
+    localStorage.setItem(NEWS_WIDTH_STORAGE_KEY, String(newsPanelWidth));
+  });
+
+  newsResizeHandle.addEventListener("keydown", event => {
+    const { min, max } = getNewsResizeBounds();
+    const next = event.key === "ArrowLeft" ? newsPanelWidth - 40
+      : event.key === "ArrowRight" ? newsPanelWidth + 40
+      : event.key === "Home" ? min
+      : event.key === "End" ? max
+      : null;
+    if (next == null) return;
+    event.preventDefault();
+    setNewsPanelWidth(next, true, true);
+  });
+
+  newsResizeHandle.addEventListener("dblclick", () => setNewsPanelWidth(NEWS_DEFAULT_WIDTH, true, true));
+  window.addEventListener("resize", () => updateNewsResizeHandle());
+}
+
+initNewsResize();
 
 function openTab(name, pushHash = true) {
   document.body.dataset.activeTab = name;
@@ -220,7 +301,11 @@ function makeShareButton(targetId, itemLabel, extraClass = "") {
 function applyDeepLink() {
   const hash = decodeURIComponent((location.hash || "").slice(1));
   if (!hash || validTabs.includes(hash)) return;
-  const tab = hash.startsWith("faq-") ? "faq" : hash.startsWith("command-") ? "cmds" : hash.startsWith("term-") ? "guide" : null;
+  const tab = hash.startsWith("faq-") ? "faq"
+    : hash.startsWith("command-") ? "cmds"
+    : hash.startsWith("term-") ? "guide"
+    : hash.startsWith("news-") ? "news"
+    : null;
   if (!tab) return;
   openTab(tab, false);
   if (tab === "cmds" && (commandPageFilter !== "all" || favoriteCommandsOnly)) {
@@ -263,7 +348,7 @@ const validTabs = [...tabs].map(tab => tab.dataset.tab);
 function applyLocationState() {
   const hash = (location.hash || "").replace("#", "");
   if (validTabs.includes(hash)) openTab(hash, false);
-  else if (/^(faq|command|term)-/.test(decodeURIComponent(hash))) applyDeepLink();
+  else if (/^(faq|command|term|news)-/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
 }
 window.addEventListener("load", applyLocationState);
@@ -368,6 +453,7 @@ function setLanguage(lang, syncUrl = true) {
     b.classList.toggle("active", isActive);
     b.setAttribute("aria-pressed", isActive ? "true" : "false");
   });
+  updateNewsResizeHandle(lang);
 
   // 선택한 언어 저장 및 HTML 문서속서를 반영
   localStorage.setItem("lang", lang);
@@ -380,6 +466,7 @@ function setLanguage(lang, syncUrl = true) {
   renderCommandGuide();
   renderFaq();
   renderTermGuide();
+  renderNews();
   renderGlobalSearch();
 }
 
@@ -447,6 +534,7 @@ function makeGlobalSearchItem(type, title, snippet, tab, onOpen) {
   description.className = "global-search-snippet";
   description.textContent = snippet;
 
+  button.setAttribute("aria-label", [badge.textContent, title, snippet].filter(Boolean).join(" ").slice(0, 240));
   button.append(badge, heading, description);
   button.addEventListener("click", () => {
     openTab(tab);
@@ -521,14 +609,29 @@ function renderGlobalSearch() {
       })
     }))
   ).filter(result => result.score != null).sort((a, b) => a.score - b.score);
+  const newsMatches = (newsData?.items || []).map(item => ({
+    item,
+    score: getSearchScore({
+      primary: item.title || "",
+      details: [
+        item.content,
+        item.summary,
+        item.author,
+        item.channelName,
+        ...(item.attachments || []).map(attachment => attachment.filename)
+      ],
+      query
+    })
+  })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
 
-  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms}";
+  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms} · News {news}";
   const summary = document.createElement("p");
   summary.className = "global-search-summary";
   summary.textContent = summaryTemplate
     .replace("{faq}", faqMatches.length)
     .replace("{commands}", commandMatches.length)
-    .replace("{terms}", termMatches.length);
+    .replace("{terms}", termMatches.length)
+    .replace("{news}", newsMatches.length);
 
   const list = document.createElement("div");
   list.className = "global-search-list";
@@ -556,6 +659,16 @@ function renderGlobalSearch() {
       element: makeGlobalSearchItem(
         "term", item.term, `${section.title} · ${item.description}`, "guide",
         () => navigateToDeepLink(deepLinkId("term", item.term))
+      )
+    })),
+    ...newsMatches.slice(0, 10).map(({ item, score }) => ({
+      score,
+      element: makeGlobalSearchItem(
+        "news",
+        item.title || "Announcement",
+        normalizeSearchText(item.content || item.summary || item.author || "").slice(0, 180),
+        "news",
+        () => navigateToDeepLink(deepLinkId("news", item.id || item.title || item.publishedAt))
       )
     }))
   ].sort((a, b) => a.score - b.score);
@@ -1116,6 +1229,164 @@ document.addEventListener("click", event => {
 });
 
 window.addEventListener("load", loadTermGuide);
+
+// 7. Discord announcements from news.json
+async function loadNews() {
+  const list = document.getElementById("newsList");
+  if (!list) return;
+
+  try {
+    newsData = await fetchJsonWithFallback("news.json");
+    const updatedAt = document.getElementById("newsLastUpdate");
+    if (updatedAt) updatedAt.textContent = formatNewsDate(newsData.updatedAt) || "-";
+    renderNews();
+    renderGlobalSearch();
+  } catch (err) {
+    console.error("news load failed:", err);
+    newsData = { updatedAt: "", items: [] };
+    renderNews();
+    renderGlobalSearch();
+    list.title = `news.json load failed: ${err.message}`;
+  }
+}
+
+function formatNewsDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  const locale = getCurrentLang() === "jp" ? "ja-JP" : getCurrentLang() === "en" ? "en-US" : "ko-KR";
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(date);
+}
+
+function safeHttpUrl(value) {
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) ? url.toString() : "";
+  } catch (_error) {
+    return "";
+  }
+}
+
+function getNewsMarkdownRenderer() {
+  if (newsMarkdownRenderer) return newsMarkdownRenderer;
+  if (typeof window.markdownit !== "function") return null;
+
+  const renderer = window.markdownit({
+    html: false,
+    breaks: true,
+    linkify: true,
+    typographer: false
+  });
+  renderer.disable("image");
+
+  const defaultLinkOpen = renderer.renderer.rules.link_open
+    || ((tokens, index, options, _env, self) => self.renderToken(tokens, index, options));
+  renderer.renderer.rules.link_open = (tokens, index, options, env, self) => {
+    tokens[index].attrSet("target", "_blank");
+    tokens[index].attrSet("rel", "noopener noreferrer");
+    return defaultLinkOpen(tokens, index, options, env, self);
+  };
+
+  newsMarkdownRenderer = renderer;
+  return renderer;
+}
+
+function renderNewsMarkdown(container, value) {
+  const renderer = getNewsMarkdownRenderer();
+  if (!renderer) {
+    container.textContent = String(value || "");
+    return;
+  }
+  container.innerHTML = renderer.render(String(value || ""));
+}
+
+function renderNews() {
+  const list = document.getElementById("newsList");
+  if (!list || !newsData) return;
+
+  const items = Array.isArray(newsData.items) ? newsData.items : [];
+  if (!items.length) {
+    const empty = document.createElement("p");
+    empty.className = "news-empty";
+    empty.textContent = window.LANG?.[getCurrentLang()]?.news_empty || "No announcements yet.";
+    list.replaceChildren(empty);
+    return;
+  }
+
+  const cards = items.map(item => {
+    const article = document.createElement("article");
+    article.className = "news-item";
+    article.id = deepLinkId("news", item.id || item.title || item.publishedAt);
+
+    const header = document.createElement("div");
+    header.className = "news-item-header";
+
+    const heading = document.createElement("h3");
+    heading.textContent = item.title || "Announcement";
+    header.append(heading, makeShareButton(article.id, heading.textContent));
+
+    const meta = document.createElement("div");
+    meta.className = "news-meta";
+    if (item.channelName) {
+      const channel = document.createElement("span");
+      channel.className = "news-channel";
+      channel.textContent = `#${item.channelName}`;
+      meta.appendChild(channel);
+    }
+    const published = document.createElement("time");
+    published.dateTime = item.publishedAt || "";
+    published.textContent = formatNewsDate(item.publishedAt);
+    meta.appendChild(published);
+    if (item.author) {
+      const author = document.createElement("span");
+      author.textContent = item.author;
+      meta.appendChild(author);
+    }
+
+    const content = document.createElement("div");
+    content.className = "news-content";
+    renderNewsMarkdown(content, item.content || item.summary || "");
+
+    const attachments = document.createElement("div");
+    attachments.className = "news-attachments";
+    (item.attachments || []).forEach(attachment => {
+      const href = safeHttpUrl(attachment.url);
+      if (!href) return;
+      const link = document.createElement("a");
+      link.href = href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      if (String(attachment.contentType || "").startsWith("image/")) {
+        const image = document.createElement("img");
+        image.src = href;
+        image.alt = attachment.filename || "Announcement image";
+        image.loading = "lazy";
+        link.appendChild(image);
+      } else {
+        link.textContent = attachment.filename || href;
+      }
+      attachments.appendChild(link);
+    });
+
+    const originalUrl = safeHttpUrl(item.url);
+    const original = document.createElement("a");
+    original.className = "news-original";
+    original.href = originalUrl || "https://discord.gg/rssze";
+    original.target = "_blank";
+    original.rel = "noopener noreferrer";
+    original.textContent = window.LANG?.[getCurrentLang()]?.news_original || "View original";
+
+    article.append(header, meta, content);
+    if (attachments.childElementCount) article.appendChild(attachments);
+    article.appendChild(original);
+    return article;
+  });
+
+  list.replaceChildren(...cards);
+  applyDeepLink();
+}
+
+window.addEventListener("load", loadNews);
 
 // Remove service workers and caches created by older versions of this site.
 if ("serviceWorker" in navigator) {
