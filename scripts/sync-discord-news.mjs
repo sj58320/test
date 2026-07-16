@@ -18,10 +18,10 @@ function cleanDiscordText(value) {
     .trim();
 }
 
-function resolveDiscordMentions(value, message, roleNames) {
+function resolveDiscordMentions(value, message, roleNames, memberNames) {
   const userNames = new Map((message.mentions || []).map(mention => [
     mention.id,
-    mention.member?.nick || mention.global_name || mention.username
+    memberNames.get(mention.id) || mention.member?.nick || mention.global_name || mention.username
   ]));
 
   return String(value || "")
@@ -61,15 +61,28 @@ const channels = await Promise.all(channelIds.map(async channelId => {
   };
 }));
 
+const memberIds = [...new Set(channels.flatMap(channel => channel.messages.flatMap(message => [
+  message.author?.id,
+  ...(message.mentions || []).map(mention => mention.id)
+]).filter(Boolean)))];
+const memberNames = new Map((await Promise.all(memberIds.map(async memberId => {
+  try {
+    const member = await fetchDiscord(`/guilds/${guildId}/members/${memberId}`);
+    return [memberId, member.nick || ""];
+  } catch (_error) {
+    return [memberId, ""];
+  }
+}))).filter(([, name]) => name));
+
 const items = channels.flatMap(channel => channel.messages
   .filter(message => [0, 19].includes(message.type) && (message.content?.trim() || message.embeds?.length))
   .map(message => {
-    const messageText = cleanDiscordText(resolveDiscordMentions(message.content, message, roleNames));
+    const messageText = cleanDiscordText(resolveDiscordMentions(message.content, message, roleNames, memberNames));
     const lines = messageText.split(/\r?\n/);
     const firstTextLine = lines.find(line => line.trim()) || "";
     const embed = message.embeds?.[0] || {};
-    const embedTitle = cleanDiscordText(resolveDiscordMentions(embed.title, message, roleNames));
-    const embedDescription = cleanDiscordText(resolveDiscordMentions(embed.description, message, roleNames));
+    const embedTitle = cleanDiscordText(resolveDiscordMentions(embed.title, message, roleNames, memberNames));
+    const embedDescription = cleanDiscordText(resolveDiscordMentions(embed.description, message, roleNames, memberNames));
     if (!firstTextLine && !embedTitle && !embedDescription) return null;
 
     const title = (firstTextLine || embedTitle || "공지")
@@ -95,7 +108,7 @@ const items = channels.flatMap(channel => channel.messages
       content,
       publishedAt: message.timestamp,
       editedAt: message.edited_timestamp || null,
-      author: message.member?.nick || message.author?.global_name || message.author?.username || "Discord",
+      author: memberNames.get(message.author?.id) || message.member?.nick || message.author?.global_name || message.author?.username || "Discord",
       channelId: channel.id,
       channelName: channel.name,
       url: `https://discord.com/channels/${guildId}/${channel.id}/${message.id}`,
