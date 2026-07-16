@@ -9,6 +9,7 @@ const channelIds = [...new Set(String(process.env.DISCORD_NEWS_CHANNEL_IDS || pr
   .filter(Boolean))];
 const guildId = process.env.DISCORD_GUILD_ID;
 const limit = Math.min(Math.max(Number(process.env.DISCORD_NEWS_LIMIT || 20), 1), 50);
+const DISCORD_FETCH_ATTEMPTS = 4;
 
 function resolveDiscordMentions(value, message, roleNames, memberNames) {
   const userNames = new Map((message.mentions || []).map(mention => [
@@ -25,17 +26,43 @@ if (!token || !channelIds.length || !guildId) {
   throw new Error("DISCORD_BOT_TOKEN, DISCORD_NEWS_CHANNEL_IDS and DISCORD_GUILD_ID are required.");
 }
 
+function wait(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 async function fetchDiscord(path) {
-  const response = await fetch(`https://discord.com/api/v10${path}`, {
-    headers: {
-      Authorization: `Bot ${token}`,
-      "User-Agent": "RSS-MOTD-News-Sync/1.0"
+  for (let attempt = 1; attempt <= DISCORD_FETCH_ATTEMPTS; attempt += 1) {
+    const response = await fetch(`https://discord.com/api/v10${path}`, {
+      headers: {
+        Authorization: `Bot ${token}`,
+        "User-Agent": "RSS-MOTD-News-Sync/1.0"
+      }
+    });
+    const text = await response.text();
+    let body = null;
+    try {
+      body = text ? JSON.parse(text) : null;
+    } catch (_error) {
+      body = null;
     }
-  });
-  if (!response.ok) {
-    throw new Error(`Discord API request failed for ${path}: ${response.status} ${await response.text()}`);
+
+    if (response.ok) return body;
+
+    const retryable = response.status === 429 || response.status >= 500;
+    if (retryable && attempt < DISCORD_FETCH_ATTEMPTS) {
+      const retryAfterSeconds = Number(body?.retry_after || response.headers.get("retry-after"));
+      const delay = Number.isFinite(retryAfterSeconds) && retryAfterSeconds > 0
+        ? Math.ceil(retryAfterSeconds * 1000)
+        : 750 * (2 ** (attempt - 1));
+      console.warn(`Discord API ${response.status} for ${path}; retrying in ${delay}ms (${attempt}/${DISCORD_FETCH_ATTEMPTS}).`);
+      await wait(delay);
+      continue;
+    }
+
+    throw new Error(`Discord API request failed for ${path}: ${response.status} ${text}`);
   }
-  return response.json();
+
+  throw new Error(`Discord API request exhausted retries for ${path}.`);
 }
 
 const roles = await fetchDiscord(`/guilds/${guildId}/roles`);
@@ -53,18 +80,29 @@ const channels = await Promise.all(channelIds.map(async channelId => {
   };
 }));
 
+const memberNames = new Map();
+channels.forEach(channel => channel.messages.forEach(message => {
+  if (message.author?.id && message.member?.nick) {
+    memberNames.set(message.author.id, message.member.nick);
+  }
+  (message.mentions || []).forEach(mention => {
+    if (mention.id && mention.member?.nick) memberNames.set(mention.id, mention.member.nick);
+  });
+}));
+
 const memberIds = [...new Set(channels.flatMap(channel => channel.messages.flatMap(message => [
   message.author?.id,
   ...(message.mentions || []).map(mention => mention.id)
-]).filter(Boolean)))];
-const memberNames = new Map((await Promise.all(memberIds.map(async memberId => {
+]).filter(memberId => memberId && !memberNames.has(memberId))))];
+const fetchedMemberNames = (await Promise.all(memberIds.map(async memberId => {
   try {
     const member = await fetchDiscord(`/guilds/${guildId}/members/${memberId}`);
     return [memberId, member.nick || ""];
   } catch (_error) {
     return [memberId, ""];
   }
-}))).filter(([, name]) => name));
+}))).filter(([, name]) => name);
+fetchedMemberNames.forEach(([memberId, name]) => memberNames.set(memberId, name));
 
 const items = channels.flatMap(channel => channel.messages
   .filter(message => [0, 19].includes(message.type) && (message.content?.trim() || message.embeds?.length))

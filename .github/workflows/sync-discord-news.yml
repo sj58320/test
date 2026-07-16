@@ -10,10 +10,7 @@ on:
       - scripts/sync-discord-news.mjs
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
-
-permissions:
-  contents: write
+    - cron: "7,22,37,52 * * * *"
 
 concurrency:
   group: sync-discord-news
@@ -23,11 +20,13 @@ jobs:
   sync:
     if: ${{ vars.DISCORD_NEWS_ENABLED == 'true' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       TARGET_BRANCH: dev
     steps:
       - name: Check out target branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
           ref: ${{ env.TARGET_BRANCH }}
 
