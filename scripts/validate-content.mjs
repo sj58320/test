@@ -184,18 +184,57 @@ checkUnique((news.items || []).map(item => item.id), "News ids");
 
 const skins = content["skins.json"];
 check(Array.isArray(skins.items), "skins.json.items must be an array.");
+check(Array.isArray(skins.categories), "skins.json.categories must be an array.");
 checkUnique((skins.items || []).map(item => item.id), "Skin ids");
-checkUnique((skins.items || []).map(item => item.order), "Skin order values");
+checkUnique(
+  (skins.items || []).map(item => [item.category, item.subcategory || "", item.order].join(":")),
+  "Skin category order values"
+);
+const skinCategories = new Set(["human", "zombie", "weapon"]);
+const weaponCategories = new Set(["primary", "secondary", "melee", "throwable"]);
 for (const [index, item] of (skins.items || []).entries()) {
   const label = "skins.json.items[" + index + "]";
   check(isText(item.name), label + ".name is required.");
+  check(skinCategories.has(item.category), label + ".category is unsupported: " + item.category);
+  if (item.category === "weapon") {
+    check(weaponCategories.has(item.subcategory), label + ".subcategory is unsupported: " + item.subcategory);
+  } else {
+    check(item.subcategory == null, label + ".subcategory must be null for character skins.");
+  }
   checkUrl(item.sourceUrl, label + ".sourceUrl", true);
-  for (const viewName of ["thirdPerson", "firstPerson"]) {
-    const view = item[viewName] || {};
-    await checkLocalFile(view.src, label + "." + viewName + ".src");
-    check(Number(view.width) > 0 && Number(view.height) > 0, label + "." + viewName + " dimensions must be positive.");
+  check(Array.isArray(item.media) && item.media.length > 0, label + ".media must not be empty.");
+  for (const [mediaIndex, media] of (item.media || []).entries()) {
+    const mediaLabel = label + ".media[" + mediaIndex + "]";
+    check(["image", "video"].includes(media.type), mediaLabel + ".type is unsupported: " + media.type);
+    check(["thirdPerson", "firstPerson", "preview"].includes(media.role), mediaLabel + ".role is unsupported: " + media.role);
+    await checkLocalFile(media.src, mediaLabel + ".src");
+    check(String(media.src || "").startsWith("skin_images/"), mediaLabel + ".src must be under skin_images/. ");
+    check(Number(media.width) > 0 && Number(media.height) > 0, mediaLabel + " dimensions must be positive.");
+    if (isText(media.src)) {
+      try {
+        const mediaStat = await stat(path.resolve(ROOT, media.src));
+        check(mediaStat.size < 100 * 1024 * 1024, mediaLabel + " exceeds GitHub's 100 MiB file limit.");
+      } catch (_error) {
+        // checkLocalFile reports the missing path above.
+      }
+    }
   }
 }
+(skins.categories || []).forEach((category, categoryIndex) => {
+  const label = "skins.json.categories[" + categoryIndex + "]";
+  check(skinCategories.has(category.id), label + ".id is unsupported: " + category.id);
+  check(category.count === (skins.items || []).filter(item => item.category === category.id).length, label + ".count does not match its items.");
+  if (category.id === "weapon") {
+    check(Array.isArray(category.subcategories), label + ".subcategories must be an array.");
+    (category.subcategories || []).forEach(subcategory => {
+      check(weaponCategories.has(subcategory.id), label + " has unsupported weapon category: " + subcategory.id);
+      check(
+        subcategory.count === (skins.items || []).filter(item => item.subcategory === subcategory.id).length,
+        label + " count does not match weapon category: " + subcategory.id
+      );
+    });
+  }
+});
 
 async function directorySize(relativeDirectory) {
   const directory = path.join(ROOT, relativeDirectory);

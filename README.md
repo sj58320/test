@@ -15,7 +15,7 @@ RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitH
 - URL 해시를 이용한 FAQ·명령어·용어 바로가기
 - 키보드 좌우 방향키 탭 이동
 - Discord 공지 채널을 `news.json`으로 동기화하는 GitHub Actions 예시
-- 3인칭·1인칭 이미지를 함께 보여주는 검색 가능한 스킨 갤러리
+- 인간·좀비·무기(주무기·보조무기·근접무기·투척무기)를 나눠 보여주는 이미지·영상 스킨 갤러리
 
 즐겨찾기는 브라우저의 `localStorage`에 저장됩니다. 다른 기기나 브라우저와 동기화되지 않으며 사이트 데이터를 삭제하면 함께 사라집니다.
 
@@ -31,9 +31,9 @@ RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitH
 | `commands.json` | 명령어 카테고리, 명령어, 설명 |
 | `terms.json` | 언어별 용어 사전 |
 | `news.json` | Discord에서 가져온 최근 공지와 로컬 샘플 |
-| `skins.json` | 스킨 이름, 이미지 경로, Discord 원문 링크 |
-| `skin_images/` | GitHub Pages용 WebP 스킨 미리보기 |
-| `scripts/build_skin_previews.py` | 로컬 Discord 추출 폴더를 웹용 데이터와 이미지로 변환 |
+| `skins.json` | 스킨 분류, 이름, 복수 미디어 경로, Discord 원문 링크 |
+| `skin_images/` | GitHub Pages용 WebP·GIF·MP4 스킨 미리보기 |
+| `scripts/build_skin_previews.py` | 여섯 로컬 Discord 추출 폴더를 하나의 스킨 카탈로그로 변환 |
 | `scripts/sync-discord-news.mjs` | Discord 메시지를 `news.json`으로 변환 |
 | `scripts/validate-content.mjs` | JSON 구조, 연결된 항목, 이미지 경로, 번역 키 검증 |
 | `.github/workflows/sync-discord-news.yml` | 15분마다 `dev`의 공지 동기화 |
@@ -125,13 +125,20 @@ FAQ 구조는 `faq.json`에서 관리하고 번역 문구는 `lang.js`에서 관
 
 ### 스킨 프리뷰 갱신
 
-Discord에서 추출한 원본 폴더 `Human_Skin_List_Extract/`는 용량이 커서 Git에 올리지 않습니다. 해당 폴더를 프로젝트 루트에 둔 뒤 아래 스크립트를 실행하면 `skins.json`과 `skin_images/`가 갱신됩니다.
+Discord에서 추출한 아래 원본 폴더들은 용량이 커서 Git에 올리지 않습니다. 폴더를 프로젝트 루트에 둔 뒤 스크립트를 실행하면 `skins.json`과 `skin_images/`가 한 번에 갱신됩니다.
+
+- `Human_Skin_List_Extract/`
+- `Zombie_Skin_List_Extract/`
+- `Primary_Weapon_Skin_List_Extract/`
+- `Secondary_Weapon_Skin_List_Extract/`
+- `Knife_Skin_List_Extract/`
+- `Throwing_Weapon_Skin_List_Extract/`
 
 ```powershell
 python scripts/build_skin_previews.py
 ```
 
-스크립트는 Pillow가 필요합니다. 원본 PNG는 그대로 보존하고, 사이트에는 화면용 WebP만 사용합니다.
+스크립트는 Pillow가 필요합니다. 정적 이미지는 화면용 WebP로 압축하고 GIF와 MP4는 애니메이션·영상을 유지하기 위해 그대로 복사합니다. 각 항목은 `media` 배열을 사용하므로 나중에 이미지와 영상이 함께 추가되어도 같은 카드 안에 자동으로 나란히 표시됩니다.
 
 ## 로컬에서 확인하기
 
