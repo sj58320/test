@@ -1601,9 +1601,11 @@ function createSkinFigure(media, label, skinName, eager = false) {
     frame.className = "skin-media-frame";
     const video = document.createElement("video");
     video.controls = true;
-    video.preload = "none";
+    video.preload = "metadata";
     video.playsInline = true;
-    video.src = assetUrl(media.src);
+    const videoUrl = new URL(assetUrl(media.src));
+    videoUrl.hash = "t=0.1";
+    video.src = videoUrl.toString();
     video.width = Number(media.width) || 1920;
     video.height = Number(media.height) || 1080;
     video.setAttribute("aria-label", `${skinName} - ${label}`);
