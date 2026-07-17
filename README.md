@@ -159,7 +159,7 @@ python scripts/build_skin_previews.py
 
 ### Pages CMS에서 스킨 수정하기
 
-루트의 `.pages.yml`은 `data/skins.json`과 `assets/skins/`만 편집할 수 있는 스킨 관리 화면을 정의합니다. 현재 테스트 중에는 스킨 프리뷰 제목 옆의 **관리하기** 버튼이 Pages CMS의 `feat/skin-preview-cms` 브랜치를 직접 엽니다. GitHub로 로그인하면 다음 작업을 폼으로 처리할 수 있습니다.
+루트의 `.pages.yml`은 `data/skins.json`과 `assets/skins/`만 편집할 수 있는 스킨 관리 화면을 정의합니다. 스킨 프리뷰 제목 옆의 **관리하기** 버튼은 Pages CMS의 `main` 브랜치를 직접 엽니다. GitHub로 로그인하면 다음 작업을 폼으로 처리할 수 있습니다.
 
 - 인간·좀비·무기 분류와 표시 순서 수정
 - 한국어·영문 스킨 이름 수정
