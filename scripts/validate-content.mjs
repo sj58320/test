@@ -184,9 +184,8 @@ checkUnique((news.items || []).map(item => item.id), "News ids");
 });
 
 const skins = content["skins.json"];
-check(skins.version === 3, "skins.json.version must be 3.");
+check(skins.version === 4, "skins.json.version must be 4.");
 check(Array.isArray(skins.items), "skins.json.items must be an array.");
-check(Array.isArray(skins.categories), "skins.json.categories must be an array.");
 checkUnique((skins.items || []).map(item => item.id), "Skin ids");
 checkUnique(
   (skins.items || []).map(item => [item.category, item.subcategory || "", item.order].join(":")),
@@ -229,32 +228,6 @@ for (const [index, item] of (skins.items || []).entries()) {
     }
   }
 }
-(skins.categories || []).forEach((category, categoryIndex) => {
-  const label = "skins.json.categories[" + categoryIndex + "]";
-  check(skinCategories.has(category.id), label + ".id is unsupported: " + category.id);
-  check(category.count === (skins.items || []).filter(item => item.category === category.id).length, label + ".count does not match its items.");
-  if (category.id === "weapon") {
-    check(Array.isArray(category.subcategories), label + ".subcategories must be an array.");
-    (category.subcategories || []).forEach(subcategory => {
-      check(weaponCategories.has(subcategory.id), label + " has unsupported weapon category: " + subcategory.id);
-      check(
-        subcategory.count === (skins.items || []).filter(item => item.subcategory === subcategory.id).length,
-        label + " count does not match weapon category: " + subcategory.id
-      );
-      if (subcategory.id === "primary") {
-        check(Array.isArray(subcategory.types), label + " primary.types must be an array.");
-        (subcategory.types || []).forEach(type => {
-          check(primaryWeaponTypes.has(type.id), label + " has unsupported primary weapon type: " + type.id);
-          check(
-            type.count === (skins.items || []).filter(item => item.weaponType === type.id).length,
-            label + " count does not match primary weapon type: " + type.id
-          );
-        });
-      }
-    });
-  }
-});
-
 async function directorySize(relativeDirectory) {
   const directory = path.join(ROOT, relativeDirectory);
   let total = 0;
