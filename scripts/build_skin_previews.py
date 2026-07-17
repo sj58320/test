@@ -291,46 +291,9 @@ def main() -> None:
         timestamps.extend(item_timestamps)
 
     remove_stale_media(generated)
-    categories = [
-        {"id": "human", "count": sum(item["category"] == "human" for item in all_items)},
-        {"id": "zombie", "count": sum(item["category"] == "zombie" for item in all_items)},
-        {
-            "id": "weapon",
-            "count": sum(item["category"] == "weapon" for item in all_items),
-            "subcategories": [
-                {
-                    "id": subcategory,
-                    "count": sum(
-                        item["subcategory"] == subcategory for item in all_items
-                    ),
-                    **(
-                        {
-                            "types": [
-                                {
-                                    "id": weapon_type,
-                                    "count": sum(
-                                        item.get("weaponType") == weapon_type
-                                        for item in all_items
-                                    ),
-                                }
-                                for weapon_type in [
-                                    *(rule[0] for rule in PRIMARY_WEAPON_TYPES),
-                                    "other",
-                                ]
-                            ]
-                        }
-                        if subcategory == "primary"
-                        else {}
-                    ),
-                }
-                for subcategory, _root_name in WEAPON_SOURCES
-            ],
-        },
-    ]
     payload = {
-        "version": 3,
+        "version": 4,
         "updatedAt": max(timestamps, default=""),
-        "categories": categories,
         "items": all_items,
     }
     OUTPUT_JSON.write_text(

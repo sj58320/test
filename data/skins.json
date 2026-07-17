@@ -1,64 +1,6 @@
 {
-  "version": 3,
+  "version": 4,
   "updatedAt": "2026-06-19T16:34:44.010000+00:00",
-  "categories": [
-    {
-      "id": "human",
-      "count": 90
-    },
-    {
-      "id": "zombie",
-      "count": 6
-    },
-    {
-      "id": "weapon",
-      "count": 127,
-      "subcategories": [
-        {
-          "id": "primary",
-          "count": 69,
-          "types": [
-            {
-              "id": "smg",
-              "count": 36
-            },
-            {
-              "id": "rifle",
-              "count": 24
-            },
-            {
-              "id": "shotgun",
-              "count": 2
-            },
-            {
-              "id": "machinegun",
-              "count": 5
-            },
-            {
-              "id": "sniper",
-              "count": 2
-            },
-            {
-              "id": "other",
-              "count": 0
-            }
-          ]
-        },
-        {
-          "id": "secondary",
-          "count": 13
-        },
-        {
-          "id": "melee",
-          "count": 38
-        },
-        {
-          "id": "throwable",
-          "count": 7
-        }
-      ]
-    }
-  ],
   "items": [
     {
       "id": "001",
