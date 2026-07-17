@@ -183,6 +183,7 @@ checkUnique((news.items || []).map(item => item.id), "News ids");
 });
 
 const skins = content["skins.json"];
+check(skins.version === 3, "skins.json.version must be 3.");
 check(Array.isArray(skins.items), "skins.json.items must be an array.");
 check(Array.isArray(skins.categories), "skins.json.categories must be an array.");
 checkUnique((skins.items || []).map(item => item.id), "Skin ids");
@@ -192,14 +193,21 @@ checkUnique(
 );
 const skinCategories = new Set(["human", "zombie", "weapon"]);
 const weaponCategories = new Set(["primary", "secondary", "melee", "throwable"]);
+const primaryWeaponTypes = new Set(["smg", "rifle", "shotgun", "machinegun", "sniper", "other"]);
 for (const [index, item] of (skins.items || []).entries()) {
   const label = "skins.json.items[" + index + "]";
   check(isText(item.name), label + ".name is required.");
   check(skinCategories.has(item.category), label + ".category is unsupported: " + item.category);
   if (item.category === "weapon") {
     check(weaponCategories.has(item.subcategory), label + ".subcategory is unsupported: " + item.subcategory);
+    if (item.subcategory === "primary") {
+      check(primaryWeaponTypes.has(item.weaponType), label + ".weaponType is unsupported: " + item.weaponType);
+    } else {
+      check(item.weaponType == null, label + ".weaponType must be null outside primary weapons.");
+    }
   } else {
     check(item.subcategory == null, label + ".subcategory must be null for character skins.");
+    check(item.weaponType == null, label + ".weaponType must be absent for character skins.");
   }
   checkUrl(item.sourceUrl, label + ".sourceUrl", true);
   check(Array.isArray(item.media) && item.media.length > 0, label + ".media must not be empty.");
@@ -232,6 +240,16 @@ for (const [index, item] of (skins.items || []).entries()) {
         subcategory.count === (skins.items || []).filter(item => item.subcategory === subcategory.id).length,
         label + " count does not match weapon category: " + subcategory.id
       );
+      if (subcategory.id === "primary") {
+        check(Array.isArray(subcategory.types), label + " primary.types must be an array.");
+        (subcategory.types || []).forEach(type => {
+          check(primaryWeaponTypes.has(type.id), label + " has unsupported primary weapon type: " + type.id);
+          check(
+            type.count === (skins.items || []).filter(item => item.weaponType === type.id).length,
+            label + " count does not match primary weapon type: " + type.id
+          );
+        });
+      }
     });
   }
 });

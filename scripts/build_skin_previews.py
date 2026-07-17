@@ -42,6 +42,22 @@ WEAPON_SOURCES = [
     ("throwable", "Throwing_Weapon_Skin_List_Extract"),
 ]
 
+PRIMARY_WEAPON_TYPES = [
+    ("smg", ("mp5", "mp7", "mp9", "p90", "ump", "bizon", "mac10")),
+    ("rifle", ("ak47", "m4a1", "m4a4", "famas", "aug", "galil")),
+    ("shotgun", ("xm1014", "sawedoff")),
+    ("machinegun", ("m249", "mg42", "mg3", "negev")),
+    ("sniper", ("awp", "m200")),
+]
+
+
+def classify_primary_weapon(name: str) -> str:
+    normalized = name.casefold().replace("-", "").replace("_", "").replace(" ", "")
+    for weapon_type, aliases in PRIMARY_WEAPON_TYPES:
+        if any(alias in normalized for alias in aliases):
+            return weapon_type
+    return "other"
+
 
 def find_source_dir(root_name: str, json_name: str) -> Path:
     root = ROOT / root_name
@@ -214,6 +230,11 @@ def build_weapon_items(
                 "id": f"weapon-{subcategory}-{order:03d}",
                 "category": "weapon",
                 "subcategory": subcategory,
+                "weaponType": (
+                    classify_primary_weapon(item["item_name"])
+                    if subcategory == "primary"
+                    else None
+                ),
                 "order": order,
                 "name": item["item_name"],
                 "nameKo": "",
@@ -282,13 +303,32 @@ def main() -> None:
                     "count": sum(
                         item["subcategory"] == subcategory for item in all_items
                     ),
+                    **(
+                        {
+                            "types": [
+                                {
+                                    "id": weapon_type,
+                                    "count": sum(
+                                        item.get("weaponType") == weapon_type
+                                        for item in all_items
+                                    ),
+                                }
+                                for weapon_type in [
+                                    *(rule[0] for rule in PRIMARY_WEAPON_TYPES),
+                                    "other",
+                                ]
+                            ]
+                        }
+                        if subcategory == "primary"
+                        else {}
+                    ),
                 }
                 for subcategory, _root_name in WEAPON_SOURCES
             ],
         },
     ]
     payload = {
-        "version": 2,
+        "version": 3,
         "updatedAt": max(timestamps, default=""),
         "categories": categories,
         "items": all_items,
