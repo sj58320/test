@@ -157,14 +157,31 @@
         </footer>
       </section>
 
-      <!-- Human skin preview gallery -->
+      <!-- Skin preview gallery -->
       <section id="skins" class="panel pico" data-theme="dark" role="tabpanel" aria-labelledby="tab-skins" hidden>
         <div class="section-title">
           <h2 data-lang="skins_title">스킨 프리뷰</h2>
-          <div class="hint" data-lang="skins_hint">3인칭과 1인칭 모습을 함께 확인할 수 있습니다.</div>
+          <div class="hint" data-lang="skins_hint">인간, 좀비, 무기 스킨을 종류별로 확인할 수 있습니다.</div>
         </div>
 
         <div class="skin-tools">
+          <div class="skin-filter-group">
+            <span class="skin-filter-label" data-lang="skins_category_label">스킨 종류</span>
+            <div id="skinCategoryFilters" class="skin-filter-tabs" role="group" data-lang-aria="skins_category_label" aria-label="스킨 종류">
+              <button type="button" class="skin-filter active" data-skin-category="human" aria-pressed="true"><span data-lang="skins_category_human">인간</span><small id="skinCountHuman"></small></button>
+              <button type="button" class="skin-filter" data-skin-category="zombie" aria-pressed="false"><span data-lang="skins_category_zombie">좀비</span><small id="skinCountZombie"></small></button>
+              <button type="button" class="skin-filter" data-skin-category="weapon" aria-pressed="false"><span data-lang="skins_category_weapon">무기</span><small id="skinCountWeapon"></small></button>
+            </div>
+          </div>
+          <div id="skinWeaponFilterGroup" class="skin-filter-group" hidden>
+            <span class="skin-filter-label" data-lang="skins_weapon_label">무기 종류</span>
+            <div id="skinWeaponFilters" class="skin-filter-tabs skin-weapon-tabs" role="group" data-lang-aria="skins_weapon_label" aria-label="무기 종류">
+              <button type="button" class="skin-filter active" data-skin-weapon="primary" aria-pressed="true"><span data-lang="skins_weapon_primary">주무기</span><small id="skinCountPrimary"></small></button>
+              <button type="button" class="skin-filter" data-skin-weapon="secondary" aria-pressed="false"><span data-lang="skins_weapon_secondary">보조무기</span><small id="skinCountSecondary"></small></button>
+              <button type="button" class="skin-filter" data-skin-weapon="melee" aria-pressed="false"><span data-lang="skins_weapon_melee">근접무기</span><small id="skinCountMelee"></small></button>
+              <button type="button" class="skin-filter" data-skin-weapon="throwable" aria-pressed="false"><span data-lang="skins_weapon_throwable">투척무기</span><small id="skinCountThrowable"></small></button>
+            </div>
+          </div>
           <label class="term-search-label" for="skinSearch" data-lang="skins_search_label">스킨 검색</label>
           <input id="skinSearch" class="term-search" type="search" data-lang-placeholder="skins_search_placeholder" placeholder="스킨 이름 검색" autocomplete="off" />
           <p id="skinResultCount" class="skin-result-count" aria-live="polite"></p>
