@@ -801,7 +801,7 @@ document.addEventListener("keydown", event => {
   const target = event.target;
   const isEditing = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target?.isContentEditable;
   const search = document.getElementById("globalSearch");
-  if (event.key === "/" && !isEditing) {
+  if (event.key === "/" && !isEditing && document.body.dataset.activeTab !== "skins") {
     event.preventDefault();
     search?.focus();
   } else if (event.key === "Escape" && document.activeElement === search && search?.value) {

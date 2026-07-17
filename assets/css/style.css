@@ -135,6 +135,7 @@ header{
 .global-search-wrap{
   padding:16px 16px 0;
 }
+body[data-active-tab="skins"] .global-search-wrap{display:none}
 .global-search-wrap .term-search{margin-bottom:0}
 .global-search-results{margin-top:8px}
 .global-search-summary{
