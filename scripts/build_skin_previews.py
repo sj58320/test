@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import shutil
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 from PIL import Image
@@ -12,11 +13,19 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT / "assets" / "skins"
-OUTPUT_JSON = ROOT / "data" / "skins.json"
+CATALOG_VERSION = 5
+CATALOG_DIR = ROOT / "data" / "skins"
+CATALOG_FILES = {
+    "human": CATALOG_DIR / "human.json",
+    "zombie": CATALOG_DIR / "zombie.json",
+    "weapon": CATALOG_DIR / "weapon.json",
+}
 BUILD_VERSION = "skin-catalog-v2-webp-q82-max800-1280"
 BUILD_VERSION_FILE = OUTPUT_DIR / ".build-version"
+GENERATED_MANIFEST_FILE = OUTPUT_DIR / ".generated-manifest.json"
 VIDEO_SUFFIXES = {".mp4", ".webm", ".mov"}
 ANIMATED_IMAGE_SUFFIXES = {".gif"}
+OPTIONAL_ITEM_FIELDS = {"subcategory", "weaponType", "nameKo", "sourceUrl"}
 
 CHARACTER_SOURCES = [
     {
@@ -116,8 +125,163 @@ def relative_output(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
 
+def normalize_skin_item(item: dict[str, Any]) -> dict[str, Any]:
+    """Return the canonical catalog form used by Pages CMS."""
+    normalized = dict(item)
+    for field in OPTIONAL_ITEM_FIELDS:
+        value = normalized.get(field)
+        if value is None or value == "":
+            normalized.pop(field, None)
+    return normalized
+
+
+def load_existing_catalog(category: str, path: Path | None = None) -> dict[str, Any]:
+    path = path or CATALOG_FILES[category]
+    if not path.exists():
+        return {
+            "version": CATALOG_VERSION,
+            "category": category,
+            "updatedAt": "",
+            "items": [],
+        }
+    catalog = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(catalog, dict) or not isinstance(catalog.get("items"), list):
+        raise ValueError(f"{path} must contain an object with an items array")
+    if catalog.get("category") != category:
+        raise ValueError(f"{path} must have category {category!r}")
+    items: list[dict[str, Any]] = []
+    for source_item in catalog["items"]:
+        if not isinstance(source_item, dict):
+            raise ValueError(f"{path} items must be objects")
+        item = dict(source_item)
+        item_category = item.get("category", category)
+        if item_category != category:
+            raise ValueError(
+                f"{path} contains {item.get('id', '<unknown>')} in category "
+                f"{item_category!r}"
+            )
+        item["category"] = category
+        items.append(item)
+    return {**catalog, "items": items}
+
+
+def build_category_catalog(
+    category: str,
+    items: list[dict[str, Any]],
+    updated_at: str,
+) -> dict[str, Any]:
+    stored_items: list[dict[str, Any]] = []
+    for item in items:
+        if item.get("category") != category:
+            continue
+        stored_item = normalize_skin_item(item)
+        stored_item.pop("category", None)
+        stored_items.append(stored_item)
+    return {
+        "version": CATALOG_VERSION,
+        "category": category,
+        "updatedAt": updated_at,
+        "items": stored_items,
+    }
+
+
+def require_item_id(item: dict[str, Any]) -> str:
+    item_id = item.get("id")
+    if not isinstance(item_id, str) or not item_id.strip():
+        raise ValueError("Every skin catalog item must have a non-empty id")
+    return item_id
+
+
+def merge_catalog_items(
+    existing_items: list[dict[str, Any]],
+    generated_items: list[dict[str, Any]],
+    overwrite_existing: bool = False,
+) -> list[dict[str, Any]]:
+    """Preserve CMS entries by default and append newly imported source IDs."""
+    generated_by_id: dict[str, dict[str, Any]] = {}
+    generated_order: list[str] = []
+    for item in generated_items:
+        item_id = require_item_id(item)
+        if item_id in generated_by_id:
+            raise ValueError(f"Generated skin id is duplicated: {item_id}")
+        generated_by_id[item_id] = item
+        generated_order.append(item_id)
+
+    merged: list[dict[str, Any]] = []
+    seen_existing: set[str] = set()
+    for item in existing_items:
+        item_id = require_item_id(item)
+        if item_id in seen_existing:
+            raise ValueError(f"Existing skin id is duplicated: {item_id}")
+        seen_existing.add(item_id)
+        generated_item = generated_by_id.pop(item_id, None)
+        selected = (
+            generated_item
+            if overwrite_existing and generated_item is not None
+            else item
+        )
+        merged.append(normalize_skin_item(selected))
+
+    for item_id in generated_order:
+        item = generated_by_id.get(item_id)
+        if item is not None:
+            merged.append(normalize_skin_item(item))
+    return merged
+
+
+def catalog_media_paths(items: list[dict[str, Any]]) -> set[str]:
+    prefix = "assets/skins/"
+    paths: set[str] = set()
+    for item in items:
+        for media in item.get("media", []):
+            if not isinstance(media, dict):
+                continue
+            source = media.get("src")
+            if isinstance(source, str) and source.startswith(prefix):
+                relative = source[len(prefix) :]
+                if relative:
+                    paths.add(relative)
+    return paths
+
+
+def load_generated_manifest(
+    path: Path = GENERATED_MANIFEST_FILE,
+) -> tuple[set[str], set[str]]:
+    if not path.exists():
+        return set(), set()
+    manifest = json.loads(path.read_text(encoding="utf-8"))
+    files = manifest.get("files") if isinstance(manifest, dict) else None
+    item_ids = manifest.get("itemIds", []) if isinstance(manifest, dict) else None
+    if not isinstance(files, list) or not all(isinstance(item, str) for item in files):
+        raise ValueError(f"{path} must contain a files string array")
+    if not isinstance(item_ids, list) or not all(
+        isinstance(item, str) for item in item_ids
+    ):
+        raise ValueError(f"{path} must contain an itemIds string array")
+    return set(files), set(item_ids)
+
+
+def atomic_write_text(path: Path, value: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f"{path.name}.tmp")
+    temporary.write_text(value, encoding="utf-8")
+    temporary.replace(path)
+
+
+def write_generated_manifest(files: set[str], item_ids: set[str]) -> None:
+    payload = {
+        "version": 1,
+        "files": sorted(files),
+        "itemIds": sorted(item_ids),
+    }
+    atomic_write_text(
+        GENERATED_MANIFEST_FILE,
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+    )
+
+
 def build_character_items(
-    config: dict[str, str], force_rebuild: bool
+    config: dict[str, str], force_rebuild: bool, skip_ids: set[str] | None = None
 ) -> tuple[list[dict[str, Any]], set[str], list[str]]:
     category = config["category"]
     source_dir = find_source_dir(config["root"], config["json"])
@@ -129,6 +293,9 @@ def build_character_items(
 
     for item in source_items:
         order = int(item["order"])
+        item_id = f"{config['id_prefix']}{order:03d}"
+        if skip_ids and item_id in skip_ids:
+            continue
         media = []
         for role, file_key, max_width in [
             ("thirdPerson", "third_person_file", 800),
@@ -155,7 +322,7 @@ def build_character_items(
             timestamps.append(timestamp)
         output_items.append(
             {
-                "id": f"{config['id_prefix']}{order:03d}",
+                "id": item_id,
                 "category": category,
                 "subcategory": None,
                 "order": order,
@@ -170,7 +337,10 @@ def build_character_items(
 
 
 def build_weapon_items(
-    subcategory: str, root_name: str, force_rebuild: bool
+    subcategory: str,
+    root_name: str,
+    force_rebuild: bool,
+    skip_ids: set[str] | None = None,
 ) -> tuple[list[dict[str, Any]], set[str], list[str]]:
     source_dir = find_source_dir(root_name, "items.json")
     source_items = read_items(source_dir, "items.json")
@@ -180,6 +350,9 @@ def build_weapon_items(
 
     for item in source_items:
         order = int(item["order"])
+        item_id = f"weapon-{subcategory}-{order:03d}"
+        if skip_ids and item_id in skip_ids:
+            continue
         source_media = item.get("media_files", [])
         metadata = item.get("media", [])
         media = []
@@ -227,7 +400,7 @@ def build_weapon_items(
             timestamps.append(timestamp)
         output_items.append(
             {
-                "id": f"weapon-{subcategory}-{order:03d}",
+                "id": item_id,
                 "category": "weapon",
                 "subcategory": subcategory,
                 "weaponType": (
@@ -246,16 +419,27 @@ def build_weapon_items(
     return output_items, generated, timestamps
 
 
-def remove_stale_media(generated: set[str]) -> None:
+def remove_stale_media(
+    previously_owned: set[str],
+    currently_owned: set[str],
+    output_dir: Path = OUTPUT_DIR,
+) -> None:
+    """Delete only files recorded as generator-owned by the prior manifest."""
     managed_suffixes = {".webp", ".gif", *VIDEO_SUFFIXES}
-    for old_file in OUTPUT_DIR.rglob("*"):
-        if not old_file.is_file() or old_file == BUILD_VERSION_FILE:
+    output_root = output_dir.resolve()
+    for relative in sorted(previously_owned - currently_owned):
+        relative_path = PurePosixPath(relative)
+        if relative_path.is_absolute() or ".." in relative_path.parts:
+            raise ValueError(f"Unsafe generated manifest path: {relative}")
+        old_file = (output_dir / Path(*relative_path.parts)).resolve()
+        if output_root != old_file and output_root not in old_file.parents:
+            raise ValueError(f"Generated manifest path escapes assets/skins: {relative}")
+        if not old_file.is_file():
             continue
-        relative = old_file.relative_to(OUTPUT_DIR).as_posix()
-        if old_file.suffix.lower() in managed_suffixes and relative not in generated:
+        if old_file.suffix.lower() in managed_suffixes:
             old_file.unlink()
     for directory in sorted(
-        (path for path in OUTPUT_DIR.rglob("*") if path.is_dir()),
+        (path for path in output_dir.rglob("*") if path.is_dir()),
         key=lambda path: len(path.parts),
         reverse=True,
     ):
@@ -263,8 +447,22 @@ def remove_stale_media(generated: set[str]) -> None:
             directory.rmdir()
 
 
-def main() -> None:
+def main(overwrite_existing: bool = False) -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
+    existing_catalogs = {
+        category: load_existing_catalog(category)
+        for category in CATALOG_FILES
+    }
+    existing_items = [
+        item
+        for category in CATALOG_FILES
+        for item in existing_catalogs[category]["items"]
+    ]
+    existing_ids = {require_item_id(item) for item in existing_items}
+    previously_owned, known_source_ids = load_generated_manifest()
+    skip_ids = (
+        set() if overwrite_existing else existing_ids | known_source_ids
+    )
     previous_version = (
         BUILD_VERSION_FILE.read_text(encoding="utf-8").strip()
         if BUILD_VERSION_FILE.exists()
@@ -274,37 +472,72 @@ def main() -> None:
 
     all_items: list[dict[str, Any]] = []
     generated: set[str] = set()
-    timestamps: list[str] = []
+    timestamps: dict[str, list[str]] = {
+        category: [] for category in CATALOG_FILES
+    }
 
     for config in CHARACTER_SOURCES:
-        items, files, item_timestamps = build_character_items(config, force_rebuild)
-        all_items.extend(items)
-        generated.update(files)
-        timestamps.extend(item_timestamps)
-
-    for subcategory, root_name in WEAPON_SOURCES:
-        items, files, item_timestamps = build_weapon_items(
-            subcategory, root_name, force_rebuild
+        items, files, item_timestamps = build_character_items(
+            config, force_rebuild, skip_ids
         )
         all_items.extend(items)
         generated.update(files)
-        timestamps.extend(item_timestamps)
+        timestamps[config["category"]].extend(item_timestamps)
 
-    remove_stale_media(generated)
-    payload = {
-        "version": 4,
-        "updatedAt": max(timestamps, default=""),
-        "items": all_items,
-    }
-    OUTPUT_JSON.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    for subcategory, root_name in WEAPON_SOURCES:
+        items, files, item_timestamps = build_weapon_items(
+            subcategory, root_name, force_rebuild, skip_ids
+        )
+        all_items.extend(items)
+        generated.update(files)
+        timestamps["weapon"].extend(item_timestamps)
+
+    all_items = merge_catalog_items(
+        existing_items, all_items, overwrite_existing=overwrite_existing
     )
-    BUILD_VERSION_FILE.write_text(BUILD_VERSION + "\n", encoding="utf-8")
+    catalog_item_ids = {require_item_id(item) for item in all_items}
+    currently_known_source_ids = (
+        known_source_ids | existing_ids | catalog_item_ids
+    )
+    referenced_media = catalog_media_paths(all_items)
+    currently_owned = (previously_owned & referenced_media) | (
+        generated & referenced_media
+    )
+    for category, path in CATALOG_FILES.items():
+        updated_candidates = [
+            value
+            for value in [
+                existing_catalogs[category].get("updatedAt"),
+                *timestamps[category],
+            ]
+            if isinstance(value, str) and value
+        ]
+        payload = build_category_catalog(
+            category,
+            all_items,
+            max(updated_candidates, default=""),
+        )
+        atomic_write_text(
+            path, json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+        )
+    remove_stale_media(previously_owned, currently_owned)
+    write_generated_manifest(currently_owned, currently_known_source_ids)
+    atomic_write_text(BUILD_VERSION_FILE, BUILD_VERSION + "\n")
     print(
-        f"Built {len(all_items)} skins and {len(generated)} media files "
-        f"({sum(item['category'] == 'weapon' for item in all_items)} weapons)."
+        f"Built a catalog with {len(all_items)} skins; imported or refreshed "
+        f"{len(generated)} media files ({len(currently_owned)} generator-owned)."
     )
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--overwrite-existing",
+        action="store_true",
+        help=(
+            "replace source-backed existing catalog items and their media; "
+            "without this flag Pages CMS edits are preserved"
+        ),
+    )
+    args = parser.parse_args()
+    main(overwrite_existing=args.overwrite_existing)

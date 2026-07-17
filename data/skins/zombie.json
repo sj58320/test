@@ -1,0 +1,145 @@
+{
+  "version": 5,
+  "category": "zombie",
+  "updatedAt": "2026-07-17T12:28:00Z",
+  "items": [
+    {
+      "id": "zombie-001",
+      "order": 1,
+      "name": "Chris Walker / motherzombie(default)",
+      "nameKo": "크리스 워커 / 숙주좀비(기본스킨)",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/zombie/001-third.webp",
+          "width": 800,
+          "height": 960
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/zombie/001-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517475506771984574/1517492415139942482"
+    },
+    {
+      "id": "zombie-002",
+      "order": 2,
+      "name": "Zombie",
+      "nameKo": "좀비",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/zombie/002-third.webp",
+          "width": 800,
+          "height": 879
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/zombie/002-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517475506771984574/1517493353351221339"
+    },
+    {
+      "id": "zombie-003",
+      "order": 3,
+      "name": "Frozen",
+      "nameKo": "프로즌",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/zombie/003-third.webp",
+          "width": 800,
+          "height": 1013
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/zombie/003-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517475506771984574/1517493677348487258"
+    },
+    {
+      "id": "zombie-004",
+      "order": 4,
+      "name": "Cultist",
+      "nameKo": "컬티스트",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/zombie/004-third.webp",
+          "width": 800,
+          "height": 985
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/zombie/004-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517475506771984574/1517494527772856330"
+    },
+    {
+      "id": "zombie-005",
+      "order": 5,
+      "name": "MineCraft Zombie",
+      "nameKo": "마크좀비",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/zombie/005-third.webp",
+          "width": 775,
+          "height": 1079
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/zombie/005-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517475506771984574/1517494784942407840"
+    },
+    {
+      "id": "zombie-006",
+      "order": 6,
+      "name": "Demogorgon",
+      "nameKo": "데모고르곤",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/zombie/006-third.webp",
+          "width": 800,
+          "height": 1013
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/zombie/006-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517475506771984574/1517494914873557042"
+    }
+  ]
+}

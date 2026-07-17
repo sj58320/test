@@ -15,6 +15,9 @@ let skinWeaponFilter = "primary";
 let skinPrimaryTypeFilter = "all";
 let skinImageObserver = null;
 let skinCardsRendered = false;
+let skinRenderTimer = null;
+let skinCardCacheLanguage = "";
+const skinCardCache = new Map();
 let globalSearchQuery = "";
 let commandPageFilter = "all";
 let favoriteCommandsOnly = false;
@@ -736,14 +739,24 @@ function renderGlobalSearch() {
       query
     })
   })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
-  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms} · News {news}";
+  const skinMatches = (skinData?.items || []).map(item => ({
+    item,
+    score: getSearchScore({
+      primary: getSkinDisplayName(item),
+      aliases: [item.name, item.nameKo].filter(Boolean),
+      details: [getSkinPathLabel(item)],
+      query
+    })
+  })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
+  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms} · News {news} · Skins {skins}";
   const summary = document.createElement("p");
   summary.className = "global-search-summary";
   summary.textContent = summaryTemplate
     .replace("{faq}", faqMatches.length)
     .replace("{commands}", commandMatches.length)
     .replace("{terms}", termMatches.length)
-    .replace("{news}", newsMatches.length);
+    .replace("{news}", newsMatches.length)
+    .replace("{skins}", skinMatches.length);
 
   const list = document.createElement("div");
   list.className = "global-search-list";
@@ -777,6 +790,15 @@ function renderGlobalSearch() {
         normalizeSearchText(item.content || item.summary || item.author || "").slice(0, 180),
         "news",
         () => navigateToDeepLink(deepLinkId("news", item.id || item.title || item.publishedAt))
+      )
+    )),
+    makeGlobalSearchGroup("skin", skinMatches.length, skinMatches.slice(0, 10).map(({ item }) =>
+      makeGlobalSearchItem(
+        "skin",
+        getSkinDisplayName(item),
+        getSkinPathLabel(item),
+        "skins",
+        () => navigateToDeepLink(deepLinkId("skin", item.id || item.name))
       )
     ))
   ].filter(Boolean);
@@ -1496,23 +1518,52 @@ function renderNews() {
 
 window.addEventListener("load", loadNews);
 
-// 8. Skin preview gallery from data/skins.json
+const SKIN_CATALOGS = [
+  ["human", "data/skins/human.json"],
+  ["zombie", "data/skins/zombie.json"],
+  ["weapon", "data/skins/weapon.json"]
+];
+
+function clearSkinCardCache() {
+  skinImageObserver?.disconnect();
+  skinCardCache.forEach(card => card.querySelectorAll("video").forEach(video => video.pause()));
+  skinCardCache.clear();
+  skinCardCacheLanguage = getCurrentLang();
+}
+
+// 8. Skin preview gallery from category catalogs under data/skins/
 async function loadSkins() {
   const grid = document.getElementById("skinGrid");
   if (!grid) return;
 
   try {
-    skinData = await fetchJsonWithFallback("data/skins.json");
+    const catalogs = await Promise.all(SKIN_CATALOGS.map(async ([category, filename]) => {
+      const catalog = await fetchJsonWithFallback(filename);
+      if (catalog.category !== category || !Array.isArray(catalog.items)) {
+        throw new Error(`${filename} has an invalid category or items array`);
+      }
+      return catalog;
+    }));
+    skinData = {
+      version: Math.max(...catalogs.map(catalog => Number(catalog.version) || 0)),
+      updatedAt: catalogs.map(catalog => catalog.updatedAt || "").sort().at(-1) || "",
+      items: catalogs.flatMap(catalog =>
+        catalog.items.map(item => ({ ...item, category: catalog.category }))
+      )
+    };
+    clearSkinCardCache();
     skinCardsRendered = false;
     const updatedAt = document.getElementById("skinLastUpdate");
     if (updatedAt) updatedAt.textContent = formatNewsDate(skinData.updatedAt) || "-";
     if (document.body.dataset.activeTab === "skins") renderSkins();
+    renderGlobalSearch();
   } catch (err) {
     console.error("skins load failed:", err);
     skinData = { updatedAt: "", items: [] };
     skinCardsRendered = false;
     if (document.body.dataset.activeTab === "skins") renderSkins();
-    grid.title = `data/skins.json load failed: ${err.message}`;
+    renderGlobalSearch();
+    grid.title = `skin catalogs load failed: ${err.message}`;
   }
 }
 
@@ -1689,6 +1740,18 @@ function createSkinCard(item, index) {
   return article;
 }
 
+function getSkinCard(item, index) {
+  const language = getCurrentLang();
+  if (skinCardCacheLanguage !== language) clearSkinCardCache();
+  const key = item.id || `${item.category}:${item.name}:${item.order}`;
+  let card = skinCardCache.get(key);
+  if (!card) {
+    card = createSkinCard(item, index);
+    skinCardCache.set(key, card);
+  }
+  return card;
+}
+
 function createSkinTypeSection(weaponType, items, startIndex) {
   const section = document.createElement("section");
   section.className = "skin-type-section";
@@ -1707,7 +1770,7 @@ function createSkinTypeSection(weaponType, items, startIndex) {
 
   const typeGrid = document.createElement("div");
   typeGrid.className = "skin-grid skin-type-grid";
-  typeGrid.append(...items.map((item, index) => createSkinCard(item, startIndex + index)));
+  typeGrid.append(...items.map((item, index) => getSkinCard(item, startIndex + index)));
 
   heading.append(title, count);
   section.setAttribute("aria-labelledby", headingId);
@@ -1803,6 +1866,8 @@ function renderSkins() {
       query
     );
   });
+  skinImageObserver?.disconnect();
+  grid.querySelectorAll("video").forEach(video => video.pause());
   const count = document.getElementById("skinResultCount");
   if (count) {
     const template = window.LANG?.[getCurrentLang()]?.skins_result_count || "{count} skins";
@@ -1818,7 +1883,6 @@ function renderSkins() {
     return;
   }
 
-  skinImageObserver?.disconnect();
   const groupedPrimaryView = skinCategoryFilter === "weapon"
     && skinWeaponFilter === "primary"
     && skinPrimaryTypeFilter === "all";
@@ -1834,7 +1898,7 @@ function renderSkins() {
     });
     grid.replaceChildren(...sections);
   } else {
-    grid.replaceChildren(...items.map(createSkinCard));
+    grid.replaceChildren(...items.map(getSkinCard));
   }
   const lazyImages = grid.querySelectorAll("img[data-src]");
   if ("IntersectionObserver" in window) {
@@ -1860,7 +1924,11 @@ function renderSkins() {
 document.getElementById("skinSearch")?.addEventListener("input", event => {
   skinSearchQuery = event.target.value || "";
   clearSkinItemHash();
-  renderSkins();
+  clearTimeout(skinRenderTimer);
+  skinRenderTimer = setTimeout(() => {
+    skinRenderTimer = null;
+    renderSkins();
+  }, 120);
 });
 
 document.querySelectorAll("[data-skin-category]").forEach(button => {

@@ -1,0 +1,2108 @@
+{
+  "version": 5,
+  "category": "weapon",
+  "updatedAt": "2026-07-17T12:28:00Z",
+  "items": [
+    {
+      "id": "weapon-primary-001",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 1,
+      "name": "mcx_spear(m4a1)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/001-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476635411345313842"
+    },
+    {
+      "id": "weapon-primary-002",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 2,
+      "name": "r301(mp5)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/002-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476635457210290377"
+    },
+    {
+      "id": "weapon-primary-003",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 3,
+      "name": "BA_glock_carbine_blue(mp9)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/003-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476635802258641018"
+    },
+    {
+      "id": "weapon-primary-004",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 4,
+      "name": "BA_glock_carbine_pink(mp9)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/004-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476635828792070154"
+    },
+    {
+      "id": "weapon-primary-005",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 5,
+      "name": "ak-12(ak47)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/005-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476635865848610816"
+    },
+    {
+      "id": "weapon-primary-006",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 6,
+      "name": "mp9_printstream",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/006-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476635909179834398"
+    },
+    {
+      "id": "weapon-primary-007",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 7,
+      "name": "hsr_firefly_m5a3(m4a4)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/007-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476635962594427050"
+    },
+    {
+      "id": "weapon-primary-008",
+      "subcategory": "primary",
+      "weaponType": "machinegun",
+      "order": 8,
+      "name": "m60(m249)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/008-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636002268479611"
+    },
+    {
+      "id": "weapon-primary-009",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 9,
+      "name": "mp7_cat",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/009-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636171684548760"
+    },
+    {
+      "id": "weapon-primary-010",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 10,
+      "name": "Rival-9_aris(mp5)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/010-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636215468884041"
+    },
+    {
+      "id": "weapon-primary-011",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 11,
+      "name": "p90_printstream",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/011-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636325842255922"
+    },
+    {
+      "id": "weapon-primary-012",
+      "subcategory": "primary",
+      "weaponType": "shotgun",
+      "order": 12,
+      "name": "xm1014_blunderbuss",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/012-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636409468289148"
+    },
+    {
+      "id": "weapon-primary-013",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 13,
+      "name": "ump-45_drill",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/013-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636437859532955"
+    },
+    {
+      "id": "weapon-primary-014",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 14,
+      "name": "bizon_beer",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/014-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636461599035412"
+    },
+    {
+      "id": "weapon-primary-015",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 15,
+      "name": "p90_pringles",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/015-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636482948042923"
+    },
+    {
+      "id": "weapon-primary-016",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 16,
+      "name": "mp9_swordfish",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/016-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636505945407538"
+    },
+    {
+      "id": "weapon-primary-017",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 17,
+      "name": "qbz-97_gfl(famas)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/017-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636532185239755"
+    },
+    {
+      "id": "weapon-primary-018",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 18,
+      "name": "p90_rgb",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/018-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636557191418038"
+    },
+    {
+      "id": "weapon-primary-019",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 19,
+      "name": "m4a1_dragon",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/019-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636581522833438"
+    },
+    {
+      "id": "weapon-primary-020",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 20,
+      "name": "bizon_anby",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/020-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636598321025044"
+    },
+    {
+      "id": "weapon-primary-021",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 21,
+      "name": "m4a4_firefly",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/021-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636617220427807"
+    },
+    {
+      "id": "weapon-primary-022",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 22,
+      "name": "mp5_sheri",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/022-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636727832613054"
+    },
+    {
+      "id": "weapon-primary-023",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 23,
+      "name": "mp7_phoenix",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/023-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636771541319772"
+    },
+    {
+      "id": "weapon-primary-024",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 24,
+      "name": "ak47_carlotta",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/024-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636802088702053"
+    },
+    {
+      "id": "weapon-primary-025",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 25,
+      "name": "ump45_mutsuki",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/025-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636836536389725"
+    },
+    {
+      "id": "weapon-primary-026",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 26,
+      "name": "m4a4_dragon",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/026-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636912109359176"
+    },
+    {
+      "id": "weapon-primary-027",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 27,
+      "name": "frosted_sugar_m4a1",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/027-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636934095896677"
+    },
+    {
+      "id": "weapon-primary-028",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 28,
+      "name": "galil_crossbowex",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/028-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636959282565283"
+    },
+    {
+      "id": "weapon-primary-029",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 29,
+      "name": "nachoneko_vector(mac10)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/029-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476636983022321807"
+    },
+    {
+      "id": "weapon-primary-030",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 30,
+      "name": "rgb_ak47",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/030-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637006241988739"
+    },
+    {
+      "id": "weapon-primary-031",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 31,
+      "name": "pp19_bizon",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/031-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637024948584599"
+    },
+    {
+      "id": "weapon-primary-032",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 32,
+      "name": "blue_archive_mp7",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/032-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637056074776717"
+    },
+    {
+      "id": "weapon-primary-033",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 33,
+      "name": "m4a1_mika / token 80",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/033-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637083417444433"
+    },
+    {
+      "id": "weapon-primary-034",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 34,
+      "name": "helios_aug",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/034-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637109451358208"
+    },
+    {
+      "id": "weapon-primary-035",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 35,
+      "name": "bizon_printstream",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/035-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637137423044842"
+    },
+    {
+      "id": "weapon-primary-036",
+      "subcategory": "primary",
+      "weaponType": "machinegun",
+      "order": 36,
+      "name": "auto_lacquer(m249)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/036-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637148643070052"
+    },
+    {
+      "id": "weapon-primary-037",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 37,
+      "name": "dohan_p90",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/037-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637174710665236"
+    },
+    {
+      "id": "weapon-primary-038",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 38,
+      "name": "plana_ak47",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/038-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637297297592320"
+    },
+    {
+      "id": "weapon-primary-039",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 39,
+      "name": "m4a4_fate",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/039-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637318394679328"
+    },
+    {
+      "id": "weapon-primary-040",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 40,
+      "name": "p90_cyber",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/040-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637342168121529"
+    },
+    {
+      "id": "weapon-primary-041",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 41,
+      "name": "p90_kaltsit",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/041-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637375378755614"
+    },
+    {
+      "id": "weapon-primary-042",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 42,
+      "name": "p90_miku",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/042-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637395620204675"
+    },
+    {
+      "id": "weapon-primary-043",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 43,
+      "name": "star_rail_ump45",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/043-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476637472640340192"
+    },
+    {
+      "id": "weapon-primary-044",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 44,
+      "name": "meika_mikoto(m4a1)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/044-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476641378367832188"
+    },
+    {
+      "id": "weapon-primary-045",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 45,
+      "name": "meika_hime(m4a1)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/045-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476641418519908352"
+    },
+    {
+      "id": "weapon-primary-046",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 46,
+      "name": "ram7aug",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/046-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476641454628802787"
+    },
+    {
+      "id": "weapon-primary-047",
+      "subcategory": "primary",
+      "weaponType": "shotgun",
+      "order": 47,
+      "name": "christmas_sawedoff(event)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/047-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1476642031391473839"
+    },
+    {
+      "id": "weapon-primary-048",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 48,
+      "name": "mika_mp9",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/048-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1477543062778544222"
+    },
+    {
+      "id": "weapon-primary-049",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 49,
+      "name": "mika_p90 / 70 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/049-01.webp",
+          "width": 1280,
+          "height": 783
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1482225206062743673"
+    },
+    {
+      "id": "weapon-primary-050",
+      "subcategory": "primary",
+      "weaponType": "machinegun",
+      "order": 50,
+      "name": "hina_mg42(m249) / 80 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/050-01.webp",
+          "width": 1280,
+          "height": 556
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1482225356537856090"
+    },
+    {
+      "id": "weapon-primary-051",
+      "subcategory": "primary",
+      "weaponType": "machinegun",
+      "order": 51,
+      "name": "MG3(m249) / 70 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/051-01.webp",
+          "width": 1280,
+          "height": 508
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1482225462926250006"
+    },
+    {
+      "id": "weapon-primary-052",
+      "subcategory": "primary",
+      "weaponType": "sniper",
+      "order": 52,
+      "name": "codol_m200(awp) / 80 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/052-01.webp",
+          "width": 1280,
+          "height": 585
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1487028981789098068"
+    },
+    {
+      "id": "weapon-primary-053",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 53,
+      "name": "area51_p90 / 60 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/053-01.webp",
+          "width": 1280,
+          "height": 767
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1487029070813200384"
+    },
+    {
+      "id": "weapon-primary-054",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 54,
+      "name": "hnk_mp7 / 50 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/054-01.webp",
+          "width": 1088,
+          "height": 758
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1487029143660007464"
+    },
+    {
+      "id": "weapon-primary-055",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 55,
+      "name": "bnt_mp9 / 50 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/055-01.webp",
+          "width": 1149,
+          "height": 864
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1487029214988472441"
+    },
+    {
+      "id": "weapon-primary-056",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 56,
+      "name": "cod_bizon_silencer / 60 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/056-01.webp",
+          "width": 1280,
+          "height": 546
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1487029277349249127"
+    },
+    {
+      "id": "weapon-primary-057",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 57,
+      "name": "coldwar_mac10 / 50 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/057-01.webp",
+          "width": 1030,
+          "height": 627
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1487029334479736893"
+    },
+    {
+      "id": "weapon-primary-058",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 58,
+      "name": "ron_mp5 / 50 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/058-01.webp",
+          "width": 1280,
+          "height": 638
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1487029384090095646"
+    },
+    {
+      "id": "weapon-primary-059",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 59,
+      "name": "akmkpyk_ak47 / 50 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/059-01.webp",
+          "width": 1280,
+          "height": 581
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1490408919762211027"
+    },
+    {
+      "id": "weapon-primary-060",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 60,
+      "name": "cag_hk416_m4a4 / 50 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/060-01.webp",
+          "width": 1280,
+          "height": 649
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1490409006907527353"
+    },
+    {
+      "id": "weapon-primary-061",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 61,
+      "name": "urgim4_m4a1 / 50 token",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/061-01.webp",
+          "width": 1280,
+          "height": 593
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1490409067771068506"
+    },
+    {
+      "id": "weapon-primary-062",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 62,
+      "name": "ak47_printstream",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/062-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1500754344541163642"
+    },
+    {
+      "id": "weapon-primary-063",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 63,
+      "name": "m4a1_printstream",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/063-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1500754426028101742"
+    },
+    {
+      "id": "weapon-primary-064",
+      "subcategory": "primary",
+      "weaponType": "rifle",
+      "order": 64,
+      "name": "K2C_ak47",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/064-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1500754474090627212"
+    },
+    {
+      "id": "weapon-primary-065",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 65,
+      "name": "alternate_printstream(mp9)",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/065-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1500754704508911688"
+    },
+    {
+      "id": "weapon-primary-066",
+      "subcategory": "primary",
+      "weaponType": "sniper",
+      "order": 66,
+      "name": "izanagis_burden(awp)",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/066-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1500754827637162014"
+    },
+    {
+      "id": "weapon-primary-067",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 67,
+      "name": "mp7_racing_muku",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/067-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1510432080968814713"
+    },
+    {
+      "id": "weapon-primary-068",
+      "subcategory": "primary",
+      "weaponType": "smg",
+      "order": 68,
+      "name": "mp9_kanade",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/068-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1510433102604800110"
+    },
+    {
+      "id": "weapon-primary-069",
+      "subcategory": "primary",
+      "weaponType": "machinegun",
+      "order": 69,
+      "name": "hl_hyper_negev / Event / sponsor: 千音星璃",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/primary/069-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635405691654438/1516480906326577182"
+    },
+    {
+      "id": "weapon-secondary-001",
+      "subcategory": "secondary",
+      "order": 1,
+      "name": "m9_punisher(usp)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/001-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476635703273066516"
+    },
+    {
+      "id": "weapon-secondary-002",
+      "subcategory": "secondary",
+      "order": 2,
+      "name": "custom_9mm(glock)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/002-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476636126621208656"
+    },
+    {
+      "id": "weapon-secondary-003",
+      "subcategory": "secondary",
+      "order": 3,
+      "name": "deagle_kayoko",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/003-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476636281776902327"
+    },
+    {
+      "id": "weapon-secondary-004",
+      "subcategory": "secondary",
+      "order": 4,
+      "name": "elite_miku_1",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/004-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476636669066088448"
+    },
+    {
+      "id": "weapon-secondary-005",
+      "subcategory": "secondary",
+      "order": 5,
+      "name": "elite_miku_2",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/005-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476636686439026799"
+    },
+    {
+      "id": "weapon-secondary-006",
+      "subcategory": "secondary",
+      "order": 6,
+      "name": "elite_v1",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/006-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476636883235901640"
+    },
+    {
+      "id": "weapon-secondary-007",
+      "subcategory": "secondary",
+      "order": 7,
+      "name": "cyber_elite",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/007-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476637269627764766"
+    },
+    {
+      "id": "weapon-secondary-008",
+      "subcategory": "secondary",
+      "order": 8,
+      "name": "plana_deagle",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/008-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476637437609513031"
+    },
+    {
+      "id": "weapon-secondary-009",
+      "subcategory": "secondary",
+      "order": 9,
+      "name": "aris_elite",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/009-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476641213284356116"
+    },
+    {
+      "id": "weapon-secondary-010",
+      "subcategory": "secondary",
+      "order": 10,
+      "name": "bluearchive_usp",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/010-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476641247870587090"
+    },
+    {
+      "id": "weapon-secondary-011",
+      "subcategory": "secondary",
+      "order": 11,
+      "name": "firefly_deagle",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/011-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1476641276974600272"
+    },
+    {
+      "id": "weapon-secondary-012",
+      "subcategory": "secondary",
+      "order": 12,
+      "name": "forerunner_glock",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/012-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1500754941176713248"
+    },
+    {
+      "id": "weapon-secondary-013",
+      "subcategory": "secondary",
+      "order": 13,
+      "name": "ups_sussurro",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/secondary/013-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1510433445590073495"
+    },
+    {
+      "id": "weapon-melee-001",
+      "subcategory": "melee",
+      "order": 1,
+      "name": "karambit_reaver",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/001-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629327155302411"
+    },
+    {
+      "id": "weapon-melee-002",
+      "subcategory": "melee",
+      "order": 2,
+      "name": "banana_kukri",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/002-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629387985027224"
+    },
+    {
+      "id": "weapon-melee-003",
+      "subcategory": "melee",
+      "order": 3,
+      "name": "m9_bayonet",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/003-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629494482604259"
+    },
+    {
+      "id": "weapon-melee-004",
+      "subcategory": "melee",
+      "order": 4,
+      "name": "minecraft_sword",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/004-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629559314219069"
+    },
+    {
+      "id": "weapon-melee-005",
+      "subcategory": "melee",
+      "order": 5,
+      "name": "minecraft_axe",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/005-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629658417234093"
+    },
+    {
+      "id": "weapon-melee-006",
+      "subcategory": "melee",
+      "order": 6,
+      "name": "hsr_trailblazer_bat",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/006-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629712246804481"
+    },
+    {
+      "id": "weapon-melee-007",
+      "subcategory": "melee",
+      "order": 7,
+      "name": "baguette",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/007-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629790378168481"
+    },
+    {
+      "id": "weapon-melee-008",
+      "subcategory": "melee",
+      "order": 8,
+      "name": "cosmicmerc_karambit",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/008-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629873329045534"
+    },
+    {
+      "id": "weapon-melee-009",
+      "subcategory": "melee",
+      "order": 9,
+      "name": "cosmicmerc_karambit_yellow",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/009-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629895307071610"
+    },
+    {
+      "id": "weapon-melee-010",
+      "subcategory": "melee",
+      "order": 10,
+      "name": "karambit_icefire / token 80",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/010-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629929511620648"
+    },
+    {
+      "id": "weapon-melee-011",
+      "subcategory": "melee",
+      "order": 11,
+      "name": "bangalore_kukri",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/011-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476629975053504544"
+    },
+    {
+      "id": "weapon-melee-012",
+      "subcategory": "melee",
+      "order": 12,
+      "name": "bangalore_kukri_green",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/012-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630020611903598"
+    },
+    {
+      "id": "weapon-melee-013",
+      "subcategory": "melee",
+      "order": 13,
+      "name": "butterfly_galaxy_ruby",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/013-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630094100435128"
+    },
+    {
+      "id": "weapon-melee-014",
+      "subcategory": "melee",
+      "order": 14,
+      "name": "butterfly_galaxy_sapphire",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/014-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630124232183808"
+    },
+    {
+      "id": "weapon-melee-015",
+      "subcategory": "melee",
+      "order": 15,
+      "name": "lollipop",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/015-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630146873032856"
+    },
+    {
+      "id": "weapon-melee-016",
+      "subcategory": "melee",
+      "order": 16,
+      "name": "classic_css_knife",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/016-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630501350572185"
+    },
+    {
+      "id": "weapon-melee-017",
+      "subcategory": "melee",
+      "order": 17,
+      "name": "cyberpunk_classic_knife",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/017-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630552952963275"
+    },
+    {
+      "id": "weapon-melee-018",
+      "subcategory": "melee",
+      "order": 18,
+      "name": "BA_shiroko_m9",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/018-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630603318296741"
+    },
+    {
+      "id": "weapon-melee-019",
+      "subcategory": "melee",
+      "order": 19,
+      "name": "skadi_skeleton_knife",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/019-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630653733834792"
+    },
+    {
+      "id": "weapon-melee-020",
+      "subcategory": "melee",
+      "order": 20,
+      "name": "murasama",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/020-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630690341589053"
+    },
+    {
+      "id": "weapon-melee-021",
+      "subcategory": "melee",
+      "order": 21,
+      "name": "keqing_bayonet",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/021-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630733056643146"
+    },
+    {
+      "id": "weapon-melee-022",
+      "subcategory": "melee",
+      "order": 22,
+      "name": "shinobu_knife",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/022-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630764853657850"
+    },
+    {
+      "id": "weapon-melee-023",
+      "subcategory": "melee",
+      "order": 23,
+      "name": "ganyu_karambit",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/023-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630801352364136"
+    },
+    {
+      "id": "weapon-melee-024",
+      "subcategory": "melee",
+      "order": 24,
+      "name": "ganyu_talon",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/024-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630829647266026"
+    },
+    {
+      "id": "weapon-melee-025",
+      "subcategory": "melee",
+      "order": 25,
+      "name": "skadi_butterfly",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/025-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630893513937017"
+    },
+    {
+      "id": "weapon-melee-026",
+      "subcategory": "melee",
+      "order": 26,
+      "name": "hiro_butterfly",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/026-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630923909927024"
+    },
+    {
+      "id": "weapon-melee-027",
+      "subcategory": "melee",
+      "order": 27,
+      "name": "steel_fan",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/027-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630953311994017"
+    },
+    {
+      "id": "weapon-melee-028",
+      "subcategory": "melee",
+      "order": 28,
+      "name": "icecream_blade / token 70",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/028-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476630983959773218"
+    },
+    {
+      "id": "weapon-melee-029",
+      "subcategory": "melee",
+      "order": 29,
+      "name": "dragon_knife(cord)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/029-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476631024804036628"
+    },
+    {
+      "id": "weapon-melee-030",
+      "subcategory": "melee",
+      "order": 30,
+      "name": "nacho_tactical",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/030-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476631084337725663"
+    },
+    {
+      "id": "weapon-melee-031",
+      "subcategory": "melee",
+      "order": 31,
+      "name": "mika_butterfly",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/031-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476631368497758312"
+    },
+    {
+      "id": "weapon-melee-032",
+      "subcategory": "melee",
+      "order": 32,
+      "name": "splinks(shadow)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/032-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476631413271957505"
+    },
+    {
+      "id": "weapon-melee-033",
+      "subcategory": "melee",
+      "order": 33,
+      "name": "mita_knife(tactical)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/033-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476640659678040285"
+    },
+    {
+      "id": "weapon-melee-034",
+      "subcategory": "melee",
+      "order": 34,
+      "name": "aemeath_knife(bowie)",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/034-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476640820902887524"
+    },
+    {
+      "id": "weapon-melee-035",
+      "subcategory": "melee",
+      "order": 35,
+      "name": "bang_dream_flip",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/035-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476640869342908416"
+    },
+    {
+      "id": "weapon-melee-036",
+      "subcategory": "melee",
+      "order": 36,
+      "name": "broken_kukri",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/036-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1476644732510666883"
+    },
+    {
+      "id": "weapon-melee-037",
+      "subcategory": "melee",
+      "order": 37,
+      "name": "fish_ursus / token 60",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/037-01.gif",
+          "width": 800,
+          "height": 450
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1492462412865998918"
+    },
+    {
+      "id": "weapon-melee-038",
+      "subcategory": "melee",
+      "order": 38,
+      "name": "datastream_huntsman",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/melee/038-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1500757553083318352"
+    },
+    {
+      "id": "weapon-throwable-001",
+      "subcategory": "throwable",
+      "order": 1,
+      "name": "doro / token 30",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/001-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641896771354799"
+    },
+    {
+      "id": "weapon-throwable-002",
+      "subcategory": "throwable",
+      "order": 2,
+      "name": "fb_padoru / token 30",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/002-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641931680546917"
+    },
+    {
+      "id": "weapon-throwable-003",
+      "subcategory": "throwable",
+      "order": 3,
+      "name": "fb_monster / token 30",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/003-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641955126710455"
+    },
+    {
+      "id": "weapon-throwable-004",
+      "subcategory": "throwable",
+      "order": 4,
+      "name": "christmas_pl(event) / event",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/004-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641979860390129"
+    },
+    {
+      "id": "weapon-throwable-005",
+      "subcategory": "throwable",
+      "order": 5,
+      "name": "meowl_sapper / token 30",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/005-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1492461336435753103"
+    },
+    {
+      "id": "weapon-throwable-006",
+      "subcategory": "throwable",
+      "order": 6,
+      "name": "maxwell / token 30",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/006-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1492461386821795990"
+    },
+    {
+      "id": "weapon-throwable-007",
+      "subcategory": "throwable",
+      "order": 7,
+      "name": "kirby (grenade)",
+      "media": [
+        {
+          "type": "video",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/007-01.mp4",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1500755051722047580"
+    }
+  ]
+}

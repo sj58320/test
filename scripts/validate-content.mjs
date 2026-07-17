@@ -6,7 +6,18 @@ import vm from "node:vm";
 
 const ROOT = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 const CONTENT_DIR = path.join(ROOT, "data");
-const CONTENT_FILES = ["faq.json", "commands.json", "terms.json", "news.json", "skins.json"];
+const SKIN_CATALOG_FILES = {
+  human: "skins/human.json",
+  zombie: "skins/zombie.json",
+  weapon: "skins/weapon.json"
+};
+const CONTENT_FILES = [
+  "faq.json",
+  "commands.json",
+  "terms.json",
+  "news.json",
+  ...Object.values(SKIN_CATALOG_FILES)
+];
 const failures = [];
 const pendingFileChecks = [];
 
@@ -183,21 +194,36 @@ checkUnique((news.items || []).map(item => item.id), "News ids");
   (item.attachments || []).forEach((attachment, attachmentIndex) => checkUrl(attachment.url, label + ".attachments[" + attachmentIndex + "].url"));
 });
 
-const skins = content["skins.json"];
-check(skins.version === 4, "skins.json.version must be 4.");
-check(Array.isArray(skins.items), "skins.json.items must be an array.");
-checkUnique((skins.items || []).map(item => item.id), "Skin ids");
+const skinCatalogs = Object.entries(SKIN_CATALOG_FILES).map(([category, filename]) => {
+  const catalog = content[filename];
+  check(catalog.version === 5, filename + ".version must be 5.");
+  check(catalog.category === category, filename + ".category must be " + category + ".");
+  check(Array.isArray(catalog.items), filename + ".items must be an array.");
+  (catalog.items || []).forEach((item, index) => {
+    check(item.category == null, filename + ".items[" + index + "].category must be omitted.");
+  });
+  return {
+    category,
+    filename,
+    items: (catalog.items || []).map(item => ({ ...item, category }))
+  };
+});
+const skinItems = skinCatalogs.flatMap(catalog => catalog.items);
+checkUnique(skinItems.map(item => item.id), "Skin ids");
 checkUnique(
-  (skins.items || []).map(item => [item.category, item.subcategory || "", item.order].join(":")),
+  skinItems.map(item => [item.category, item.subcategory || "", item.order].join(":")),
   "Skin category order values"
 );
 const skinCategories = new Set(["human", "zombie", "weapon"]);
 const weaponCategories = new Set(["primary", "secondary", "melee", "throwable"]);
 const primaryWeaponTypes = new Set(["smg", "rifle", "shotgun", "machinegun", "sniper", "other"]);
-for (const [index, item] of (skins.items || []).entries()) {
-  const label = "skins.json.items[" + index + "]";
+for (const [index, item] of skinItems.entries()) {
+  const label = "skin items[" + index + "]";
   check(isText(item.name), label + ".name is required.");
   check(skinCategories.has(item.category), label + ".category is unsupported: " + item.category);
+  ["nameKo", "sourceUrl"].forEach(field => {
+    if (item[field] != null) check(isText(item[field]), label + "." + field + " must be omitted when empty.");
+  });
   if (item.category === "weapon") {
     check(weaponCategories.has(item.subcategory), label + ".subcategory is unsupported: " + item.subcategory);
     if (item.subcategory === "primary") {
@@ -246,5 +272,5 @@ if (failures.length) {
 }
 
 console.log("Validated " + CONTENT_FILES.length + " JSON files, " + commandItems.length + " commands, "
-  + (news.items || []).length + " news items, and " + (skins.items || []).length + " skins.");
+  + (news.items || []).length + " news items, and " + skinItems.length + " skins.");
 console.log("Skin preview assets: " + (skinBytes / 1024 / 1024).toFixed(1) + " MiB.");
