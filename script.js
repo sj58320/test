@@ -12,6 +12,7 @@ let skinData = null;
 let skinSearchQuery = "";
 let skinCategoryFilter = "human";
 let skinWeaponFilter = "primary";
+let skinPrimaryTypeFilter = "all";
 let skinImageObserver = null;
 let skinCardsRendered = false;
 let globalSearchQuery = "";
@@ -369,6 +370,10 @@ function applyDeepLink() {
       skinCategoryFilter = targetItem.category || "human";
       if (targetItem.subcategory && skinWeaponFilter !== targetItem.subcategory) needsRender = true;
       if (targetItem.subcategory) skinWeaponFilter = targetItem.subcategory;
+      if (targetItem.subcategory === "primary" && targetItem.weaponType) {
+        if (skinPrimaryTypeFilter !== targetItem.weaponType) needsRender = true;
+        skinPrimaryTypeFilter = targetItem.weaponType;
+      }
     }
     if (skinData && (needsRender || !document.getElementById(hash))) {
       renderSkins();
@@ -729,25 +734,14 @@ function renderGlobalSearch() {
       query
     })
   })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
-  const skinMatches = (skinData?.items || []).map(item => ({
-    item,
-    score: getSearchScore({
-      primary: item.name || "",
-      aliases: [item.nameKo || ""],
-      details: [getSkinPathLabel(item)],
-      query
-    })
-  })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
-
-  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms} · News {news} · Skins {skins}";
+  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms} · News {news}";
   const summary = document.createElement("p");
   summary.className = "global-search-summary";
   summary.textContent = summaryTemplate
     .replace("{faq}", faqMatches.length)
     .replace("{commands}", commandMatches.length)
     .replace("{terms}", termMatches.length)
-    .replace("{news}", newsMatches.length)
-    .replace("{skins}", skinMatches.length);
+    .replace("{news}", newsMatches.length);
 
   const list = document.createElement("div");
   list.className = "global-search-list";
@@ -781,15 +775,6 @@ function renderGlobalSearch() {
         normalizeSearchText(item.content || item.summary || item.author || "").slice(0, 180),
         "news",
         () => navigateToDeepLink(deepLinkId("news", item.id || item.title || item.publishedAt))
-      )
-    )),
-    makeGlobalSearchGroup("skin", skinMatches.length, skinMatches.slice(0, 10).map(({ item }) =>
-      makeGlobalSearchItem(
-        "skin",
-        item.name || item.nameKo,
-        [getSkinPathLabel(item), item.nameKo].filter(Boolean).join(" · "),
-        "skins",
-        () => navigateToDeepLink(deepLinkId("skin", item.id || item.name))
       )
     ))
   ].filter(Boolean);
@@ -1520,13 +1505,11 @@ async function loadSkins() {
     const updatedAt = document.getElementById("skinLastUpdate");
     if (updatedAt) updatedAt.textContent = formatNewsDate(skinData.updatedAt) || "-";
     if (document.body.dataset.activeTab === "skins") renderSkins();
-    renderGlobalSearch();
   } catch (err) {
     console.error("skins load failed:", err);
     skinData = { updatedAt: "", items: [] };
     skinCardsRendered = false;
     if (document.body.dataset.activeTab === "skins") renderSkins();
-    renderGlobalSearch();
     grid.title = `skins.json load failed: ${err.message}`;
   }
 }
@@ -1548,10 +1531,28 @@ function getSkinWeaponLabel(subcategory) {
   return window.LANG?.[getCurrentLang()]?.[key] || subcategory || "";
 }
 
+function getSkinPrimaryTypeLabel(weaponType) {
+  const key = {
+    smg: "skins_primary_type_smg",
+    rifle: "skins_primary_type_rifle",
+    shotgun: "skins_primary_type_shotgun",
+    machinegun: "skins_primary_type_machinegun",
+    sniper: "skins_primary_type_sniper",
+    other: "skins_primary_type_other"
+  }[weaponType];
+  return window.LANG?.[getCurrentLang()]?.[key] || weaponType || "";
+}
+
+function getSkinDisplayName(item) {
+  if (getCurrentLang() === "ko" && item.nameKo) return item.nameKo;
+  return item.name || item.nameKo || "Skin";
+}
+
 function getSkinPathLabel(item) {
   return [
     getSkinCategoryLabel(item.category),
-    item.category === "weapon" ? getSkinWeaponLabel(item.subcategory) : ""
+    item.category === "weapon" ? getSkinWeaponLabel(item.subcategory) : "",
+    item.subcategory === "primary" ? getSkinPrimaryTypeLabel(item.weaponType) : ""
   ].filter(Boolean).join(" · ");
 }
 
@@ -1567,6 +1568,27 @@ function getSkinMediaLabel(media, index, total) {
     : window.LANG?.[getCurrentLang()]?.skins_preview || "Preview";
   return total > 1 ? `${base} ${index + 1}` : base;
 }
+
+function openSkinImageDialog(src, alt, caption) {
+  const dialog = document.getElementById("skinImageDialog");
+  const image = document.getElementById("skinImageDialogImage");
+  const captionElement = document.getElementById("skinImageDialogCaption");
+  if (!dialog || !image || !captionElement) return;
+  image.src = src;
+  image.alt = alt;
+  captionElement.textContent = caption;
+  if (typeof dialog.showModal === "function") dialog.showModal();
+}
+
+function closeSkinImageDialog() {
+  const dialog = document.getElementById("skinImageDialog");
+  if (dialog?.open) dialog.close();
+}
+
+document.getElementById("skinImageDialogClose")?.addEventListener("click", closeSkinImageDialog);
+document.getElementById("skinImageDialog")?.addEventListener("click", event => {
+  if (event.target === event.currentTarget) closeSkinImageDialog();
+});
 
 function createSkinFigure(media, label, skinName, eager = false) {
   const figure = document.createElement("figure");
@@ -1586,11 +1608,9 @@ function createSkinFigure(media, label, skinName, eager = false) {
     frame.appendChild(video);
     figure.appendChild(frame);
   } else {
-    const link = document.createElement("a");
-    link.className = "skin-media-frame";
-    link.href = assetUrl(media.src);
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "skin-media-frame skin-image-button";
 
     const image = document.createElement("img");
     image.loading = eager ? "eager" : "lazy";
@@ -1601,8 +1621,13 @@ function createSkinFigure(media, label, skinName, eager = false) {
     image.width = Number(media.width) || 800;
     image.height = Number(media.height) || 800;
     image.alt = `${skinName} - ${label}`;
-    link.appendChild(image);
-    figure.appendChild(link);
+    button.appendChild(image);
+    button.addEventListener("click", () => openSkinImageDialog(
+      imageUrl,
+      image.alt,
+      `${skinName} · ${label}`
+    ));
+    figure.appendChild(button);
   }
 
   const caption = document.createElement("figcaption");
@@ -1626,17 +1651,12 @@ function createSkinCard(item, index) {
   const names = document.createElement("div");
   names.className = "skin-names";
   const heading = document.createElement("h3");
-  heading.textContent = item.name || item.nameKo || "Skin";
+  heading.textContent = getSkinDisplayName(item);
   names.appendChild(heading);
   const category = document.createElement("span");
   category.className = "skin-category-path";
   category.textContent = getSkinPathLabel(item);
   names.appendChild(category);
-  if (item.nameKo && item.nameKo !== item.name) {
-    const koreanName = document.createElement("p");
-    koreanName.textContent = item.nameKo;
-    names.appendChild(koreanName);
-  }
 
   const actions = document.createElement("div");
   actions.className = "skin-actions";
@@ -1656,7 +1676,7 @@ function createSkinCard(item, index) {
   previews.className = "skin-previews";
   if (item.category !== "weapon") previews.classList.add("skin-character-previews");
   if ((item.media || []).length === 1) previews.classList.add("skin-single-preview");
-  const skinName = [item.name, item.nameKo].filter(Boolean).join(" / ");
+  const skinName = getSkinDisplayName(item);
   const mediaItems = item.media || [];
   previews.append(...mediaItems.map((media, mediaIndex) => createSkinFigure(
     media,
@@ -1675,6 +1695,12 @@ function skinCategoryCount(category, subcategory = null) {
   ).length;
 }
 
+function skinPrimaryTypeCount(weaponType) {
+  return (skinData?.items || []).filter(item =>
+    item.subcategory === "primary" && (weaponType === "all" || item.weaponType === weaponType)
+  ).length;
+}
+
 function updateSkinFilterControls() {
   document.querySelectorAll("[data-skin-category]").forEach(button => {
     const active = button.dataset.skinCategory === skinCategoryFilter;
@@ -1686,8 +1712,19 @@ function updateSkinFilterControls() {
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", active ? "true" : "false");
   });
+  document.querySelectorAll("[data-skin-primary-type]").forEach(button => {
+    const active = button.dataset.skinPrimaryType === skinPrimaryTypeFilter;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
   const weaponFilters = document.getElementById("skinWeaponFilterGroup");
   if (weaponFilters) weaponFilters.hidden = skinCategoryFilter !== "weapon";
+  const primaryTypeFilters = document.getElementById("skinPrimaryTypeFilterGroup");
+  if (primaryTypeFilters) {
+    primaryTypeFilters.hidden = !(
+      skinCategoryFilter === "weapon" && skinWeaponFilter === "primary"
+    );
+  }
 
   const counts = {
     skinCountHuman: skinCategoryCount("human"),
@@ -1696,12 +1733,21 @@ function updateSkinFilterControls() {
     skinCountPrimary: skinCategoryCount("weapon", "primary"),
     skinCountSecondary: skinCategoryCount("weapon", "secondary"),
     skinCountMelee: skinCategoryCount("weapon", "melee"),
-    skinCountThrowable: skinCategoryCount("weapon", "throwable")
+    skinCountThrowable: skinCategoryCount("weapon", "throwable"),
+    skinCountPrimaryAll: skinPrimaryTypeCount("all"),
+    skinCountPrimarySmg: skinPrimaryTypeCount("smg"),
+    skinCountPrimaryRifle: skinPrimaryTypeCount("rifle"),
+    skinCountPrimaryShotgun: skinPrimaryTypeCount("shotgun"),
+    skinCountPrimaryMachinegun: skinPrimaryTypeCount("machinegun"),
+    skinCountPrimarySniper: skinPrimaryTypeCount("sniper"),
+    skinCountPrimaryOther: skinPrimaryTypeCount("other")
   };
   Object.entries(counts).forEach(([id, count]) => {
     const element = document.getElementById(id);
     if (element) element.textContent = String(count);
   });
+  const otherFilter = document.querySelector('[data-skin-primary-type="other"]');
+  if (otherFilter) otherFilter.hidden = counts.skinCountPrimaryOther === 0;
 }
 
 function clearSkinItemHash() {
@@ -1721,6 +1767,11 @@ function renderSkins() {
   const items = (skinData.items || []).filter(item => {
     if (item.category !== skinCategoryFilter) return false;
     if (skinCategoryFilter === "weapon" && item.subcategory !== skinWeaponFilter) return false;
+    if (
+      item.subcategory === "primary"
+      && skinPrimaryTypeFilter !== "all"
+      && item.weaponType !== skinPrimaryTypeFilter
+    ) return false;
     return !query || matchesSearch(
       `${item.name || ""} ${item.nameKo || ""} ${getSkinPathLabel(item)}`,
       query
@@ -1785,6 +1836,14 @@ document.querySelectorAll("[data-skin-weapon]").forEach(button => {
   });
 });
 
+document.querySelectorAll("[data-skin-primary-type]").forEach(button => {
+  button.addEventListener("click", () => {
+    skinPrimaryTypeFilter = button.dataset.skinPrimaryType;
+    clearSkinItemHash();
+    renderSkins();
+  });
+});
+
 function addFilterKeyboardNavigation(containerId, selector) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -1806,6 +1865,7 @@ function addFilterKeyboardNavigation(containerId, selector) {
 
 addFilterKeyboardNavigation("skinCategoryFilters", "[data-skin-category]");
 addFilterKeyboardNavigation("skinWeaponFilters", "[data-skin-weapon]");
+addFilterKeyboardNavigation("skinPrimaryTypeFilters", "[data-skin-primary-type]:not([hidden])");
 
 window.addEventListener("load", loadSkins);
 

@@ -1090,7 +1090,7 @@ button.back-to-top:focus-visible{border-color:var(--accent); background:rgba(21,
   font-weight:700;
 }
 .skin-filter-tabs{display:flex; flex-wrap:wrap; gap:8px}
-.skin-filter{
+.pico button.skin-filter{
   display:inline-flex;
   width:auto;
   min-height:38px;
@@ -1098,14 +1098,14 @@ button.back-to-top:focus-visible{border-color:var(--accent); background:rgba(21,
   padding:7px 12px;
   align-items:center;
   gap:7px;
-  border:1px solid var(--line);
+  border:1px solid rgba(31,42,61,.95);
   border-radius:10px;
-  background:rgba(7,10,15,.32);
-  color:var(--muted);
+  background:#070b12;
+  color:#718198;
   font-size:13px;
   font-weight:750;
 }
-.skin-filter small{
+.pico button.skin-filter small{
   display:grid;
   min-width:21px;
   height:21px;
@@ -1116,22 +1116,29 @@ button.back-to-top:focus-visible{border-color:var(--accent); background:rgba(21,
   color:var(--muted);
   font-size:10px;
 }
-.skin-filter:hover,.skin-filter:focus-visible{
-  border-color:rgba(77,163,255,.35);
-  background:rgba(77,163,255,.08);
+.pico button.skin-filter:hover,.pico button.skin-filter:focus-visible{
+  border-color:rgba(77,163,255,.45);
+  background:rgba(77,163,255,.1);
   color:var(--text);
 }
-.skin-filter.active{
-  border-color:rgba(77,163,255,.55);
-  background:rgba(77,163,255,.15);
-  color:var(--text);
+.pico button.skin-filter.active{
+  border-color:rgba(77,163,255,.75);
+  background:rgba(77,163,255,.24);
+  color:#f4f9ff;
+  box-shadow:0 0 0 1px rgba(77,163,255,.08) inset,0 4px 16px rgba(0,0,0,.18);
 }
-.skin-filter.active small{background:rgba(77,163,255,.2); color:#bdddff}
-.skin-weapon-tabs .skin-filter.active{
-  border-color:rgba(83,210,140,.5);
-  background:rgba(83,210,140,.12);
+.pico button.skin-filter.active small{background:rgba(77,163,255,.2); color:#bdddff}
+.pico .skin-category-tabs button.skin-filter{min-height:42px; padding:8px 15px; font-size:14px}
+.pico .skin-category-tabs button.skin-filter.active{background:linear-gradient(180deg,rgba(77,163,255,.3),rgba(77,163,255,.18))}
+.pico .skin-weapon-tabs button.skin-filter.active{
+  border-color:rgba(83,210,140,.7);
+  background:rgba(83,210,140,.2);
 }
-.skin-weapon-tabs .skin-filter.active small{background:rgba(83,210,140,.18); color:#b9f4d3}
+.pico .skin-weapon-tabs button.skin-filter.active small{background:rgba(83,210,140,.18); color:#b9f4d3}
+.pico .skin-primary-type-tabs button.skin-filter.active{
+  border-color:rgba(183,136,255,.7);
+  background:rgba(183,136,255,.2);
+}
 .skin-result-count{
   margin:0;
   color:var(--muted);
@@ -1234,6 +1241,16 @@ button.back-to-top:focus-visible{border-color:var(--accent); background:rgba(21,
   border-radius:10px;
   background:#05080e;
 }
+.pico button.skin-image-button{
+  width:100%;
+  min-height:0;
+  margin:0;
+  padding:0;
+  appearance:none;
+  box-shadow:none;
+  cursor:zoom-in;
+}
+.pico button.skin-image-button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
 .skin-preview img,.skin-preview video{
   display:block;
   width:100%;
@@ -1259,6 +1276,51 @@ button.back-to-top:focus-visible{border-color:var(--accent); background:rgba(21,
   border-radius:12px;
   color:var(--muted);
   text-align:center;
+}
+
+.skin-image-dialog{
+  width:min(94vw,1500px);
+  max-width:none;
+  max-height:94vh;
+  padding:48px 18px 18px;
+  overflow:hidden;
+  border:1px solid rgba(77,163,255,.45);
+  border-radius:16px;
+  background:#070b12;
+  color:var(--text);
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
+}
+.skin-image-dialog::backdrop{background:rgba(0,0,0,.84); backdrop-filter:blur(3px)}
+.skin-image-dialog figure{display:grid; margin:0; gap:10px; place-items:center}
+.skin-image-dialog img{
+  display:block;
+  width:auto;
+  max-width:100%;
+  max-height:78vh;
+  border-radius:10px;
+  object-fit:contain;
+}
+.skin-image-dialog figcaption{color:var(--muted); font-size:13px; text-align:center}
+.skin-image-dialog-close{
+  position:absolute;
+  top:10px;
+  right:10px;
+  display:grid;
+  width:34px;
+  min-height:34px;
+  margin:0;
+  padding:0;
+  place-items:center;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#101722;
+  color:var(--text);
+  font-size:23px;
+  line-height:1;
+}
+.skin-image-dialog-close:hover,.skin-image-dialog-close:focus-visible{
+  border-color:var(--accent);
+  background:rgba(77,163,255,.18);
 }
 
 @media (hover:hover){

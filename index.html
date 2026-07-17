@@ -167,7 +167,7 @@
         <div class="skin-tools">
           <div class="skin-filter-group">
             <span class="skin-filter-label" data-lang="skins_category_label">스킨 종류</span>
-            <div id="skinCategoryFilters" class="skin-filter-tabs" role="group" data-lang-aria="skins_category_label" aria-label="스킨 종류">
+            <div id="skinCategoryFilters" class="skin-filter-tabs skin-category-tabs" role="group" data-lang-aria="skins_category_label" aria-label="스킨 종류">
               <button type="button" class="skin-filter active" data-skin-category="human" aria-pressed="true"><span data-lang="skins_category_human">인간</span><small id="skinCountHuman"></small></button>
               <button type="button" class="skin-filter" data-skin-category="zombie" aria-pressed="false"><span data-lang="skins_category_zombie">좀비</span><small id="skinCountZombie"></small></button>
               <button type="button" class="skin-filter" data-skin-category="weapon" aria-pressed="false"><span data-lang="skins_category_weapon">무기</span><small id="skinCountWeapon"></small></button>
@@ -180,6 +180,18 @@
               <button type="button" class="skin-filter" data-skin-weapon="secondary" aria-pressed="false"><span data-lang="skins_weapon_secondary">보조무기</span><small id="skinCountSecondary"></small></button>
               <button type="button" class="skin-filter" data-skin-weapon="melee" aria-pressed="false"><span data-lang="skins_weapon_melee">근접무기</span><small id="skinCountMelee"></small></button>
               <button type="button" class="skin-filter" data-skin-weapon="throwable" aria-pressed="false"><span data-lang="skins_weapon_throwable">투척무기</span><small id="skinCountThrowable"></small></button>
+            </div>
+          </div>
+          <div id="skinPrimaryTypeFilterGroup" class="skin-filter-group" hidden>
+            <span class="skin-filter-label" data-lang="skins_primary_type_label">주무기 종류</span>
+            <div id="skinPrimaryTypeFilters" class="skin-filter-tabs skin-primary-type-tabs" role="group" data-lang-aria="skins_primary_type_label" aria-label="주무기 종류">
+              <button type="button" class="skin-filter active" data-skin-primary-type="all" aria-pressed="true"><span data-lang="skins_primary_type_all">전체</span><small id="skinCountPrimaryAll"></small></button>
+              <button type="button" class="skin-filter" data-skin-primary-type="smg" aria-pressed="false"><span data-lang="skins_primary_type_smg">기관단총</span><small id="skinCountPrimarySmg"></small></button>
+              <button type="button" class="skin-filter" data-skin-primary-type="rifle" aria-pressed="false"><span data-lang="skins_primary_type_rifle">소총</span><small id="skinCountPrimaryRifle"></small></button>
+              <button type="button" class="skin-filter" data-skin-primary-type="shotgun" aria-pressed="false"><span data-lang="skins_primary_type_shotgun">산탄총</span><small id="skinCountPrimaryShotgun"></small></button>
+              <button type="button" class="skin-filter" data-skin-primary-type="machinegun" aria-pressed="false"><span data-lang="skins_primary_type_machinegun">기관총</span><small id="skinCountPrimaryMachinegun"></small></button>
+              <button type="button" class="skin-filter" data-skin-primary-type="sniper" aria-pressed="false"><span data-lang="skins_primary_type_sniper">저격총</span><small id="skinCountPrimarySniper"></small></button>
+              <button type="button" class="skin-filter" data-skin-primary-type="other" aria-pressed="false" hidden><span data-lang="skins_primary_type_other">기타</span><small id="skinCountPrimaryOther"></small></button>
             </div>
           </div>
           <label class="term-search-label" for="skinSearch" data-lang="skins_search_label">스킨 검색</label>
@@ -198,6 +210,13 @@
       </section>
     </div>
   </main>
+  <dialog id="skinImageDialog" class="skin-image-dialog" aria-labelledby="skinImageDialogCaption">
+    <button id="skinImageDialogClose" class="skin-image-dialog-close" type="button" data-lang-aria="skins_modal_close" aria-label="이미지 닫기">×</button>
+    <figure>
+      <img id="skinImageDialogImage" src="" alt="" />
+      <figcaption id="skinImageDialogCaption"></figcaption>
+    </figure>
+  </dialog>
   <button
     id="backToTop"
     class="back-to-top"
