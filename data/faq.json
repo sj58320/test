@@ -81,12 +81,7 @@
       "id": "server_rules",
       "question": { "langKey": "faq_5" },
       "body": [
-        {
-          "type": "link",
-          "href": "https://discord.com/channels/850664390779731978/1321861335520120882/1384827886946484245",
-          "text": { "langKey": "discord_link" }
-        },
-        { "type": "text", "text": { "langKey": "answer_5", "prefix": " " } }
+        { "type": "text", "text": { "langKey": "answer_5" } }
       ]
     },
     {

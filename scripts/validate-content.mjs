@@ -13,6 +13,7 @@ const SKIN_CATALOG_FILES = {
 };
 const CONTENT_FILES = [
   "faq.json",
+  "rules.json",
   "commands.json",
   "terms.json",
   "news.json",
@@ -134,6 +135,50 @@ function checkLangKey(value, label) {
       checkLangKey(block.alt, blockLabel + ".alt");
     }
   });
+});
+
+const rules = content["rules.json"];
+check(rules.locales && typeof rules.locales === "object", "rules.json.locales is required.");
+const ruleSignatures = {};
+let ruleCount = 0;
+["ko", "en", "jp"].forEach(lang => {
+  const locale = rules.locales?.[lang];
+  const localeLabel = "rules.json.locales." + lang;
+  check(locale && typeof locale === "object", localeLabel + " is required.");
+  if (!locale) return;
+  check(isText(locale.title), localeLabel + ".title is required.");
+  check(isText(locale.warning), localeLabel + ".warning is required.");
+  check(Array.isArray(locale.sections) && locale.sections.length > 0, localeLabel + ".sections must not be empty.");
+  checkUnique((locale.sections || []).map(section => section.id), "Rule section ids for " + lang);
+  const itemIds = [];
+  (locale.sections || []).forEach((section, sectionIndex) => {
+    const sectionLabel = localeLabel + ".sections[" + sectionIndex + "]";
+    check(isText(section.id), sectionLabel + ".id is required.");
+    check(isText(section.title), sectionLabel + ".title is required.");
+    check(typeof section.numbered === "boolean", sectionLabel + ".numbered must be a boolean.");
+    check(Array.isArray(section.items) && section.items.length > 0, sectionLabel + ".items must not be empty.");
+    (section.items || []).forEach((item, itemIndex) => {
+      const itemLabel = sectionLabel + ".items[" + itemIndex + "]";
+      check(isText(item.id), itemLabel + ".id is required.");
+      check(isText(item.title), itemLabel + ".title is required.");
+      if (item.description != null) check(isText(item.description), itemLabel + ".description must not be empty.");
+      itemIds.push(item.id);
+    });
+    if (section.note != null) check(isText(section.note), sectionLabel + ".note must not be empty.");
+  });
+  checkUnique(itemIds, "Rule item ids for " + lang);
+  check(isText(locale.footer?.title), localeLabel + ".footer.title is required.");
+  check(isText(locale.footer?.body), localeLabel + ".footer.body is required.");
+  ruleSignatures[lang] = JSON.stringify(
+    (locale.sections || []).map(section => ({
+      id: section.id,
+      items: (section.items || []).map(item => item.id)
+    }))
+  );
+  if (lang === "ko") ruleCount = itemIds.length;
+});
+["en", "jp"].forEach(lang => {
+  check(ruleSignatures[lang] === ruleSignatures.ko, "rules.json " + lang + " must use the same section and item ids as ko.");
 });
 
 const commands = content["commands.json"];
@@ -271,6 +316,7 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Validated " + CONTENT_FILES.length + " JSON files, " + commandItems.length + " commands, "
-  + (news.items || []).length + " news items, and " + skinItems.length + " skins.");
+console.log("Validated " + CONTENT_FILES.length + " JSON files, " + ruleCount + " rules, "
+  + commandItems.length + " commands, " + (news.items || []).length + " news items, and "
+  + skinItems.length + " skins.");
 console.log("Skin preview assets: " + (skinBytes / 1024 / 1024).toFixed(1) + " MiB.");

@@ -6,6 +6,7 @@ const DEFAULT_LANG = "ko";
 const SUPPORTED_LANGS = new Set(["ko", "en", "jp"]);
 let commandGuideData = null;
 let faqData = null;
+let rulesData = null;
 let termGuideData = null;
 let newsData = null;
 let skinData = null;
@@ -344,6 +345,7 @@ function applyDeepLink() {
   const hash = decodeURIComponent((location.hash || "").slice(1));
   if (!hash || validTabs.includes(hash)) return;
   const tab = hash.startsWith("faq-") ? "faq"
+    : hash.startsWith("rule-") ? "rules"
     : hash.startsWith("command-") ? "cmds"
     : hash.startsWith("term-") ? "guide"
     : hash.startsWith("news-") ? "news"
@@ -417,7 +419,7 @@ const validTabs = [...tabs].map(tab => tab.dataset.tab);
 function applyLocationState() {
   const hash = (location.hash || "").replace("#", "");
   if (validTabs.includes(hash)) openTab(hash, false);
-  else if (/^(faq|command|term|news|skin)-/.test(decodeURIComponent(hash))) applyDeepLink();
+  else if (/^(faq|rule|command|term|news|skin)-/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
 }
 window.addEventListener("load", applyLocationState);
@@ -555,6 +557,7 @@ function setLanguage(lang, syncUrl = true) {
   }
   renderCommandGuide();
   renderFaq();
+  renderRules();
   renderTermGuide();
   renderNews();
   if (document.body.dataset.activeTab === "skins") renderSkins();
@@ -690,6 +693,18 @@ function renderGlobalSearch() {
       query
     })
   })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
+  const rulesLocale = getRulesLocale();
+  const ruleMatches = (rulesLocale?.sections || []).flatMap(section =>
+    (section.items || []).map(item => ({
+      item,
+      section,
+      score: getSearchScore({
+        primary: item.title,
+        details: [item.description, section.title, section.note],
+        query
+      })
+    }))
+  ).filter(result => result.score != null).sort((a, b) => a.score - b.score);
   const commandMatches = (commandGuideData?.pages || []).flatMap(page =>
     (page.sections || []).flatMap(section => (section.commands || []).map(item => {
       const aliases = [...(item.aliases || []), ...(item.keywords || [])].map(value => localizeText(value));
@@ -748,11 +763,12 @@ function renderGlobalSearch() {
       query
     })
   })).filter(result => result.score != null).sort((a, b) => a.score - b.score);
-  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Commands {commands} · Terms {terms} · News {news} · Skins {skins}";
+  const summaryTemplate = window.LANG?.[getCurrentLang()]?.global_search_summary || "FAQ {faq} · Rules {rules} · Commands {commands} · Terms {terms} · News {news} · Skins {skins}";
   const summary = document.createElement("p");
   summary.className = "global-search-summary";
   summary.textContent = summaryTemplate
     .replace("{faq}", faqMatches.length)
+    .replace("{rules}", ruleMatches.length)
     .replace("{commands}", commandMatches.length)
     .replace("{terms}", termMatches.length)
     .replace("{news}", newsMatches.length)
@@ -766,6 +782,15 @@ function renderGlobalSearch() {
       makeGlobalSearchItem(
         "faq", localizeContent(item.question), faqSearchText(item).slice(0, 140), "faq",
         () => navigateToDeepLink(deepLinkId("faq", item.id || localizeContent(item.question)))
+      )
+    )),
+    makeGlobalSearchGroup("rule", ruleMatches.length, ruleMatches.slice(0, 10).map(({ item, section }) =>
+      makeGlobalSearchItem(
+        "rule",
+        item.title,
+        [section.title, item.description].filter(Boolean).join(" · "),
+        "rules",
+        () => navigateToDeepLink(deepLinkId("rule", item.id))
       )
     )),
     makeGlobalSearchGroup("command", commandMatches.length, commandMatches.slice(0, 10).map(({ item, page, section }) =>
@@ -1085,7 +1110,110 @@ function createFaqBlock(block) {
 }
 
 window.addEventListener("load", loadFaq);
-// 4. Command guide from JSON
+
+// 5. Server rules from JSON
+function getRulesLocale(lang = getCurrentLang()) {
+  return rulesData?.locales?.[lang]
+    || rulesData?.locales?.[DEFAULT_LANG]
+    || rulesData?.locales?.en
+    || null;
+}
+
+function createRuleSection(section) {
+  const container = document.createElement("section");
+  container.className = "rules-section";
+  container.id = deepLinkId("rule-section", section.id);
+
+  const heading = document.createElement("h3");
+  heading.textContent = section.title;
+
+  const list = document.createElement(section.numbered === false ? "ul" : "ol");
+  list.className = "rules-list";
+  if (section.numbered === false) list.classList.add("rules-examples");
+
+  (section.items || []).forEach(item => {
+    const entry = document.createElement("li");
+    entry.className = "rule-item";
+    entry.id = deepLinkId("rule", item.id);
+
+    const header = document.createElement("div");
+    header.className = "rule-item-header";
+    const title = document.createElement("h4");
+    title.textContent = item.title;
+    header.append(title, makeShareButton(entry.id, item.title, "rule-share"));
+    entry.appendChild(header);
+
+    if (item.description) {
+      const description = document.createElement("p");
+      description.textContent = item.description;
+      entry.appendChild(description);
+    }
+    list.appendChild(entry);
+  });
+
+  container.append(heading, list);
+  if (section.note) {
+    const note = document.createElement("p");
+    note.className = "rules-note";
+    note.textContent = section.note;
+    container.appendChild(note);
+  }
+  return container;
+}
+
+function renderRules() {
+  const content = document.getElementById("rulesContent");
+  if (!content || !rulesData) return;
+  const locale = getRulesLocale();
+  if (!locale) {
+    const unavailable = document.createElement("p");
+    unavailable.className = "rules-loading";
+    unavailable.textContent = window.LANG?.[getCurrentLang()]?.rules_unavailable || "Unable to load the server rules.";
+    content.replaceChildren(unavailable);
+    return;
+  }
+
+  const pageTitle = document.getElementById("rulesPageTitle");
+  if (pageTitle) pageTitle.textContent = locale.title;
+
+  const warning = document.createElement("aside");
+  warning.className = "rules-warning";
+  warning.textContent = locale.warning;
+
+  const sections = (locale.sections || []).map(createRuleSection);
+  const other = document.createElement("section");
+  other.className = "rules-section rules-other";
+  const otherTitle = document.createElement("h3");
+  otherTitle.textContent = locale.footer?.title || "";
+  const otherBody = document.createElement("p");
+  otherBody.textContent = locale.footer?.body || "";
+  other.append(otherTitle, otherBody);
+
+  content.replaceChildren(warning, ...sections, other);
+  applyDeepLink();
+}
+
+async function loadRules() {
+  const content = document.getElementById("rulesContent");
+  if (!content) return;
+  try {
+    rulesData = await fetchJsonWithFallback("data/rules.json");
+    setContentUpdatedAt("rulesLastUpdate", rulesData);
+    renderRules();
+    renderGlobalSearch();
+  } catch (err) {
+    console.error("server rules load failed:", err);
+    const unavailable = document.createElement("p");
+    unavailable.className = "rules-loading";
+    unavailable.textContent = window.LANG?.[getCurrentLang()]?.rules_unavailable || "Unable to load the server rules.";
+    content.replaceChildren(unavailable);
+    content.title = `data/rules.json load failed: ${err.message}`;
+  }
+}
+
+window.addEventListener("load", loadRules);
+
+// 6. Command guide from JSON
 async function loadCommandGuide() {
   const guide = document.getElementById("commandGuide");
   if (!guide) return;
