@@ -23,6 +23,7 @@ const NEWS_WIDTH_STORAGE_KEY = "newsPanelWidth";
 const NEWS_DEFAULT_WIDTH = 1160;
 const NEWS_MIN_WIDTH = 760;
 const NEWS_MAX_WIDTH = 1600;
+const PRIMARY_SKIN_TYPE_ORDER = ["smg", "rifle", "shotgun", "machinegun", "sniper", "other"];
 const favoriteCommands = new Set(readStoredArray("favoriteCommands"));
 let newsMarkdownRenderer = null;
 const FAQ_FALLBACK = {
@@ -1686,6 +1687,32 @@ function createSkinCard(item, index) {
   return article;
 }
 
+function createSkinTypeSection(weaponType, items, startIndex) {
+  const section = document.createElement("section");
+  section.className = "skin-type-section";
+
+  const headingId = `skin-type-${weaponType}`;
+  const heading = document.createElement("div");
+  heading.className = "skin-type-heading";
+
+  const title = document.createElement("h3");
+  title.id = headingId;
+  title.textContent = getSkinPrimaryTypeLabel(weaponType);
+
+  const count = document.createElement("span");
+  count.className = "skin-type-count";
+  count.textContent = String(items.length);
+
+  const typeGrid = document.createElement("div");
+  typeGrid.className = "skin-grid skin-type-grid";
+  typeGrid.append(...items.map((item, index) => createSkinCard(item, startIndex + index)));
+
+  heading.append(title, count);
+  section.setAttribute("aria-labelledby", headingId);
+  section.append(heading, typeGrid);
+  return section;
+}
+
 function skinCategoryCount(category, subcategory = null) {
   return (skinData?.items || []).filter(item =>
     item.category === category && (!subcategory || item.subcategory === subcategory)
@@ -1781,6 +1808,7 @@ function renderSkins() {
   }
 
   if (!items.length) {
+    grid.classList.remove("skin-grid-grouped");
     const empty = document.createElement("p");
     empty.className = "skin-empty";
     empty.textContent = window.LANG?.[getCurrentLang()]?.skins_empty || "No matching skins.";
@@ -1789,7 +1817,23 @@ function renderSkins() {
   }
 
   skinImageObserver?.disconnect();
-  grid.replaceChildren(...items.map(createSkinCard));
+  const groupedPrimaryView = skinCategoryFilter === "weapon"
+    && skinWeaponFilter === "primary"
+    && skinPrimaryTypeFilter === "all";
+  grid.classList.toggle("skin-grid-grouped", groupedPrimaryView);
+  if (groupedPrimaryView) {
+    let cardIndex = 0;
+    const sections = PRIMARY_SKIN_TYPE_ORDER.flatMap(weaponType => {
+      const typeItems = items.filter(item => item.weaponType === weaponType);
+      if (!typeItems.length) return [];
+      const section = createSkinTypeSection(weaponType, typeItems, cardIndex);
+      cardIndex += typeItems.length;
+      return section;
+    });
+    grid.replaceChildren(...sections);
+  } else {
+    grid.replaceChildren(...items.map(createSkinCard));
+  }
   const lazyImages = grid.querySelectorAll("img[data-src]");
   if ("IntersectionObserver" in window) {
     skinImageObserver = new IntersectionObserver(entries => {

@@ -1174,6 +1174,41 @@ button.back-to-top:focus-visible{border-color:var(--accent); background:rgba(21,
   gap:18px;
 }
 
+.skin-grid-grouped{
+  grid-template-columns:1fr;
+  gap:28px;
+}
+.skin-type-section{
+  display:grid;
+  min-width:0;
+  gap:12px;
+}
+.skin-type-heading{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:0 2px 8px;
+  border-bottom:1px solid rgba(77,163,255,.28);
+}
+.skin-type-heading h3{
+  margin:0;
+  color:var(--text);
+  font-size:18px;
+}
+.skin-type-count{
+  display:grid;
+  min-width:25px;
+  height:22px;
+  padding:0 7px;
+  place-items:center;
+  border-radius:999px;
+  background:rgba(77,163,255,.13);
+  color:var(--accent);
+  font-size:11px;
+  font-weight:800;
+}
+.skin-type-grid{width:100%}
+
 .skin-card{
   min-width:0;
   margin:0;
