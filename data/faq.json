@@ -1,11 +1,12 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-18",
+  "updatedAt": "2026-07-19",
   "quickStart": [
     { "type": "faq", "id": "console_howto" },
     { "type": "command", "id": "/stopsound" },
     { "type": "command", "id": "/hide <0~9999>" },
-    { "type": "faq", "id": "server_rules" }
+    { "type": "faq", "id": "server_rules" },
+    { "type": "faq", "id": "voice_chat_volume" }
   ],
   "items": [
     {
@@ -63,6 +64,16 @@
         { "type": "command", "id": "/stopsound" },
         { "type": "command", "id": "/music <0~100>" },
         { "type": "command", "id": "/zvolume <0~100>" }
+      ]
+    },
+    {
+      "id": "voice_chat_volume",
+      "question": { "langKey": "faq_8" },
+      "body": [
+        { "type": "text", "text": { "langKey": "answer_8_1" } },
+        { "type": "text", "text": " " },
+        { "type": "inlineCode", "value": "snd_voipvolume 2" },
+        { "type": "text", "text": { "langKey": "answer_8_2", "prefix": " " } }
       ]
     },
     {

@@ -146,7 +146,10 @@ ko: {
     answer_7_steam: "1. Steam 클라이언트 왼쪽 위의 보기 → 게임 서버를 선택하세요.",
     answer_7_cs2: "2. CS2를 실행한 뒤 플레이 → 지구본 아이콘을 눌러 서버 브라우저를 여세요.",
     answer_7_favorites: "서버 브라우저에서 즐겨찾기를 선택하고 오른쪽 아래의 + 버튼을 누르세요.",
-    answer_7_address: "아래 서버 주소를 입력하고 확인을 누르면 다음부터 즐겨찾기에서 빠르게 접속할 수 있습니다."
+    answer_7_address: "아래 서버 주소를 입력하고 확인을 누르면 다음부터 즐겨찾기에서 빠르게 접속할 수 있습니다.",
+    faq_8: "오더 (보이스챗) 목소리가 작아요..",
+    answer_8_1: "콘솔에",
+    answer_8_2: "를 치시면 됩니다."
   },
 
   en: {
@@ -296,7 +299,10 @@ ko: {
     answer_7_steam: "1. In the Steam client, select View → Game Servers in the top-left corner.",
     answer_7_cs2: "2. In Counter-Strike 2, select Play → the globe icon to open the server browser.",
     answer_7_favorites: "In the server browser, select Favorites and click the plus (+) button in the bottom-right corner.",
-    answer_7_address: "Enter the server address below and confirm it. You can then join quickly from Favorites."
+    answer_7_address: "Enter the server address below and confirm it. You can then join quickly from Favorites.",
+    faq_8: "The leader's (voice chat) volume is too low.",
+    answer_8_1: "Enter",
+    answer_8_2: "in the console."
   },
 
   jp: {
@@ -446,7 +452,10 @@ ko: {
     answer_7_steam: "1. In the Steam client, select View → Game Servers in the top-left corner.",
     answer_7_cs2: "2. In Counter-Strike 2, select Play → the globe icon to open the server browser.",
     answer_7_favorites: "In the server browser, select Favorites and click the plus (+) button in the bottom-right corner.",
-    answer_7_address: "Enter the server address below and confirm it. You can then join quickly from Favorites."
+    answer_7_address: "Enter the server address below and confirm it. You can then join quickly from Favorites.",
+    faq_8: "オーダー（ボイスチャット）の声が小さいです。",
+    answer_8_1: "コンソールに",
+    answer_8_2: "と入力してください。"
   }
 };
 
