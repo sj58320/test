@@ -1,5 +1,10 @@
 
 import { getChoseong } from "../../vendor/es-hangul.mjs";
+import {
+  commandPageDeepLink,
+  resolveFilterDeepLink,
+  skinCategoryDeepLink
+} from "./deep-link-state.mjs";
 
 // 1. 탭 전환 및 URL 해시 지원
 const DEFAULT_LANG = "ko";
@@ -280,6 +285,13 @@ function openTab(name, pushHash = true) {
   if (name === "skins" && skinData && !skinCardsRendered) renderSkins();
 }
 
+function pushLocationHash(hash) {
+  if (!hash || location.hash === "#" + hash) return;
+  const url = new URL(location.href);
+  url.hash = hash;
+  history.pushState(null, "", url);
+}
+
 function slugify(value) {
   return String(value || "item").normalize("NFKC").toLocaleLowerCase()
     .replace(/[^\p{L}\p{N}]+/gu, "-").replace(/^-+|-+$/g, "") || "item";
@@ -400,6 +412,29 @@ function applyDeepLink() {
   });
 }
 
+function applyFilterDeepLink(state) {
+  openTab(state.tab, false);
+
+  if (state.tab === "cmds") {
+    commandPageFilter = state.commandPage || "all";
+    favoriteCommandsOnly = false;
+    const favoritesOnly = document.getElementById("favoriteCommandsOnly");
+    if (favoritesOnly) favoritesOnly.checked = false;
+    if (commandGuideData) renderCommandGuide();
+    return;
+  }
+
+  skinCategoryFilter = state.skinCategory || "human";
+  skinSearchQuery = "";
+  if (skinCategoryFilter === "weapon") {
+    skinWeaponFilter = "primary";
+    skinPrimaryTypeFilter = "all";
+  }
+  const search = document.getElementById("skinSearch");
+  if (search) search.value = "";
+  if (skinData) renderSkins();
+}
+
 tabs.forEach(tab => {
   tab.addEventListener("click", () => openTab(tab.dataset.tab));
   tab.addEventListener("keydown", event => {
@@ -418,7 +453,9 @@ const validTabs = [...tabs].map(tab => tab.dataset.tab);
 
 function applyLocationState() {
   const hash = (location.hash || "").replace("#", "");
-  if (validTabs.includes(hash)) openTab(hash, false);
+  const filterState = resolveFilterDeepLink(hash);
+  if (filterState) applyFilterDeepLink(filterState);
+  else if (validTabs.includes(hash)) openTab(hash, false);
   else if (/^(faq|rule|command|term|news|skin)-/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
 }
@@ -500,7 +537,11 @@ function renderCommandFilters() {
     button.className = `command-filter${commandPageFilter === filter.id ? " active" : ""}`;
     button.textContent = filter.title;
     button.setAttribute("aria-pressed", commandPageFilter === filter.id ? "true" : "false");
-    button.addEventListener("click", () => { commandPageFilter = filter.id; renderCommandGuide(); });
+    button.addEventListener("click", () => {
+      commandPageFilter = filter.id;
+      pushLocationHash(commandPageDeepLink(filter.id));
+      renderCommandGuide();
+    });
     return button;
   }));
 }
@@ -1091,10 +1132,16 @@ function createFaqBlock(block) {
     case "image": {
       const wrapper = document.createElement("div");
       wrapper.className = "guide-step console-guide-image";
+      if (block.className) {
+        String(block.className).split(/\s+/).filter(Boolean)
+          .forEach(className => wrapper.classList.add(className));
+      }
 
       const img = document.createElement("img");
       img.src = block.src || "";
       img.alt = localizeContent(block.alt);
+      img.loading = "lazy";
+      img.decoding = "async";
       wrapper.appendChild(img);
       return wrapper;
     }
@@ -2062,7 +2109,7 @@ document.getElementById("skinSearch")?.addEventListener("input", event => {
 document.querySelectorAll("[data-skin-category]").forEach(button => {
   button.addEventListener("click", () => {
     skinCategoryFilter = button.dataset.skinCategory;
-    clearSkinItemHash();
+    pushLocationHash(skinCategoryDeepLink(skinCategoryFilter));
     renderSkins();
   });
 });

@@ -869,6 +869,11 @@ button.back-to-top:focus-visible{border-color:var(--accent); background:rgba(21,
   background: #fff;
 }
 
+.server-connect-image img {
+  width: auto;
+  max-width: 100%;
+}
+
 /* 용어 사전 */
 
 .term-search-label{

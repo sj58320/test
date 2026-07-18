@@ -140,7 +140,13 @@ ko: {
     answer_6_step1: "1. 설정",
     answer_6_step2: "2. 게임 클릭",
     answer_6_step3: "3. 게임 - 개발자 콘솔 사용(~) - 사용",
-    answer_6_step4: "4. 게임 내에서 ~를 입력하여 아래 사진과 같은 콘솔창이 켜지면 성공"
+    answer_6_step4: "4. 게임 내에서 ~를 입력하여 아래 사진과 같은 콘솔창이 켜지면 성공",
+    faq_7: "서버에 빠르고 편하게 접속하는 방법",
+    answer_7_intro: "Steam 클라이언트 또는 CS2에서 서버 브라우저를 열 수 있습니다.",
+    answer_7_steam: "1. Steam 클라이언트 왼쪽 위의 보기 → 게임 서버를 선택하세요.",
+    answer_7_cs2: "2. CS2를 실행한 뒤 플레이 → 지구본 아이콘을 눌러 서버 브라우저를 여세요.",
+    answer_7_favorites: "서버 브라우저에서 즐겨찾기를 선택하고 오른쪽 아래의 + 버튼을 누르세요.",
+    answer_7_address: "아래 서버 주소를 입력하고 확인을 누르면 다음부터 즐겨찾기에서 빠르게 접속할 수 있습니다."
   },
 
   en: {
@@ -284,7 +290,13 @@ ko: {
     answer_6_step1: "1. Settings",
     answer_6_step2: "2. Click Game",
     answer_6_step3: "3. Game -> Enable Developer Console (~) -> Yes",
-    answer_6_step4: "4. Press ~ in-game, and if the console window appears like the picture below, you are successful!"
+    answer_6_step4: "4. Press ~ in-game, and if the console window appears like the picture below, you are successful!",
+    faq_7: "How to Join the Server Quickly and Easily",
+    answer_7_intro: "You can open the server browser from either the Steam client or Counter-Strike 2.",
+    answer_7_steam: "1. In the Steam client, select View → Game Servers in the top-left corner.",
+    answer_7_cs2: "2. In Counter-Strike 2, select Play → the globe icon to open the server browser.",
+    answer_7_favorites: "In the server browser, select Favorites and click the plus (+) button in the bottom-right corner.",
+    answer_7_address: "Enter the server address below and confirm it. You can then join quickly from Favorites."
   },
 
   jp: {
@@ -428,7 +440,13 @@ ko: {
     answer_6_step1: "1. 設定",
     answer_6_step2: "2. 「ゲーム」をクリック",
     answer_6_step3: "3. ゲーム -> 開発者コンソールを有効にする(~) -> はい",
-    answer_6_step4: "4. ゲーム内で ~ を入力し、下の写真のようにコンソール画面が表示されれば成功です！"
+    answer_6_step4: "4. ゲーム内で ~ を入力し、下の写真のようにコンソール画面が表示されれば成功です！",
+    faq_7: "How to Join the Server Quickly and Easily",
+    answer_7_intro: "You can open the server browser from either the Steam client or Counter-Strike 2.",
+    answer_7_steam: "1. In the Steam client, select View → Game Servers in the top-left corner.",
+    answer_7_cs2: "2. In Counter-Strike 2, select Play → the globe icon to open the server browser.",
+    answer_7_favorites: "In the server browser, select Favorites and click the plus (+) button in the bottom-right corner.",
+    answer_7_address: "Enter the server address below and confirm it. You can then join quickly from Favorites."
   }
 };
 
