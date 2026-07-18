@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-17",
+  "updatedAt": "2026-07-19",
   "pages": [
     {
       "id": "basic",
@@ -198,9 +198,25 @@
             {
               "command": "/setting",
               "description": {
-                "ko": "현재 적용된 세팅 확인",
-                "en": "Check current settings",
-                "jp": "現在のマップ設定を確認"
+                "ko": "개인 설정 메뉴를 엽니다.",
+                "en": "Open the personal settings menu.",
+                "jp": "個人設定メニューを開きます。"
+              }
+            },
+            {
+              "command": "/recoil",
+              "description": {
+                "ko": "화면 반동 감소를 ON/OFF 합니다.",
+                "en": "Toggle reduced screen recoil.",
+                "jp": "画面の反動軽減をON/OFFします。"
+              }
+            },
+            {
+              "command": "/svsetting",
+              "description": {
+                "ko": "현재 서버 설정을 출력합니다.",
+                "en": "Display the current server settings.",
+                "jp": "現在のサーバー設定を表示します。"
               }
             },
             {
