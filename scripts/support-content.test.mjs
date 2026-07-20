@@ -30,7 +30,7 @@ test("keeps all configured VIP benefits in the correct groups", () => {
   const groups = Object.fromEntries(support.benefitGroups.map(group => [group.id, group]));
   assert.deepEqual(
     groups.included.items.map(item => item.id),
-    ["model_color", "rainbow", "tracer", "chat_tag", "emote"]
+    ["model_color", "rainbow", "tracer", "chat_tag", "emote", "custom_radio"]
   );
   assert.deepEqual(
     groups.exclusive.items.map(item => item.id),

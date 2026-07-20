@@ -295,13 +295,13 @@ const supportBenefitItems = (support.benefitGroups || []).flatMap((group, groupI
   });
 });
 checkUnique(supportBenefitItems.map(item => item.id), "Support benefit ids");
-const includedBenefitIds = new Set(["model_color", "rainbow", "tracer", "chat_tag", "emote"]);
+const includedBenefitIds = new Set(["model_color", "rainbow", "tracer", "chat_tag", "emote", "custom_radio"]);
 const exclusiveBenefitIds = new Set(["reserved_slot", "spectator_kick", "skin_shuffle"]);
 const includedGroup = (support.benefitGroups || []).find(group => group.id === "included");
 const exclusiveGroup = (support.benefitGroups || []).find(group => group.id === "exclusive");
 check((includedGroup?.items || []).length === includedBenefitIds.size
   && (includedGroup?.items || []).every(item => includedBenefitIds.has(item.id)),
-"support.json included group must contain all five configured VIP features.");
+"support.json included group must contain all six configured VIP features.");
 check((exclusiveGroup?.items || []).length === exclusiveBenefitIds.size
   && (exclusiveGroup?.items || []).every(item => exclusiveBenefitIds.has(item.id)),
 "support.json exclusive group must contain reserved slot, spectator kick, and skin shuffle.");

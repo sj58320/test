@@ -5,6 +5,11 @@ import {
   resolveFilterDeepLink,
   skinCategoryDeepLink
 } from "./deep-link-state.mjs";
+import {
+  addRecentView,
+  normalizeRecentViews,
+  removeRecentView
+} from "./recent-views.mjs";
 
 // 1. 탭 전환 및 URL 해시 지원
 const DEFAULT_LANG = "ko";
@@ -16,6 +21,7 @@ let termGuideData = null;
 let newsData = null;
 let skinData = null;
 let supportData = null;
+let supportCommandDialogTrigger = null;
 let skinSearchQuery = "";
 let skinCategoryFilter = "human";
 let skinWeaponFilter = "primary";
@@ -30,6 +36,7 @@ let commandPageFilter = "all";
 let favoriteCommandsOnly = false;
 let toastTimer = null;
 const NEWS_WIDTH_STORAGE_KEY = "newsPanelWidth";
+const RECENT_VIEWS_STORAGE_KEY = "recentViews";
 const NEWS_DEFAULT_WIDTH = 1160;
 const NEWS_MIN_WIDTH = 760;
 const NEWS_MAX_WIDTH = 1600;
@@ -363,6 +370,7 @@ function applyDeepLink() {
     : hash.startsWith("term-") ? "guide"
     : hash.startsWith("news-") ? "news"
     : hash.startsWith("skin-") ? "skins"
+    : hash.startsWith("support-benefit") ? "support"
     : null;
   if (!tab) return;
   openTab(tab, false);
@@ -403,6 +411,7 @@ function applyDeepLink() {
   requestAnimationFrame(() => {
     const target = document.getElementById(hash);
     if (!target) return;
+    recordRecentTargetElement(target);
     if (target.tagName === "DETAILS") target.open = true;
     document.querySelectorAll(".deep-link-target").forEach(el => el.classList.remove("deep-link-target"));
     target.classList.add("deep-link-target");
@@ -457,7 +466,7 @@ function applyLocationState() {
   const filterState = resolveFilterDeepLink(hash);
   if (filterState) applyFilterDeepLink(filterState);
   else if (validTabs.includes(hash)) openTab(hash, false);
-  else if (/^(faq|rule|command|term|news|skin)-/.test(decodeURIComponent(hash))) applyDeepLink();
+  else if (/^(?:(?:faq|rule|command|term|news|skin)-|support-benefit)/.test(decodeURIComponent(hash))) applyDeepLink();
   else openTab("faq", false); // 기본은 FAQ
 }
 window.addEventListener("load", applyLocationState);
@@ -606,6 +615,7 @@ function setLanguage(lang, syncUrl = true) {
   if (document.body.dataset.activeTab === "skins") renderSkins();
   else skinCardsRendered = false;
   renderGlobalSearch();
+  renderRecentViews();
 }
 
 function faqAnswerText(item) {
@@ -1069,6 +1079,7 @@ function createFaqItem(item) {
 
   const question = document.createElement("span");
   question.textContent = localizeContent(item.question);
+  markRecentTarget(details, "faq", question.textContent);
 
   const chev = document.createElement("span");
   chev.className = "chev";
@@ -1189,6 +1200,7 @@ function createRuleSection(section) {
     header.className = "rule-item-header";
     const title = document.createElement("h4");
     title.textContent = item.title;
+    markRecentTarget(entry, "rule", title.textContent);
     header.append(title, makeShareButton(entry.id, item.title, "rule-share"));
     entry.appendChild(header);
 
@@ -1317,6 +1329,7 @@ function createCommandPage(page) {
       const desc = document.createElement("div");
       desc.className = "command-desc";
       desc.textContent = localizeText(item.description);
+      markRecentTarget(row, "command", item.command);
 
       const actions = document.createElement("div");
       actions.className = "command-actions";
@@ -1513,6 +1526,7 @@ function createTermSection(section) {
 
     const description = document.createElement("td");
     description.textContent = item.description || "";
+    markRecentTarget(row, "term", item.term);
 
     row.append(name, description);
     body.appendChild(row);
@@ -1631,6 +1645,7 @@ function renderNews() {
 
     const heading = document.createElement("h3");
     heading.textContent = item.title || "Announcement";
+    markRecentTarget(article, "news", heading.textContent);
     header.append(heading, makeShareButton(article.id, heading.textContent));
 
     const meta = document.createElement("div");
@@ -1885,6 +1900,7 @@ function createSkinCard(item, index) {
   names.className = "skin-names";
   const heading = document.createElement("h3");
   heading.textContent = getSkinDisplayName(item);
+  markRecentTarget(article, "skin", heading.textContent);
   names.appendChild(heading);
 
   const actions = document.createElement("div");
@@ -2178,13 +2194,152 @@ async function loadSupport() {
   }
 }
 
+function recentViewsStorageKey(lang = getCurrentLang()) {
+  return `${RECENT_VIEWS_STORAGE_KEY}:${lang}`;
+}
+
+function readRecentViews() {
+  try {
+    return normalizeRecentViews(JSON.parse(readStorage(recentViewsStorageKey(), "[]")));
+  } catch (_error) {
+    return [];
+  }
+}
+
+function saveRecentViews(items) {
+  writeStorage(recentViewsStorageKey(), JSON.stringify(normalizeRecentViews(items)));
+}
+
+function recentTypeLabel(type) {
+  return window.LANG?.[getCurrentLang()]?.[`search_type_${type}`] || type;
+}
+
+function renderRecentViews() {
+  const list = document.getElementById("recentViewsList");
+  const empty = document.getElementById("recentViewsEmpty");
+  const clear = document.getElementById("recentViewsClear");
+  if (!list || !empty || !clear) return;
+
+  const items = readRecentViews();
+  const rows = items.map(item => {
+    const row = document.createElement("li");
+    row.className = "recent-view-item";
+    row.dataset.recentType = item.type;
+
+    const open = document.createElement("button");
+    open.type = "button";
+    open.className = "recent-view-open";
+    const badge = document.createElement("span");
+    badge.className = "recent-view-type";
+    badge.textContent = recentTypeLabel(item.type);
+    const title = document.createElement("span");
+    title.className = "recent-view-title";
+    title.textContent = item.title;
+    open.append(badge, title);
+    open.addEventListener("click", () => {
+      closeRecentViewsPanel(false);
+      navigateToDeepLink(item.targetId);
+    });
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "recent-view-remove";
+    remove.textContent = "×";
+    const removeLabel = window.LANG?.[getCurrentLang()]?.recent_views_remove || "Remove from history";
+    remove.title = removeLabel;
+    remove.setAttribute("aria-label", `${item.title}: ${removeLabel}`);
+    remove.addEventListener("click", () => {
+      saveRecentViews(removeRecentView(readRecentViews(), item.targetId));
+      renderRecentViews();
+    });
+
+    row.append(open, remove);
+    return row;
+  });
+
+  list.replaceChildren(...rows);
+  empty.hidden = items.length > 0;
+  clear.hidden = items.length === 0;
+}
+
+function recordRecentView(targetId, type, title) {
+  const entry = { targetId, type, title, visitedAt: Date.now() };
+  saveRecentViews(addRecentView(readRecentViews(), entry));
+  renderRecentViews();
+}
+
+function markRecentTarget(element, type, title) {
+  if (!element?.id || !type || !title) return element;
+  element.dataset.recentTarget = element.id;
+  element.dataset.recentType = type;
+  element.dataset.recentTitle = title;
+  return element;
+}
+
+function recordRecentTargetElement(element) {
+  const target = element?.closest?.("[data-recent-target]") || element;
+  if (!target?.dataset?.recentTarget) return;
+  recordRecentView(target.dataset.recentTarget, target.dataset.recentType, target.dataset.recentTitle);
+}
+
+function openRecentViewsPanel() {
+  const panel = document.getElementById("recentViewsPanel");
+  const toggle = document.getElementById("recentViewsToggle");
+  if (!panel || !toggle) return;
+  renderRecentViews();
+  document.body.classList.add("recent-views-open");
+  panel.setAttribute("aria-hidden", "false");
+  toggle.setAttribute("aria-expanded", "true");
+  document.getElementById("recentViewsClose")?.focus();
+}
+
+function closeRecentViewsPanel(restoreFocus = true) {
+  const panel = document.getElementById("recentViewsPanel");
+  const toggle = document.getElementById("recentViewsToggle");
+  if (!panel || !toggle || !document.body.classList.contains("recent-views-open")) return;
+  document.body.classList.remove("recent-views-open");
+  panel.setAttribute("aria-hidden", "true");
+  toggle.setAttribute("aria-expanded", "false");
+  if (restoreFocus) toggle.focus();
+}
+
+document.getElementById("recentViewsToggle")?.addEventListener("click", openRecentViewsPanel);
+document.getElementById("recentViewsClose")?.addEventListener("click", () => closeRecentViewsPanel());
+document.getElementById("recentViewsBackdrop")?.addEventListener("click", () => closeRecentViewsPanel());
+document.getElementById("recentViewsClear")?.addEventListener("click", () => {
+  saveRecentViews([]);
+  renderRecentViews();
+});
+document.addEventListener("click", event => {
+  const target = event.target.closest?.("[data-recent-target]");
+  if (target) recordRecentTargetElement(target);
+});
+document.addEventListener("keydown", event => {
+  if (!document.body.classList.contains("recent-views-open")) return;
+  if (event.key === "Escape") {
+    event.preventDefault();
+    closeRecentViewsPanel();
+    return;
+  }
+  if (event.key !== "Tab") return;
+  const panel = document.getElementById("recentViewsPanel");
+  const focusable = [...(panel?.querySelectorAll("button:not([hidden])") || [])];
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable.at(-1);
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+});
+renderRecentViews();
+
 function createSupportMethodCard(method) {
   const article = document.createElement("article");
   article.className = `support-method-card support-method-${method.id || "default"}`;
-
-  const audience = document.createElement("span");
-  audience.className = "support-audience";
-  audience.textContent = localizeText(method.audience);
 
   const title = document.createElement("h4");
   title.textContent = localizeText(method.title);
@@ -2219,7 +2374,7 @@ function createSupportMethodCard(method) {
   });
 
   actions.append(open, copy);
-  article.append(audience, title, description, notice, actions);
+  article.append(title, description, notice, actions);
   return article;
 }
 
@@ -2238,9 +2393,15 @@ function createBenefitGroup(group) {
   list.className = "support-benefit-list";
   (group.items || []).forEach(item => {
     const row = document.createElement("li");
+    row.id = deepLinkId("support-benefit", item.id || localizeText(item.title));
+
+    const itemHeading = document.createElement("div");
+    itemHeading.className = "support-benefit-heading";
     const itemTitle = document.createElement("strong");
     itemTitle.textContent = localizeText(item.title);
-    row.appendChild(itemTitle);
+    markRecentTarget(row, "support", itemTitle.textContent);
+    itemHeading.append(itemTitle, makeShareButton(row.id, itemTitle.textContent, "support-benefit-share"));
+    row.appendChild(itemHeading);
     const itemDescription = localizeText(item.description);
     if (itemDescription) {
       const detail = document.createElement("p");
@@ -2251,29 +2412,16 @@ function createBenefitGroup(group) {
       .map(commandId => findCommandById(commandId))
       .filter(Boolean);
     if (referencedCommands.length) {
-      const commands = document.createElement("div");
-      commands.className = "support-benefit-commands";
-      referencedCommands.forEach(commandItem => {
-        const commandRow = document.createElement("div");
-        commandRow.className = "support-benefit-command";
-
-        const command = document.createElement("code");
-        command.textContent = commandItem.command;
-
-        const commandDescription = document.createElement("span");
-        commandDescription.textContent = localizeText(commandItem.description);
-
-        const copy = document.createElement("button");
-        copy.type = "button";
-        copy.className = "support-command-copy";
-        copy.textContent = window.LANG?.[getCurrentLang()]?.command_copy || "Copy";
-        copy.setAttribute("aria-label", `${copy.textContent}: ${commandItem.command}`);
-        copy.addEventListener("click", () => copyCommand(commandItem.command));
-
-        commandRow.append(command, commandDescription, copy);
-        commands.appendChild(commandRow);
+      const commandButton = document.createElement("button");
+      commandButton.type = "button";
+      commandButton.className = "support-command-trigger";
+      commandButton.textContent = window.LANG?.[getCurrentLang()]?.support_commands_toggle || "Show commands";
+      commandButton.setAttribute("aria-haspopup", "dialog");
+      commandButton.setAttribute("aria-controls", "supportCommandDialog");
+      commandButton.addEventListener("click", () => {
+        openSupportCommandDialog(commandButton, item, referencedCommands);
       });
-      row.appendChild(commands);
+      row.appendChild(commandButton);
     }
     list.appendChild(row);
   });
@@ -2281,6 +2429,55 @@ function createBenefitGroup(group) {
   article.append(title, description, list);
   return article;
 }
+
+function createSupportCommandRow(commandItem) {
+  const commandRow = document.createElement("div");
+  commandRow.className = "support-benefit-command";
+
+  const command = document.createElement("code");
+  command.textContent = commandItem.command;
+
+  const commandDescription = document.createElement("span");
+  commandDescription.textContent = localizeText(commandItem.description);
+
+  const copy = document.createElement("button");
+  copy.type = "button";
+  copy.className = "support-command-copy";
+  copy.textContent = window.LANG?.[getCurrentLang()]?.command_copy || "Copy";
+  copy.setAttribute("aria-label", `${copy.textContent}: ${commandItem.command}`);
+  copy.addEventListener("click", () => copyCommand(commandItem.command));
+
+  commandRow.append(command, commandDescription, copy);
+  return commandRow;
+}
+
+function openSupportCommandDialog(trigger, item, commandItems) {
+  const dialog = document.getElementById("supportCommandDialog");
+  const title = document.getElementById("supportCommandDialogTitle");
+  const description = document.getElementById("supportCommandDialogDescription");
+  const content = document.getElementById("supportCommandDialogContent");
+  if (!dialog || !title || !description || !content) return;
+
+  supportCommandDialogTrigger = trigger;
+  title.textContent = localizeText(item.title);
+  description.textContent = localizeText(item.description);
+  content.replaceChildren(...commandItems.map(createSupportCommandRow));
+  if (typeof dialog.showModal === "function") dialog.showModal();
+  else dialog.setAttribute("open", "");
+}
+
+const supportCommandDialog = document.getElementById("supportCommandDialog");
+document.getElementById("supportCommandDialogClose")?.addEventListener("click", () => supportCommandDialog?.close());
+supportCommandDialog?.addEventListener("click", event => {
+  const rect = supportCommandDialog.getBoundingClientRect();
+  const inside = event.clientX >= rect.left && event.clientX <= rect.right
+    && event.clientY >= rect.top && event.clientY <= rect.bottom;
+  if (!inside) supportCommandDialog.close();
+});
+supportCommandDialog?.addEventListener("close", () => {
+  supportCommandDialogTrigger?.focus();
+  supportCommandDialogTrigger = null;
+});
 
 function findCommandById(commandId) {
   if (!commandGuideData || !commandId) return null;
@@ -2310,14 +2507,22 @@ function renderSupport() {
 
   const benefitsSection = document.createElement("section");
   benefitsSection.className = "support-section";
+  benefitsSection.id = "support-benefits";
+  const benefitsHeading = document.createElement("div");
+  benefitsHeading.className = "support-section-heading";
   const benefitsTitle = document.createElement("h3");
   benefitsTitle.textContent = window.LANG?.[getCurrentLang()]?.support_benefits_title || "VIP benefits";
+  benefitsHeading.append(
+    benefitsTitle,
+    makeShareButton(benefitsSection.id, benefitsTitle.textContent, "support-benefits-share")
+  );
   const benefitGrid = document.createElement("div");
   benefitGrid.className = "support-benefit-grid";
   benefitGrid.append(...(supportData.benefitGroups || []).map(createBenefitGroup));
-  benefitsSection.append(benefitsTitle, benefitGrid);
+  benefitsSection.append(benefitsHeading, benefitGrid);
 
   container.replaceChildren(methodsSection, benefitsSection);
+  if (decodeURIComponent(location.hash).startsWith("#support-benefit")) applyDeepLink();
 }
 
 window.addEventListener("load", loadSupport);

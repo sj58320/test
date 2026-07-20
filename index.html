@@ -252,12 +252,52 @@
       </section>
     </div>
   </main>
+  <button
+    id="recentViewsToggle"
+    class="recent-views-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="recentViewsPanel"
+  >
+    <span class="recent-views-toggle-icon" aria-hidden="true">◷</span>
+    <span class="recent-views-toggle-label" data-lang="recent_views_toggle">최근 본 항목</span>
+  </button>
+  <div id="recentViewsBackdrop" class="recent-views-backdrop" aria-hidden="true"></div>
+  <aside
+    id="recentViewsPanel"
+    class="recent-views-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="recentViewsTitle"
+    aria-hidden="true"
+  >
+    <div class="recent-views-header">
+      <div>
+        <h2 id="recentViewsTitle" data-lang="recent_views_title">최근 본 항목</h2>
+        <p data-lang="recent_views_hint">이 브라우저에서 최근에 확인한 항목입니다.</p>
+      </div>
+      <button id="recentViewsClose" class="recent-views-close" type="button"
+        data-lang-aria="recent_views_close" aria-label="최근 본 항목 닫기">×</button>
+    </div>
+    <ol id="recentViewsList" class="recent-views-list"></ol>
+    <p id="recentViewsEmpty" class="recent-views-empty" data-lang="recent_views_empty">아직 확인한 항목이 없습니다.</p>
+    <button id="recentViewsClear" class="recent-views-clear" type="button" data-lang="recent_views_clear">기록 전체 삭제</button>
+  </aside>
   <dialog id="skinImageDialog" class="skin-image-dialog" aria-labelledby="skinImageDialogCaption">
     <button id="skinImageDialogClose" class="skin-image-dialog-close" type="button" data-lang-aria="skins_modal_close" aria-label="이미지 닫기">×</button>
     <figure>
       <img id="skinImageDialogImage" src="" alt="" />
       <figcaption id="skinImageDialogCaption"></figcaption>
     </figure>
+  </dialog>
+  <dialog id="supportCommandDialog" class="support-command-dialog" aria-labelledby="supportCommandDialogTitle" aria-describedby="supportCommandDialogDescription">
+    <button id="supportCommandDialogClose" class="support-command-dialog-close" type="button"
+      data-lang-aria="support_command_modal_close" aria-label="명령어 창 닫기">×</button>
+    <div class="support-command-dialog-header">
+      <h2 id="supportCommandDialogTitle"></h2>
+      <p id="supportCommandDialogDescription"></p>
+    </div>
+    <div id="supportCommandDialogContent" class="support-command-dialog-content"></div>
   </dialog>
   <button
     id="backToTop"

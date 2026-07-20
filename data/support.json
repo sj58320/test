@@ -70,27 +70,61 @@
         {
           "id": "model_color",
           "title": { "ko": "모델컬러", "en": "Model color", "jp": "モデルカラー" },
+          "description": {
+            "ko": "플레이어 모델의 색상을 원하는 RGB 값으로 설정합니다.",
+            "en": "Set your player model to the RGB color you want.",
+            "jp": "プレイヤーモデルを好きなRGBカラーに設定します。"
+          },
           "commandRefs": ["donator_model_color"]
         },
         {
           "id": "rainbow",
           "title": { "ko": "레인보우", "en": "Rainbow", "jp": "レインボー" },
+          "description": {
+            "ko": "플레이어 모델에 무지개색 효과를 적용합니다.",
+            "en": "Apply a rainbow color effect to your player model.",
+            "jp": "プレイヤーモデルにレインボーカラー効果を適用します。"
+          },
           "commandRefs": ["donator_rainbow"]
         },
         {
           "id": "tracer",
           "title": { "ko": "트레이서", "en": "Tracer", "jp": "トレーサー" },
+          "description": {
+            "ko": "총알 트레이서의 색상을 원하는 RGB 값으로 설정합니다.",
+            "en": "Set bullet tracers to the RGB color you want.",
+            "jp": "弾丸トレーサーを好きなRGBカラーに設定します。"
+          },
           "commandRefs": ["donator_tracer"]
         },
         {
           "id": "chat_tag",
           "title": { "ko": "채팅태그", "en": "Chat tag", "jp": "チャットタグ" },
+          "description": {
+            "ko": "닉네임 앞의 채팅 태그와 태그 색상을 설정합니다.",
+            "en": "Set the chat tag before your name and choose its color.",
+            "jp": "名前の前に表示するチャットタグと色を設定します。"
+          },
           "commandRefs": ["donator_chat_tag", "donator_chat_tag_color"]
         },
         {
           "id": "emote",
           "title": { "ko": "이모트", "en": "Emotes", "jp": "エモート" },
+          "description": {
+            "ko": "댄스와 이모트 메뉴를 사용할 수 있습니다.",
+            "en": "Use the dance and emote menu.",
+            "jp": "ダンスとエモートのメニューを利用できます。"
+          },
           "commandRefs": ["donator_emote"]
+        },
+        {
+          "id": "custom_radio",
+          "title": { "ko": "커스텀라디오", "en": "Custom radio", "jp": "カスタムラジオ" },
+          "description": {
+            "ko": "VIP 전용 커스텀 라디오 기능을 사용할 수 있습니다.",
+            "en": "Use the custom radio feature available to VIP members.",
+            "jp": "VIP向けのカスタムラジオ機能を利用できます。"
+          }
         }
       ]
     },
