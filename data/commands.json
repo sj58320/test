@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updatedAt": "2026-07-19",
+  "version": 2,
+  "updatedAt": "2026-07-20",
   "pages": [
     {
       "id": "basic",
@@ -710,6 +710,7 @@
           },
           "commands": [
             {
+              "id": "donator_chat_tag",
               "command": "/tag <value>",
               "description": {
                 "ko": "이름 앞에 붙일 태그 설정",
@@ -718,6 +719,7 @@
               }
             },
             {
+              "id": "donator_chat_tag_color",
               "command": "/tagcolor <0~15>",
               "description": {
                 "ko": "태그의 색깔 지정",
@@ -726,6 +728,7 @@
               }
             },
             {
+              "id": "donator_model_color",
               "command": "/modelcolor <0~255> <0~255> <0~255>",
               "description": {
                 "ko": "플레이어 모델 색깔 지정",
@@ -734,6 +737,7 @@
               }
             },
             {
+              "id": "donator_rainbow",
               "command": "/rainbow",
               "description": {
                 "ko": "플레이어 모델 색깔을 무지개 색으로 변경",
@@ -742,6 +746,7 @@
               }
             },
             {
+              "id": "donator_grenade_trail",
               "command": "/trail <0~255> <0~255> <0~255>",
               "description": {
                 "ko": "수류탄 트레일 색깔 지정",
@@ -750,6 +755,7 @@
               }
             },
             {
+              "id": "donator_tracer",
               "command": "/tracer <0~255> <0~255> <0~255>",
               "description": {
                 "ko": "트레이서 색깔 지정",
@@ -758,6 +764,7 @@
               }
             },
             {
+              "id": "donator_emote",
               "command": "/dance",
               "description": {
                 "ko": "댄스(이모트) 메뉴 출력",

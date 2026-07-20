@@ -102,6 +102,7 @@ FAQ 구조는 `data/faq.json`에서 관리하고 번역 문구는 `assets/js/lan
 
 ```json
 {
+  "id": "example_command",
   "command": "/ztele",
   "description": {
     "ko": "스폰지역으로 이동",
@@ -110,6 +111,8 @@ FAQ 구조는 `data/faq.json`에서 관리하고 번역 문구는 `assets/js/lan
   }
 }
 ```
+
+`id`는 다른 콘텐츠가 명령어를 안정적으로 참조할 때 사용하는 선택 필드입니다. 소문자 영문으로 시작하고 소문자·숫자·밑줄만 사용하며 저장소 전체에서 중복되면 안 됩니다. 현재 후원자 명령어에는 고정 ID를 부여하고 `data/support.json`의 `commandRefs`에서 참조하므로, `commands.json`의 명령어나 번역 설명을 수정하면 후원 탭에도 자동으로 반영됩니다.
 
 ### 용어 사전
 

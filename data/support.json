@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-07-20",
   "methods": [
     {
@@ -67,12 +67,31 @@
         "jp": "VIPの有効期間中は、次の機能を追加料金なしで利用できます。"
       },
       "items": [
-        { "id": "model_color", "title": { "ko": "모델컬러", "en": "Model color", "jp": "モデルカラー" } },
-        { "id": "rainbow", "title": { "ko": "레인보우", "en": "Rainbow", "jp": "レインボー" } },
-        { "id": "tracer", "title": { "ko": "트레이서", "en": "Tracer", "jp": "トレーサー" } },
-        { "id": "chat_tag", "title": { "ko": "채팅태그", "en": "Chat tag", "jp": "チャットタグ" } },
-        { "id": "emote", "title": { "ko": "이모트", "en": "Emotes", "jp": "エモート" } },
-        { "id": "custom_radio", "title": { "ko": "커스텀라디오", "en": "Custom radio", "jp": "カスタムラジオ" } }
+        {
+          "id": "model_color",
+          "title": { "ko": "모델컬러", "en": "Model color", "jp": "モデルカラー" },
+          "commandRefs": ["donator_model_color"]
+        },
+        {
+          "id": "rainbow",
+          "title": { "ko": "레인보우", "en": "Rainbow", "jp": "レインボー" },
+          "commandRefs": ["donator_rainbow"]
+        },
+        {
+          "id": "tracer",
+          "title": { "ko": "트레이서", "en": "Tracer", "jp": "トレーサー" },
+          "commandRefs": ["donator_tracer"]
+        },
+        {
+          "id": "chat_tag",
+          "title": { "ko": "채팅태그", "en": "Chat tag", "jp": "チャットタグ" },
+          "commandRefs": ["donator_chat_tag", "donator_chat_tag_color"]
+        },
+        {
+          "id": "emote",
+          "title": { "ko": "이모트", "en": "Emotes", "jp": "エモート" },
+          "commandRefs": ["donator_emote"]
+        }
       ]
     },
     {

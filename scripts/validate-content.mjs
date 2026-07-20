@@ -195,11 +195,16 @@ const commandItems = (commands.pages || []).flatMap((page, pageIndex) => {
   });
 });
 checkUnique(commandItems.map(item => item.command), "Commands");
+const commandItemsWithIds = commandItems.filter(item => item.id != null);
+checkUnique(commandItemsWithIds.map(item => item.id), "Command ids");
 commandItems.forEach((item, index) => {
+  if (item.id != null) check(isText(item.id) && /^[a-z][a-z0-9_]*$/.test(item.id),
+    "commands.json command " + index + " id must use lowercase letters, numbers, and underscores.");
   check(isText(item.command) && /^[!/]/.test(item.command), "commands.json command " + index + " must start with ! or /.");
   checkLocalized(item.description, "commands.json command " + item.command + " description");
 });
 const commandSet = new Set(commandItems.map(item => item.command));
+const commandIdSet = new Set(commandItemsWithIds.map(item => item.id));
 
 function checkReference(reference, label) {
   check(reference && ["faq", "command"].includes(reference.type), label + " has an unsupported type.");
@@ -279,17 +284,24 @@ const supportBenefitItems = (support.benefitGroups || []).flatMap((group, groupI
     check(isText(item.id), label + ".items[" + itemIndex + "].id is required.");
     checkLocalized(item.title, label + ".items[" + itemIndex + "].title");
     if (item.description != null) checkLocalized(item.description, label + ".items[" + itemIndex + "].description");
+    if (item.commandRefs != null) {
+      check(Array.isArray(item.commandRefs) && item.commandRefs.length > 0,
+        label + ".items[" + itemIndex + "].commandRefs must not be empty.");
+      checkUnique(item.commandRefs || [], label + ".items[" + itemIndex + "].commandRefs");
+      (item.commandRefs || []).forEach(commandId => check(commandIdSet.has(commandId),
+        label + ".items[" + itemIndex + "] references unknown command id: " + commandId));
+    }
     return item;
   });
 });
 checkUnique(supportBenefitItems.map(item => item.id), "Support benefit ids");
-const includedBenefitIds = new Set(["model_color", "rainbow", "tracer", "chat_tag", "emote", "custom_radio"]);
+const includedBenefitIds = new Set(["model_color", "rainbow", "tracer", "chat_tag", "emote"]);
 const exclusiveBenefitIds = new Set(["reserved_slot", "spectator_kick", "skin_shuffle"]);
 const includedGroup = (support.benefitGroups || []).find(group => group.id === "included");
 const exclusiveGroup = (support.benefitGroups || []).find(group => group.id === "exclusive");
 check((includedGroup?.items || []).length === includedBenefitIds.size
   && (includedGroup?.items || []).every(item => includedBenefitIds.has(item.id)),
-"support.json included group must contain all six configured VIP features.");
+"support.json included group must contain all five configured VIP features.");
 check((exclusiveGroup?.items || []).length === exclusiveBenefitIds.size
   && (exclusiveGroup?.items || []).every(item => exclusiveBenefitIds.has(item.id)),
 "support.json exclusive group must contain reserved slot, spectator kick, and skin shuffle.");

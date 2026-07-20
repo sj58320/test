@@ -1272,6 +1272,7 @@ async function loadCommandGuide() {
     setContentUpdatedAt("commandLastUpdate", commandGuideData);
     renderCommandGuide();
     if (faqData) renderFaq();
+    if (supportData) renderSupport();
     renderGlobalSearch();
   } catch (err) {
     console.error("command guide load failed:", err);
@@ -2246,11 +2247,50 @@ function createBenefitGroup(group) {
       detail.textContent = itemDescription;
       row.appendChild(detail);
     }
+    const referencedCommands = (item.commandRefs || [])
+      .map(commandId => findCommandById(commandId))
+      .filter(Boolean);
+    if (referencedCommands.length) {
+      const commands = document.createElement("div");
+      commands.className = "support-benefit-commands";
+      referencedCommands.forEach(commandItem => {
+        const commandRow = document.createElement("div");
+        commandRow.className = "support-benefit-command";
+
+        const command = document.createElement("code");
+        command.textContent = commandItem.command;
+
+        const commandDescription = document.createElement("span");
+        commandDescription.textContent = localizeText(commandItem.description);
+
+        const copy = document.createElement("button");
+        copy.type = "button";
+        copy.className = "support-command-copy";
+        copy.textContent = window.LANG?.[getCurrentLang()]?.command_copy || "Copy";
+        copy.setAttribute("aria-label", `${copy.textContent}: ${commandItem.command}`);
+        copy.addEventListener("click", () => copyCommand(commandItem.command));
+
+        commandRow.append(command, commandDescription, copy);
+        commands.appendChild(commandRow);
+      });
+      row.appendChild(commands);
+    }
     list.appendChild(row);
   });
 
   article.append(title, description, list);
   return article;
+}
+
+function findCommandById(commandId) {
+  if (!commandGuideData || !commandId) return null;
+  for (const page of commandGuideData.pages || []) {
+    for (const section of page.sections || []) {
+      const command = (section.commands || []).find(item => item.id === commandId);
+      if (command) return command;
+    }
+  }
+  return null;
 }
 
 function renderSupport() {

@@ -30,7 +30,7 @@ test("keeps all configured VIP benefits in the correct groups", () => {
   const groups = Object.fromEntries(support.benefitGroups.map(group => [group.id, group]));
   assert.deepEqual(
     groups.included.items.map(item => item.id),
-    ["model_color", "rainbow", "tracer", "chat_tag", "emote", "custom_radio"]
+    ["model_color", "rainbow", "tracer", "chat_tag", "emote"]
   );
   assert.deepEqual(
     groups.exclusive.items.map(item => item.id),
@@ -38,4 +38,16 @@ test("keeps all configured VIP benefits in the correct groups", () => {
   );
   assert.match(groups.exclusive.items.find(item => item.id === "reserved_slot").description.ko, /63\/64/);
   assert.match(groups.exclusive.items.find(item => item.id === "skin_shuffle").description.ko, /최대 5개/);
+});
+
+test("references donor commands by stable ids", async () => {
+  const commandsPath = fileURLToPath(new URL("../data/commands.json", import.meta.url));
+  const commands = JSON.parse(await readFile(commandsPath, "utf8"));
+  const commandIds = new Set(commands.pages.flatMap(page =>
+    page.sections.flatMap(section => section.commands.map(command => command.id).filter(Boolean))
+  ));
+  const included = support.benefitGroups.find(group => group.id === "included");
+  const references = included.items.flatMap(item => item.commandRefs || []);
+  assert.equal(references.length, 6);
+  references.forEach(reference => assert.ok(commandIds.has(reference), `missing command id: ${reference}`));
 });
