@@ -12,6 +12,23 @@
   <meta property="og:description" content="FAQ, 명령어 목록, 좀비탈출 용어를 한곳에서 검색하세요." />
   <meta property="og:url" content="https://sj58320.github.io/test/" />
 
+  <script>
+    (() => {
+      try {
+        const saved = localStorage.getItem("themePreference");
+        const preference = ["default", "dark", "light"].includes(saved) ? saved : "default";
+        const resolved = preference === "default"
+          ? (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")
+          : preference;
+        document.documentElement.dataset.themePreference = preference;
+        document.documentElement.dataset.theme = resolved;
+      } catch (_error) {
+        document.documentElement.dataset.themePreference = "default";
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+
   <!-- 스타일 css 경로 -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
@@ -37,6 +54,17 @@
         <button class="langbtn active" data-lang="ko" aria-label="한국어" aria-pressed="true">한국어</button>
         <button class="langbtn" data-lang="en" aria-label="English" aria-pressed="false">English</button>
         <button class="langbtn" data-lang="jp" aria-label="日本語" aria-pressed="false">日本語</button>
+      </div>
+      <div class="theme-picker" role="group" data-lang-aria="theme_picker" aria-label="배경 테마">
+        <button class="theme-option" type="button" data-theme-choice="default" data-lang-aria="theme_default" aria-label="기본 테마" aria-pressed="true">
+          <span aria-hidden="true">◐</span>
+        </button>
+        <button class="theme-option" type="button" data-theme-choice="dark" data-lang-aria="theme_dark" aria-label="다크 테마" aria-pressed="false">
+          <span aria-hidden="true">☾</span>
+        </button>
+        <button class="theme-option" type="button" data-theme-choice="light" data-lang-aria="theme_light" aria-label="화이트 테마" aria-pressed="false">
+          <span aria-hidden="true">☀</span>
+        </button>
       </div>
       <div class="social-links">
         <a class="social-link steam-link" href="https://steamcommunity.com/groups/Revenant_Server"
@@ -76,6 +104,9 @@
         </button>
         <button id="tab-skins" class="tab" data-tab="skins" role="tab" aria-selected="false" aria-controls="skins" tabindex="-1">
           <span data-lang="tab_skins">6) 스킨 프리뷰</span>
+        </button>
+        <button id="tab-support" class="tab" data-tab="support" role="tab" aria-selected="false" aria-controls="support" tabindex="-1">
+          <span data-lang="tab_support">7) 후원하기</span>
         </button>
       </div>
 
@@ -230,14 +261,71 @@
           <a href="https://discord.gg/rssze" target="_blank" rel="noopener noreferrer" data-lang="report_issue">잘못된 정보 제보</a>
         </footer>
       </section>
+
+      <!-- Support and VIP benefits -->
+      <section id="support" class="panel" role="tabpanel" aria-labelledby="tab-support" hidden>
+        <div class="section-title">
+          <h2 data-lang="support_title">후원하기</h2>
+          <div class="hint" data-lang="support_hint">지역에 맞는 후원 방법과 VIP 혜택을 확인하세요.</div>
+        </div>
+
+        <div id="supportContent" class="support-content">
+          <p class="support-empty" data-lang="support_loading">후원 정보를 불러오는 중...</p>
+        </div>
+
+        <footer>
+          <span><span data-lang="last_update">마지막 업데이트:</span> <span id="supportLastUpdate">-</span></span>
+          <a href="https://discord.gg/rssze" target="_blank" rel="noopener noreferrer" data-lang="support_contact">후원 문의</a>
+        </footer>
+      </section>
     </div>
   </main>
+  <button
+    id="recentViewsToggle"
+    class="recent-views-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="recentViewsPanel"
+  >
+    <span class="recent-views-toggle-icon" aria-hidden="true">◷</span>
+    <span class="recent-views-toggle-label" data-lang="recent_views_toggle">최근 본 항목</span>
+  </button>
+  <div id="recentViewsBackdrop" class="recent-views-backdrop" aria-hidden="true"></div>
+  <aside
+    id="recentViewsPanel"
+    class="recent-views-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="recentViewsTitle"
+    aria-hidden="true"
+  >
+    <div class="recent-views-header">
+      <div>
+        <h2 id="recentViewsTitle" data-lang="recent_views_title">최근 본 항목</h2>
+        <p data-lang="recent_views_hint">이 브라우저에서 최근에 확인한 항목입니다.</p>
+      </div>
+      <button id="recentViewsClose" class="recent-views-close" type="button"
+        data-lang-aria="recent_views_close" aria-label="최근 본 항목 닫기">×</button>
+    </div>
+    <ol id="recentViewsList" class="recent-views-list"></ol>
+    <p id="recentViewsEmpty" class="recent-views-empty" data-lang="recent_views_empty">아직 확인한 항목이 없습니다.</p>
+    <button id="recentViewsClear" class="recent-views-clear" type="button" data-lang="recent_views_clear">기록 전체 삭제</button>
+  </aside>
   <dialog id="skinImageDialog" class="skin-image-dialog" aria-labelledby="skinImageDialogCaption">
     <button id="skinImageDialogClose" class="skin-image-dialog-close" type="button" data-lang-aria="skins_modal_close" aria-label="이미지 닫기">×</button>
     <figure>
       <img id="skinImageDialogImage" src="" alt="" />
       <figcaption id="skinImageDialogCaption"></figcaption>
     </figure>
+  </dialog>
+  <dialog id="supportCommandDialog" class="support-command-dialog" aria-labelledby="supportCommandDialogTitle" aria-describedby="supportCommandDialogDescription">
+    <button id="supportCommandDialogClose" class="support-command-dialog-close" type="button"
+      data-lang-aria="support_command_modal_close" aria-label="명령어 창 닫기">×</button>
+    <div class="support-command-dialog-header">
+      <h2 id="supportCommandDialogTitle"></h2>
+      <p id="supportCommandDialogDescription"></p>
+    </div>
+    <div id="supportCommandDialogContent" class="support-command-dialog-content"></div>
   </dialog>
   <button
     id="backToTop"

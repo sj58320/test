@@ -17,6 +17,7 @@ const CONTENT_FILES = [
   "commands.json",
   "terms.json",
   "news.json",
+  "support.json",
   ...Object.values(SKIN_CATALOG_FILES)
 ];
 const failures = [];
@@ -194,11 +195,16 @@ const commandItems = (commands.pages || []).flatMap((page, pageIndex) => {
   });
 });
 checkUnique(commandItems.map(item => item.command), "Commands");
+const commandItemsWithIds = commandItems.filter(item => item.id != null);
+checkUnique(commandItemsWithIds.map(item => item.id), "Command ids");
 commandItems.forEach((item, index) => {
+  if (item.id != null) check(isText(item.id) && /^[a-z][a-z0-9_]*$/.test(item.id),
+    "commands.json command " + index + " id must use lowercase letters, numbers, and underscores.");
   check(isText(item.command) && /^[!/]/.test(item.command), "commands.json command " + index + " must start with ! or /.");
   checkLocalized(item.description, "commands.json command " + item.command + " description");
 });
 const commandSet = new Set(commandItems.map(item => item.command));
+const commandIdSet = new Set(commandItemsWithIds.map(item => item.id));
 
 function checkReference(reference, label) {
   check(reference && ["faq", "command"].includes(reference.type), label + " has an unsupported type.");
@@ -238,6 +244,67 @@ checkUnique((news.items || []).map(item => item.id), "News ids");
   checkUrl(item.url, label + ".url");
   (item.attachments || []).forEach((attachment, attachmentIndex) => checkUrl(attachment.url, label + ".attachments[" + attachmentIndex + "].url"));
 });
+
+const support = content["support.json"];
+check(Array.isArray(support.methods) && support.methods.length > 0, "support.json.methods must not be empty.");
+checkUnique((support.methods || []).map(method => method.id), "Support method ids");
+(support.methods || []).forEach((method, index) => {
+  const label = "support.json.methods[" + index + "]";
+  check(Array.isArray(method.languages) && method.languages.length > 0, label + ".languages must not be empty.");
+  checkUnique(method.languages || [], label + ".languages");
+  (method.languages || []).forEach(lang => check(["ko", "en", "jp"].includes(lang), label + " has unsupported language: " + lang));
+  checkLocalized(method.audience, label + ".audience");
+  checkLocalized(method.title, label + ".title");
+  checkLocalized(method.description, label + ".description");
+  checkLocalized(method.notice, label + ".notice");
+  checkUrl(method.url, label + ".url");
+});
+check((support.methods || []).find(method => method.id === "kakao")?.url === "https://open.kakao.com/o/sMXYCBBh",
+  "support.json kakao method must use the configured KakaoTalk URL.");
+check((support.methods || []).find(method => method.id === "kofi")?.url === "https://ko-fi.com/rssze",
+  "support.json kofi method must use the configured Ko-fi URL.");
+const kakaoMethod = (support.methods || []).find(method => method.id === "kakao");
+const kofiMethod = (support.methods || []).find(method => method.id === "kofi");
+check(JSON.stringify(kakaoMethod?.languages) === JSON.stringify(["ko"]),
+  "support.json Kakao method must be visible only in Korean.");
+check(JSON.stringify(kofiMethod?.languages) === JSON.stringify(["en", "jp"]),
+  "support.json Ko-fi method must be visible only in English and Japanese.");
+check(/카카오페이/.test(kakaoMethod?.description?.ko || ""), "support.json Kakao description must explain direct KakaoPay transfer.");
+check(/모바일/.test(kakaoMethod?.notice?.ko || ""), "support.json Kakao notice must state that transfer is mobile-only.");
+
+check(Array.isArray(support.benefitGroups) && support.benefitGroups.length > 0,
+  "support.json.benefitGroups must not be empty.");
+checkUnique((support.benefitGroups || []).map(group => group.id), "Support benefit group ids");
+const supportBenefitItems = (support.benefitGroups || []).flatMap((group, groupIndex) => {
+  const label = "support.json.benefitGroups[" + groupIndex + "]";
+  checkLocalized(group.title, label + ".title");
+  checkLocalized(group.description, label + ".description");
+  check(Array.isArray(group.items) && group.items.length > 0, label + ".items must not be empty.");
+  return (group.items || []).map((item, itemIndex) => {
+    check(isText(item.id), label + ".items[" + itemIndex + "].id is required.");
+    checkLocalized(item.title, label + ".items[" + itemIndex + "].title");
+    if (item.description != null) checkLocalized(item.description, label + ".items[" + itemIndex + "].description");
+    if (item.commandRefs != null) {
+      check(Array.isArray(item.commandRefs) && item.commandRefs.length > 0,
+        label + ".items[" + itemIndex + "].commandRefs must not be empty.");
+      checkUnique(item.commandRefs || [], label + ".items[" + itemIndex + "].commandRefs");
+      (item.commandRefs || []).forEach(commandId => check(commandIdSet.has(commandId),
+        label + ".items[" + itemIndex + "] references unknown command id: " + commandId));
+    }
+    return item;
+  });
+});
+checkUnique(supportBenefitItems.map(item => item.id), "Support benefit ids");
+const includedBenefitIds = new Set(["model_color", "rainbow", "tracer", "chat_tag", "emote", "custom_radio"]);
+const exclusiveBenefitIds = new Set(["reserved_slot", "spectator_kick", "skin_shuffle"]);
+const includedGroup = (support.benefitGroups || []).find(group => group.id === "included");
+const exclusiveGroup = (support.benefitGroups || []).find(group => group.id === "exclusive");
+check((includedGroup?.items || []).length === includedBenefitIds.size
+  && (includedGroup?.items || []).every(item => includedBenefitIds.has(item.id)),
+"support.json included group must contain all six configured VIP features.");
+check((exclusiveGroup?.items || []).length === exclusiveBenefitIds.size
+  && (exclusiveGroup?.items || []).every(item => exclusiveBenefitIds.has(item.id)),
+"support.json exclusive group must contain reserved slot, spectator kick, and skin shuffle.");
 
 const skinCatalogs = Object.entries(SKIN_CATALOG_FILES).map(([category, filename]) => {
   const catalog = content[filename];
