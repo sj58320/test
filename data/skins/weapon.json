@@ -1,7 +1,7 @@
 {
   "version": 5,
   "category": "weapon",
-  "updatedAt": "2026-07-17T12:28:00Z",
+  "updatedAt": "2026-07-18T12:02:54.870000+00:00",
   "items": [
     {
       "id": "weapon-primary-001",
@@ -552,7 +552,7 @@
       "subcategory": "primary",
       "weaponType": "rifle",
       "order": 33,
-      "name": "m4a1_mika / token 80",
+      "name": "m4a1_mika",
       "media": [
         {
           "type": "image",
@@ -824,7 +824,7 @@
       "subcategory": "primary",
       "weaponType": "smg",
       "order": 49,
-      "name": "mika_p90 / 70 token",
+      "name": "mika_p90",
       "media": [
         {
           "type": "image",
@@ -841,7 +841,7 @@
       "subcategory": "primary",
       "weaponType": "machinegun",
       "order": 50,
-      "name": "hina_mg42(m249) / 80 token",
+      "name": "hina_mg42(m249)",
       "media": [
         {
           "type": "image",
@@ -858,7 +858,7 @@
       "subcategory": "primary",
       "weaponType": "machinegun",
       "order": 51,
-      "name": "MG3(m249) / 70 token",
+      "name": "MG3(m249)",
       "media": [
         {
           "type": "image",
@@ -875,7 +875,7 @@
       "subcategory": "primary",
       "weaponType": "sniper",
       "order": 52,
-      "name": "codol_m200(awp) / 80 token",
+      "name": "codol_m200(awp)",
       "media": [
         {
           "type": "image",
@@ -892,7 +892,7 @@
       "subcategory": "primary",
       "weaponType": "smg",
       "order": 53,
-      "name": "area51_p90 / 60 token",
+      "name": "area51_p90",
       "media": [
         {
           "type": "image",
@@ -909,7 +909,7 @@
       "subcategory": "primary",
       "weaponType": "smg",
       "order": 54,
-      "name": "hnk_mp7 / 50 token",
+      "name": "hnk_mp7",
       "media": [
         {
           "type": "image",
@@ -926,7 +926,7 @@
       "subcategory": "primary",
       "weaponType": "smg",
       "order": 55,
-      "name": "bnt_mp9 / 50 token",
+      "name": "bnt_mp9",
       "media": [
         {
           "type": "image",
@@ -943,7 +943,7 @@
       "subcategory": "primary",
       "weaponType": "smg",
       "order": 56,
-      "name": "cod_bizon_silencer / 60 token",
+      "name": "cod_bizon_silencer",
       "media": [
         {
           "type": "image",
@@ -960,7 +960,7 @@
       "subcategory": "primary",
       "weaponType": "smg",
       "order": 57,
-      "name": "coldwar_mac10 / 50 token",
+      "name": "coldwar_mac10",
       "media": [
         {
           "type": "image",
@@ -977,7 +977,7 @@
       "subcategory": "primary",
       "weaponType": "smg",
       "order": 58,
-      "name": "ron_mp5 / 50 token",
+      "name": "ron_mp5",
       "media": [
         {
           "type": "image",
@@ -994,7 +994,7 @@
       "subcategory": "primary",
       "weaponType": "rifle",
       "order": 59,
-      "name": "akmkpyk_ak47 / 50 token",
+      "name": "akmkpyk_ak47",
       "media": [
         {
           "type": "image",
@@ -1011,7 +1011,7 @@
       "subcategory": "primary",
       "weaponType": "rifle",
       "order": 60,
-      "name": "cag_hk416_m4a4 / 50 token",
+      "name": "cag_hk416_m4a4",
       "media": [
         {
           "type": "image",
@@ -1028,7 +1028,7 @@
       "subcategory": "primary",
       "weaponType": "rifle",
       "order": 61,
-      "name": "urgim4_m4a1 / 50 token",
+      "name": "urgim4_m4a1",
       "media": [
         {
           "type": "image",
@@ -1164,7 +1164,7 @@
       "subcategory": "primary",
       "weaponType": "machinegun",
       "order": 69,
-      "name": "hl_hyper_negev / Event / sponsor: 千音星璃",
+      "name": "hl_hyper_negev",
       "media": [
         {
           "type": "video",
@@ -1532,7 +1532,7 @@
       "id": "weapon-melee-010",
       "subcategory": "melee",
       "order": 10,
-      "name": "karambit_icefire / token 80",
+      "name": "karambit_icefire",
       "media": [
         {
           "type": "image",
@@ -1820,7 +1820,7 @@
       "id": "weapon-melee-028",
       "subcategory": "melee",
       "order": 28,
-      "name": "icecream_blade / token 70",
+      "name": "icecream_blade",
       "media": [
         {
           "type": "image",
@@ -1964,7 +1964,7 @@
       "id": "weapon-melee-037",
       "subcategory": "melee",
       "order": 37,
-      "name": "fish_ursus / token 60",
+      "name": "fish_ursus",
       "media": [
         {
           "type": "image",
@@ -1996,7 +1996,7 @@
       "id": "weapon-throwable-001",
       "subcategory": "throwable",
       "order": 1,
-      "name": "doro / token 30",
+      "name": "doro",
       "media": [
         {
           "type": "image",
@@ -2012,7 +2012,7 @@
       "id": "weapon-throwable-002",
       "subcategory": "throwable",
       "order": 2,
-      "name": "fb_padoru / token 30",
+      "name": "fb_padoru",
       "media": [
         {
           "type": "image",
@@ -2028,7 +2028,7 @@
       "id": "weapon-throwable-003",
       "subcategory": "throwable",
       "order": 3,
-      "name": "fb_monster / token 30",
+      "name": "fb_monster",
       "media": [
         {
           "type": "image",
@@ -2044,7 +2044,7 @@
       "id": "weapon-throwable-004",
       "subcategory": "throwable",
       "order": 4,
-      "name": "christmas_pl(event) / event",
+      "name": "christmas_pl(event)",
       "media": [
         {
           "type": "image",
@@ -2060,7 +2060,7 @@
       "id": "weapon-throwable-005",
       "subcategory": "throwable",
       "order": 5,
-      "name": "meowl_sapper / token 30",
+      "name": "meowl_sapper",
       "media": [
         {
           "type": "image",
@@ -2076,7 +2076,7 @@
       "id": "weapon-throwable-006",
       "subcategory": "throwable",
       "order": 6,
-      "name": "maxwell / token 30",
+      "name": "maxwell",
       "media": [
         {
           "type": "image",
@@ -2103,6 +2103,278 @@
         }
       ],
       "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1500755051722047580"
+    },
+    {
+      "id": "weapon-throwable-008",
+      "subcategory": "throwable",
+      "order": 8,
+      "name": "pl",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476637642765504643",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/008-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-009",
+      "subcategory": "throwable",
+      "order": 9,
+      "name": "chillet",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476637665553027112",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/009-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-010",
+      "subcategory": "throwable",
+      "order": 10,
+      "name": "apple",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476637687988486154",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/010-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-011",
+      "subcategory": "throwable",
+      "order": 11,
+      "name": "baseball",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476638680662933666",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/011-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-012",
+      "subcategory": "throwable",
+      "order": 12,
+      "name": "kisakiball",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476638715794292816",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/012-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-013",
+      "subcategory": "throwable",
+      "order": 13,
+      "name": "comicbomb",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641604478439648",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/013-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-014",
+      "subcategory": "throwable",
+      "order": 14,
+      "name": "dragonball",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641631003344977",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/014-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-015",
+      "subcategory": "throwable",
+      "order": 15,
+      "name": "electrode",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641669335089174",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/015-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-016",
+      "subcategory": "throwable",
+      "order": 16,
+      "name": "pokeball",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641689274810369",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/016-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-017",
+      "subcategory": "throwable",
+      "order": 17,
+      "name": "slime",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641711118876838",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/017-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-018",
+      "subcategory": "throwable",
+      "order": 18,
+      "name": "tennisball",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641732107047075",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/018-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-019",
+      "subcategory": "throwable",
+      "order": 19,
+      "name": "voltorb",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641758971691078",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/019-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-020",
+      "subcategory": "throwable",
+      "order": 20,
+      "name": "iphone_bocchi",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641789644505119",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/020-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-021",
+      "subcategory": "throwable",
+      "order": 21,
+      "name": "iphone_cat",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641807923151004",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/021-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-022",
+      "subcategory": "throwable",
+      "order": 22,
+      "name": "iphone_charlotte",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641830325195049",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/022-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-023",
+      "subcategory": "throwable",
+      "order": 23,
+      "name": "iphone_faker",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641850134888538",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/023-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-024",
+      "subcategory": "throwable",
+      "order": 24,
+      "name": "iphone_gaycat_laser",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1476641873824186521",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/024-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
     }
   ]
 }

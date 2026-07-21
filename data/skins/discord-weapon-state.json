@@ -1,0 +1,1307 @@
+{
+  "version": 1,
+  "threadIds": {
+    "primary": "1476635405691654438",
+    "secondary": "1476635695958462554",
+    "melee": "1476629319605555324",
+    "throwable": "1476637634779414558"
+  },
+  "items": {
+    "1476635411345313842": {
+      "skinId": "weapon-primary-001",
+      "subcategory": "primary",
+      "mediaMessageId": "1476635411345313842",
+      "attachmentIds": [
+        "1476635411055902761"
+      ],
+      "name": "mcx_spear(m4a1)"
+    },
+    "1476635457210290377": {
+      "skinId": "weapon-primary-002",
+      "subcategory": "primary",
+      "mediaMessageId": "1476635457210290377",
+      "attachmentIds": [
+        "1476635457013153904"
+      ],
+      "name": "r301(mp5)"
+    },
+    "1476635802258641018": {
+      "skinId": "weapon-primary-003",
+      "subcategory": "primary",
+      "mediaMessageId": "1476635802258641018",
+      "attachmentIds": [
+        "1476635802342658088"
+      ],
+      "name": "BA_glock_carbine_blue(mp9)"
+    },
+    "1476635828792070154": {
+      "skinId": "weapon-primary-004",
+      "subcategory": "primary",
+      "mediaMessageId": "1476635828792070154",
+      "attachmentIds": [
+        "1476635828422967498"
+      ],
+      "name": "BA_glock_carbine_pink(mp9)"
+    },
+    "1476635865848610816": {
+      "skinId": "weapon-primary-005",
+      "subcategory": "primary",
+      "mediaMessageId": "1476635865848610816",
+      "attachmentIds": [
+        "1476635865462865930"
+      ],
+      "name": "ak-12(ak47)"
+    },
+    "1476635909179834398": {
+      "skinId": "weapon-primary-006",
+      "subcategory": "primary",
+      "mediaMessageId": "1476635909179834398",
+      "attachmentIds": [
+        "1476635908928180448"
+      ],
+      "name": "mp9_printstream"
+    },
+    "1476635962594427050": {
+      "skinId": "weapon-primary-007",
+      "subcategory": "primary",
+      "mediaMessageId": "1476635962594427050",
+      "attachmentIds": [
+        "1476635962300829781"
+      ],
+      "name": "hsr_firefly_m5a3(m4a4)"
+    },
+    "1476636002268479611": {
+      "skinId": "weapon-primary-008",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636002268479611",
+      "attachmentIds": [
+        "1476636002008170596"
+      ],
+      "name": "m60(m249)"
+    },
+    "1476636171684548760": {
+      "skinId": "weapon-primary-009",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636171684548760",
+      "attachmentIds": [
+        "1476636171491606781"
+      ],
+      "name": "mp7_cat"
+    },
+    "1476636215468884041": {
+      "skinId": "weapon-primary-010",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636215468884041",
+      "attachmentIds": [
+        "1476636215167160473"
+      ],
+      "name": "Rival-9_aris(mp5)"
+    },
+    "1476636325842255922": {
+      "skinId": "weapon-primary-011",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636325842255922",
+      "attachmentIds": [
+        "1476636325527556146"
+      ],
+      "name": "p90_printstream"
+    },
+    "1476636409468289148": {
+      "skinId": "weapon-primary-012",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636409468289148",
+      "attachmentIds": [
+        "1476636409220698163"
+      ],
+      "name": "xm1014_blunderbuss"
+    },
+    "1476636437859532955": {
+      "skinId": "weapon-primary-013",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636437859532955",
+      "attachmentIds": [
+        "1476636437506953266"
+      ],
+      "name": "ump-45_drill"
+    },
+    "1476636461599035412": {
+      "skinId": "weapon-primary-014",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636461599035412",
+      "attachmentIds": [
+        "1476636461280395434"
+      ],
+      "name": "bizon_beer"
+    },
+    "1476636482948042923": {
+      "skinId": "weapon-primary-015",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636482948042923",
+      "attachmentIds": [
+        "1476636482520485980"
+      ],
+      "name": "p90_pringles"
+    },
+    "1476636505945407538": {
+      "skinId": "weapon-primary-016",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636505945407538",
+      "attachmentIds": [
+        "1476636505710788669"
+      ],
+      "name": "mp9_swordfish"
+    },
+    "1476636532185239755": {
+      "skinId": "weapon-primary-017",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636532185239755",
+      "attachmentIds": [
+        "1476636531866468414"
+      ],
+      "name": "qbz-97_gfl(famas)"
+    },
+    "1476636557191418038": {
+      "skinId": "weapon-primary-018",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636557191418038",
+      "attachmentIds": [
+        "1476636556910395442"
+      ],
+      "name": "p90_rgb"
+    },
+    "1476636581522833438": {
+      "skinId": "weapon-primary-019",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636581522833438",
+      "attachmentIds": [
+        "1476636580973248723"
+      ],
+      "name": "m4a1_dragon"
+    },
+    "1476636598321025044": {
+      "skinId": "weapon-primary-020",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636598321025044",
+      "attachmentIds": [
+        "1476636598027161661"
+      ],
+      "name": "bizon_anby"
+    },
+    "1476636617220427807": {
+      "skinId": "weapon-primary-021",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636617220427807",
+      "attachmentIds": [
+        "1476636616947667298"
+      ],
+      "name": "m4a4_firefly"
+    },
+    "1476636727832613054": {
+      "skinId": "weapon-primary-022",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636727832613054",
+      "attachmentIds": [
+        "1476636727484612668"
+      ],
+      "name": "mp5_sheri"
+    },
+    "1476636771541319772": {
+      "skinId": "weapon-primary-023",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636771541319772",
+      "attachmentIds": [
+        "1476636771365425303"
+      ],
+      "name": "mp7_phoenix"
+    },
+    "1476636802088702053": {
+      "skinId": "weapon-primary-024",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636802088702053",
+      "attachmentIds": [
+        "1476636801765736510"
+      ],
+      "name": "ak47_carlotta"
+    },
+    "1476636836536389725": {
+      "skinId": "weapon-primary-025",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636836536389725",
+      "attachmentIds": [
+        "1476636836297441322"
+      ],
+      "name": "ump45_mutsuki"
+    },
+    "1476636912109359176": {
+      "skinId": "weapon-primary-026",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636912109359176",
+      "attachmentIds": [
+        "1476636911828205731"
+      ],
+      "name": "m4a4_dragon"
+    },
+    "1476636934095896677": {
+      "skinId": "weapon-primary-027",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636934095896677",
+      "attachmentIds": [
+        "1476636933815009310"
+      ],
+      "name": "frosted_sugar_m4a1"
+    },
+    "1476636959282565283": {
+      "skinId": "weapon-primary-028",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636959282565283",
+      "attachmentIds": [
+        "1476636958980837488"
+      ],
+      "name": "galil_crossbowex"
+    },
+    "1476636983022321807": {
+      "skinId": "weapon-primary-029",
+      "subcategory": "primary",
+      "mediaMessageId": "1476636983022321807",
+      "attachmentIds": [
+        "1476636983064526898"
+      ],
+      "name": "nachoneko_vector(mac10)"
+    },
+    "1476637006241988739": {
+      "skinId": "weapon-primary-030",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637006241988739",
+      "attachmentIds": [
+        "1476637005986402508"
+      ],
+      "name": "rgb_ak47"
+    },
+    "1476637024948584599": {
+      "skinId": "weapon-primary-031",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637024948584599",
+      "attachmentIds": [
+        "1476637024684474599"
+      ],
+      "name": "pp19_bizon"
+    },
+    "1476637056074776717": {
+      "skinId": "weapon-primary-032",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637056074776717",
+      "attachmentIds": [
+        "1476637055768596695"
+      ],
+      "name": "blue_archive_mp7"
+    },
+    "1476637083417444433": {
+      "skinId": "weapon-primary-033",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637083417444433",
+      "attachmentIds": [
+        "1476637083090157749"
+      ],
+      "name": "m4a1_mika"
+    },
+    "1476637109451358208": {
+      "skinId": "weapon-primary-034",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637109451358208",
+      "attachmentIds": [
+        "1476637109048709132"
+      ],
+      "name": "helios_aug"
+    },
+    "1476637137423044842": {
+      "skinId": "weapon-primary-035",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637137423044842",
+      "attachmentIds": [
+        "1476637137028776109"
+      ],
+      "name": "bizon_printstream"
+    },
+    "1476637148643070052": {
+      "skinId": "weapon-primary-036",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637148643070052",
+      "attachmentIds": [
+        "1476637148311453838"
+      ],
+      "name": "auto_lacquer(m249)"
+    },
+    "1476637174710665236": {
+      "skinId": "weapon-primary-037",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637174710665236",
+      "attachmentIds": [
+        "1476637174425456818"
+      ],
+      "name": "dohan_p90"
+    },
+    "1476637297297592320": {
+      "skinId": "weapon-primary-038",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637297297592320",
+      "attachmentIds": [
+        "1476637296936747098"
+      ],
+      "name": "plana_ak47"
+    },
+    "1476637318394679328": {
+      "skinId": "weapon-primary-039",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637318394679328",
+      "attachmentIds": [
+        "1476637318130565161"
+      ],
+      "name": "m4a4_fate"
+    },
+    "1476637342168121529": {
+      "skinId": "weapon-primary-040",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637342168121529",
+      "attachmentIds": [
+        "1476637342184771762"
+      ],
+      "name": "p90_cyber"
+    },
+    "1476637375378755614": {
+      "skinId": "weapon-primary-041",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637375378755614",
+      "attachmentIds": [
+        "1476637374833365245"
+      ],
+      "name": "p90_kaltsit"
+    },
+    "1476637395620204675": {
+      "skinId": "weapon-primary-042",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637395620204675",
+      "attachmentIds": [
+        "1476637395372736522"
+      ],
+      "name": "p90_miku"
+    },
+    "1476637472640340192": {
+      "skinId": "weapon-primary-043",
+      "subcategory": "primary",
+      "mediaMessageId": "1476637472640340192",
+      "attachmentIds": [
+        "1476637472266915942"
+      ],
+      "name": "star_rail_ump45"
+    },
+    "1476641378367832188": {
+      "skinId": "weapon-primary-044",
+      "subcategory": "primary",
+      "mediaMessageId": "1476641378367832188",
+      "attachmentIds": [
+        "1476641377818513560"
+      ],
+      "name": "meika_mikoto(m4a1)"
+    },
+    "1476641418519908352": {
+      "skinId": "weapon-primary-045",
+      "subcategory": "primary",
+      "mediaMessageId": "1476641418519908352",
+      "attachmentIds": [
+        "1476641418201137448"
+      ],
+      "name": "meika_hime(m4a1)"
+    },
+    "1476641454628802787": {
+      "skinId": "weapon-primary-046",
+      "subcategory": "primary",
+      "mediaMessageId": "1476641454628802787",
+      "attachmentIds": [
+        "1476641454339264623"
+      ],
+      "name": "ram7aug"
+    },
+    "1476642031391473839": {
+      "skinId": "weapon-primary-047",
+      "subcategory": "primary",
+      "mediaMessageId": "1476642031391473839",
+      "attachmentIds": [
+        "1476642031043608728"
+      ],
+      "name": "christmas_sawedoff(event)"
+    },
+    "1477543062778544222": {
+      "skinId": "weapon-primary-048",
+      "subcategory": "primary",
+      "mediaMessageId": "1477543062778544222",
+      "attachmentIds": [
+        "1477543062501851177"
+      ],
+      "name": "mika_mp9"
+    },
+    "1482225206062743673": {
+      "skinId": "weapon-primary-049",
+      "subcategory": "primary",
+      "mediaMessageId": "1482225206062743673",
+      "attachmentIds": [
+        "1482225205723267133"
+      ],
+      "name": "mika_p90"
+    },
+    "1482225356537856090": {
+      "skinId": "weapon-primary-050",
+      "subcategory": "primary",
+      "mediaMessageId": "1482225356537856090",
+      "attachmentIds": [
+        "1482225356059578512"
+      ],
+      "name": "hina_mg42(m249)"
+    },
+    "1482225462926250006": {
+      "skinId": "weapon-primary-051",
+      "subcategory": "primary",
+      "mediaMessageId": "1482225462926250006",
+      "attachmentIds": [
+        "1482225462930313278"
+      ],
+      "name": "MG3(m249)"
+    },
+    "1487028981789098068": {
+      "skinId": "weapon-primary-052",
+      "subcategory": "primary",
+      "mediaMessageId": "1487028981789098068",
+      "attachmentIds": [
+        "1487028981508083832"
+      ],
+      "name": "codol_m200(awp)"
+    },
+    "1487029070813200384": {
+      "skinId": "weapon-primary-053",
+      "subcategory": "primary",
+      "mediaMessageId": "1487029070813200384",
+      "attachmentIds": [
+        "1487029070524059802"
+      ],
+      "name": "area51_p90"
+    },
+    "1487029143660007464": {
+      "skinId": "weapon-primary-054",
+      "subcategory": "primary",
+      "mediaMessageId": "1487029143660007464",
+      "attachmentIds": [
+        "1487029143232319548"
+      ],
+      "name": "hnk_mp7"
+    },
+    "1487029214988472441": {
+      "skinId": "weapon-primary-055",
+      "subcategory": "primary",
+      "mediaMessageId": "1487029214988472441",
+      "attachmentIds": [
+        "1487029214686351370"
+      ],
+      "name": "bnt_mp9"
+    },
+    "1487029277349249127": {
+      "skinId": "weapon-primary-056",
+      "subcategory": "primary",
+      "mediaMessageId": "1487029277349249127",
+      "attachmentIds": [
+        "1487029276955115720"
+      ],
+      "name": "cod_bizon_silencer"
+    },
+    "1487029334479736893": {
+      "skinId": "weapon-primary-057",
+      "subcategory": "primary",
+      "mediaMessageId": "1487029334479736893",
+      "attachmentIds": [
+        "1487029334446440488"
+      ],
+      "name": "coldwar_mac10"
+    },
+    "1487029384090095646": {
+      "skinId": "weapon-primary-058",
+      "subcategory": "primary",
+      "mediaMessageId": "1487029384090095646",
+      "attachmentIds": [
+        "1487029383792164986"
+      ],
+      "name": "ron_mp5"
+    },
+    "1490408919762211027": {
+      "skinId": "weapon-primary-059",
+      "subcategory": "primary",
+      "mediaMessageId": "1490408919762211027",
+      "attachmentIds": [
+        "1490408919489708073"
+      ],
+      "name": "akmkpyk_ak47"
+    },
+    "1490409006907527353": {
+      "skinId": "weapon-primary-060",
+      "subcategory": "primary",
+      "mediaMessageId": "1490409006907527353",
+      "attachmentIds": [
+        "1490409006534103181"
+      ],
+      "name": "cag_hk416_m4a4"
+    },
+    "1490409067771068506": {
+      "skinId": "weapon-primary-061",
+      "subcategory": "primary",
+      "mediaMessageId": "1490409067771068506",
+      "attachmentIds": [
+        "1490409067485593692"
+      ],
+      "name": "urgim4_m4a1"
+    },
+    "1500754344541163642": {
+      "skinId": "weapon-primary-062",
+      "subcategory": "primary",
+      "mediaMessageId": "1500754364577353779",
+      "attachmentIds": [
+        "1500754364078489720"
+      ],
+      "name": "ak47_printstream"
+    },
+    "1500754426028101742": {
+      "skinId": "weapon-primary-063",
+      "subcategory": "primary",
+      "mediaMessageId": "1500754448065233067",
+      "attachmentIds": [
+        "1500754447645675570"
+      ],
+      "name": "m4a1_printstream"
+    },
+    "1500754474090627212": {
+      "skinId": "weapon-primary-064",
+      "subcategory": "primary",
+      "mediaMessageId": "1500754570639577139",
+      "attachmentIds": [
+        "1500754569884471306"
+      ],
+      "name": "K2C_ak47"
+    },
+    "1500754704508911688": {
+      "skinId": "weapon-primary-065",
+      "subcategory": "primary",
+      "mediaMessageId": "1500754745390927922",
+      "attachmentIds": [
+        "1500754744652599346"
+      ],
+      "name": "alternate_printstream(mp9)"
+    },
+    "1500754827637162014": {
+      "skinId": "weapon-primary-066",
+      "subcategory": "primary",
+      "mediaMessageId": "1500754852764975240",
+      "attachmentIds": [
+        "1500754852366647306"
+      ],
+      "name": "izanagis_burden(awp)"
+    },
+    "1510432080968814713": {
+      "skinId": "weapon-primary-067",
+      "subcategory": "primary",
+      "mediaMessageId": "1510432080968814713",
+      "attachmentIds": [
+        "1510432080432070676"
+      ],
+      "name": "mp7_racing_muku"
+    },
+    "1510433102604800110": {
+      "skinId": "weapon-primary-068",
+      "subcategory": "primary",
+      "mediaMessageId": "1510433102604800110",
+      "attachmentIds": [
+        "1510433101615071243"
+      ],
+      "name": "mp9_kanade"
+    },
+    "1516480906326577182": {
+      "skinId": "weapon-primary-069",
+      "subcategory": "primary",
+      "mediaMessageId": "1516480934759895233",
+      "attachmentIds": [
+        "1516480933853794314"
+      ],
+      "name": "hl_hyper_negev"
+    },
+    "1476635703273066516": {
+      "skinId": "weapon-secondary-001",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476635703273066516",
+      "attachmentIds": [
+        "1476635702975402067"
+      ],
+      "name": "m9_punisher(usp)"
+    },
+    "1476636126621208656": {
+      "skinId": "weapon-secondary-002",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476636126621208656",
+      "attachmentIds": [
+        "1476636126251978822"
+      ],
+      "name": "custom_9mm(glock)"
+    },
+    "1476636281776902327": {
+      "skinId": "weapon-secondary-003",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476636281776902327",
+      "attachmentIds": [
+        "1476636281353142355"
+      ],
+      "name": "deagle_kayoko"
+    },
+    "1476636669066088448": {
+      "skinId": "weapon-secondary-004",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476636669066088448",
+      "attachmentIds": [
+        "1476636668785332465"
+      ],
+      "name": "elite_miku_1"
+    },
+    "1476636686439026799": {
+      "skinId": "weapon-secondary-005",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476636686439026799",
+      "attachmentIds": [
+        "1476636686174781441"
+      ],
+      "name": "elite_miku_2"
+    },
+    "1476636883235901640": {
+      "skinId": "weapon-secondary-006",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476636883235901640",
+      "attachmentIds": [
+        "1476636882942296336"
+      ],
+      "name": "elite_v1"
+    },
+    "1476637269627764766": {
+      "skinId": "weapon-secondary-007",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476637269627764766",
+      "attachmentIds": [
+        "1476637269338095759"
+      ],
+      "name": "cyber_elite"
+    },
+    "1476637437609513031": {
+      "skinId": "weapon-secondary-008",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476637437609513031",
+      "attachmentIds": [
+        "1476637437319970827"
+      ],
+      "name": "plana_deagle"
+    },
+    "1476641213284356116": {
+      "skinId": "weapon-secondary-009",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476641213284356116",
+      "attachmentIds": [
+        "1476641212772388864"
+      ],
+      "name": "aris_elite"
+    },
+    "1476641247870587090": {
+      "skinId": "weapon-secondary-010",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476641247870587090",
+      "attachmentIds": [
+        "1476641247543164928"
+      ],
+      "name": "bluearchive_usp"
+    },
+    "1476641276974600272": {
+      "skinId": "weapon-secondary-011",
+      "subcategory": "secondary",
+      "mediaMessageId": "1476641276974600272",
+      "attachmentIds": [
+        "1476641276697772094"
+      ],
+      "name": "firefly_deagle"
+    },
+    "1500754941176713248": {
+      "skinId": "weapon-secondary-012",
+      "subcategory": "secondary",
+      "mediaMessageId": "1500754965201686679",
+      "attachmentIds": [
+        "1500754964782252162"
+      ],
+      "name": "forerunner_glock"
+    },
+    "1510433445590073495": {
+      "skinId": "weapon-secondary-013",
+      "subcategory": "secondary",
+      "mediaMessageId": "1510433445590073495",
+      "attachmentIds": [
+        "1510433444566536192"
+      ],
+      "name": "ups_sussurro"
+    },
+    "1476629327155302411": {
+      "skinId": "weapon-melee-001",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629327155302411",
+      "attachmentIds": [
+        "1476629326807171073"
+      ],
+      "name": "karambit_reaver"
+    },
+    "1476629387985027224": {
+      "skinId": "weapon-melee-002",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629387985027224",
+      "attachmentIds": [
+        "1476629387670720893"
+      ],
+      "name": "banana_kukri"
+    },
+    "1476629494482604259": {
+      "skinId": "weapon-melee-003",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629494482604259",
+      "attachmentIds": [
+        "1476629493983613129"
+      ],
+      "name": "m9_bayonet"
+    },
+    "1476629559314219069": {
+      "skinId": "weapon-melee-004",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629559314219069",
+      "attachmentIds": [
+        "1476629558756245696"
+      ],
+      "name": "minecraft_sword"
+    },
+    "1476629658417234093": {
+      "skinId": "weapon-melee-005",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629658417234093",
+      "attachmentIds": [
+        "1476629658081431794"
+      ],
+      "name": "minecraft_axe"
+    },
+    "1476629712246804481": {
+      "skinId": "weapon-melee-006",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629712246804481",
+      "attachmentIds": [
+        "1476629712364114040"
+      ],
+      "name": "hsr_trailblazer_bat"
+    },
+    "1476629790378168481": {
+      "skinId": "weapon-melee-007",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629790378168481",
+      "attachmentIds": [
+        "1476629790105800775"
+      ],
+      "name": "baguette"
+    },
+    "1476629873329045534": {
+      "skinId": "weapon-melee-008",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629873329045534",
+      "attachmentIds": [
+        "1476629873035575398"
+      ],
+      "name": "cosmicmerc_karambit"
+    },
+    "1476629895307071610": {
+      "skinId": "weapon-melee-009",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629895307071610",
+      "attachmentIds": [
+        "1476629895030243398"
+      ],
+      "name": "cosmicmerc_karambit_yellow"
+    },
+    "1476629929511620648": {
+      "skinId": "weapon-melee-010",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629929511620648",
+      "attachmentIds": [
+        "1476629929184727228"
+      ],
+      "name": "karambit_icefire"
+    },
+    "1476629975053504544": {
+      "skinId": "weapon-melee-011",
+      "subcategory": "melee",
+      "mediaMessageId": "1476629975053504544",
+      "attachmentIds": [
+        "1476629974936191219"
+      ],
+      "name": "bangalore_kukri"
+    },
+    "1476630020611903598": {
+      "skinId": "weapon-melee-012",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630020611903598",
+      "attachmentIds": [
+        "1476630020217901066"
+      ],
+      "name": "bangalore_kukri_green"
+    },
+    "1476630094100435128": {
+      "skinId": "weapon-melee-013",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630094100435128",
+      "attachmentIds": [
+        "1476630093815091271"
+      ],
+      "name": "butterfly_galaxy_ruby"
+    },
+    "1476630124232183808": {
+      "skinId": "weapon-melee-014",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630124232183808",
+      "attachmentIds": [
+        "1476630123972132986"
+      ],
+      "name": "butterfly_galaxy_sapphire"
+    },
+    "1476630146873032856": {
+      "skinId": "weapon-melee-015",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630146873032856",
+      "attachmentIds": [
+        "1476630146491482272"
+      ],
+      "name": "lollipop"
+    },
+    "1476630501350572185": {
+      "skinId": "weapon-melee-016",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630501350572185",
+      "attachmentIds": [
+        "1476630501367353395"
+      ],
+      "name": "classic_css_knife"
+    },
+    "1476630552952963275": {
+      "skinId": "weapon-melee-017",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630552952963275",
+      "attachmentIds": [
+        "1476630552873275626"
+      ],
+      "name": "cyberpunk_classic_knife"
+    },
+    "1476630603318296741": {
+      "skinId": "weapon-melee-018",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630603318296741",
+      "attachmentIds": [
+        "1476630603137945820"
+      ],
+      "name": "BA_shiroko_m9"
+    },
+    "1476630653733834792": {
+      "skinId": "weapon-melee-019",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630653733834792",
+      "attachmentIds": [
+        "1476630653284909117"
+      ],
+      "name": "skadi_skeleton_knife"
+    },
+    "1476630690341589053": {
+      "skinId": "weapon-melee-020",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630690341589053",
+      "attachmentIds": [
+        "1476630689951776848"
+      ],
+      "name": "murasama"
+    },
+    "1476630733056643146": {
+      "skinId": "weapon-melee-021",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630733056643146",
+      "attachmentIds": [
+        "1476630732771168328"
+      ],
+      "name": "keqing_bayonet"
+    },
+    "1476630764853657850": {
+      "skinId": "weapon-melee-022",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630764853657850",
+      "attachmentIds": [
+        "1476630764593483929"
+      ],
+      "name": "shinobu_knife"
+    },
+    "1476630801352364136": {
+      "skinId": "weapon-melee-023",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630801352364136",
+      "attachmentIds": [
+        "1476630801113415854"
+      ],
+      "name": "ganyu_karambit"
+    },
+    "1476630829647266026": {
+      "skinId": "weapon-melee-024",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630829647266026",
+      "attachmentIds": [
+        "1476630829399805992"
+      ],
+      "name": "ganyu_talon"
+    },
+    "1476630893513937017": {
+      "skinId": "weapon-melee-025",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630893513937017",
+      "attachmentIds": [
+        "1476630893161611325"
+      ],
+      "name": "skadi_butterfly"
+    },
+    "1476630923909927024": {
+      "skinId": "weapon-melee-026",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630923909927024",
+      "attachmentIds": [
+        "1476630923624710145"
+      ],
+      "name": "hiro_butterfly"
+    },
+    "1476630953311994017": {
+      "skinId": "weapon-melee-027",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630953311994017",
+      "attachmentIds": [
+        "1476630953047883980"
+      ],
+      "name": "steel_fan"
+    },
+    "1476630983959773218": {
+      "skinId": "weapon-melee-028",
+      "subcategory": "melee",
+      "mediaMessageId": "1476630983959773218",
+      "attachmentIds": [
+        "1476630983603130378"
+      ],
+      "name": "icecream_blade"
+    },
+    "1476631024804036628": {
+      "skinId": "weapon-melee-029",
+      "subcategory": "melee",
+      "mediaMessageId": "1476631024804036628",
+      "attachmentIds": [
+        "1476631024250130689"
+      ],
+      "name": "dragon_knife(cord)"
+    },
+    "1476631084337725663": {
+      "skinId": "weapon-melee-030",
+      "subcategory": "melee",
+      "mediaMessageId": "1476631084337725663",
+      "attachmentIds": [
+        "1476631083956306102"
+      ],
+      "name": "nacho_tactical"
+    },
+    "1476631368497758312": {
+      "skinId": "weapon-melee-031",
+      "subcategory": "melee",
+      "mediaMessageId": "1476631368497758312",
+      "attachmentIds": [
+        "1476631368015286464"
+      ],
+      "name": "mika_butterfly"
+    },
+    "1476631413271957505": {
+      "skinId": "weapon-melee-032",
+      "subcategory": "melee",
+      "mediaMessageId": "1476631413271957505",
+      "attachmentIds": [
+        "1476631412818968657"
+      ],
+      "name": "splinks(shadow)"
+    },
+    "1476640659678040285": {
+      "skinId": "weapon-melee-033",
+      "subcategory": "melee",
+      "mediaMessageId": "1476640659678040285",
+      "attachmentIds": [
+        "1476640659413930045"
+      ],
+      "name": "mita_knife(tactical)"
+    },
+    "1476640820902887524": {
+      "skinId": "weapon-melee-034",
+      "subcategory": "melee",
+      "mediaMessageId": "1476640820902887524",
+      "attachmentIds": [
+        "1476640820634321088"
+      ],
+      "name": "aemeath_knife(bowie)"
+    },
+    "1476640869342908416": {
+      "skinId": "weapon-melee-035",
+      "subcategory": "melee",
+      "mediaMessageId": "1476640869342908416",
+      "attachmentIds": [
+        "1476640869082857542"
+      ],
+      "name": "bang_dream_flip"
+    },
+    "1476644732510666883": {
+      "skinId": "weapon-melee-036",
+      "subcategory": "melee",
+      "mediaMessageId": "1476644732510666883",
+      "attachmentIds": [
+        "1476644732171063380"
+      ],
+      "name": "broken_kukri"
+    },
+    "1492462412865998918": {
+      "skinId": "weapon-melee-037",
+      "subcategory": "melee",
+      "mediaMessageId": "1492462412865998918",
+      "attachmentIds": [
+        "1492462412530585651"
+      ],
+      "name": "fish_ursus"
+    },
+    "1500757553083318352": {
+      "skinId": "weapon-melee-038",
+      "subcategory": "melee",
+      "mediaMessageId": "1500757611178496091",
+      "attachmentIds": [
+        "1500757610628907028"
+      ],
+      "name": "datastream_huntsman"
+    },
+    "1476637642765504643": {
+      "skinId": "weapon-throwable-008",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476637642765504643",
+      "attachmentIds": [
+        "1476637642417242223"
+      ],
+      "name": "pl"
+    },
+    "1476637665553027112": {
+      "skinId": "weapon-throwable-009",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476637665553027112",
+      "attachmentIds": [
+        "1476637665280659557"
+      ],
+      "name": "chillet"
+    },
+    "1476637687988486154": {
+      "skinId": "weapon-throwable-010",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476637687988486154",
+      "attachmentIds": [
+        "1476637687682437241"
+      ],
+      "name": "apple"
+    },
+    "1476638680662933666": {
+      "skinId": "weapon-throwable-011",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476638680662933666",
+      "attachmentIds": [
+        "1476638680167747646"
+      ],
+      "name": "baseball"
+    },
+    "1476638715794292816": {
+      "skinId": "weapon-throwable-012",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476638715794292816",
+      "attachmentIds": [
+        "1476638715274334410"
+      ],
+      "name": "kisakiball"
+    },
+    "1476641604478439648": {
+      "skinId": "weapon-throwable-013",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641604478439648",
+      "attachmentIds": [
+        "1476641604231102694"
+      ],
+      "name": "comicbomb"
+    },
+    "1476641631003344977": {
+      "skinId": "weapon-throwable-014",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641631003344977",
+      "attachmentIds": [
+        "1476641630738977001"
+      ],
+      "name": "dragonball"
+    },
+    "1476641669335089174": {
+      "skinId": "weapon-throwable-015",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641669335089174",
+      "attachmentIds": [
+        "1476641669200744609"
+      ],
+      "name": "electrode"
+    },
+    "1476641689274810369": {
+      "skinId": "weapon-throwable-016",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641689274810369",
+      "attachmentIds": [
+        "1476641689039798448"
+      ],
+      "name": "pokeball"
+    },
+    "1476641711118876838": {
+      "skinId": "weapon-throwable-017",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641711118876838",
+      "attachmentIds": [
+        "1476641710816628767"
+      ],
+      "name": "slime"
+    },
+    "1476641732107047075": {
+      "skinId": "weapon-throwable-018",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641732107047075",
+      "attachmentIds": [
+        "1476641731989737716"
+      ],
+      "name": "tennisball"
+    },
+    "1476641758971691078": {
+      "skinId": "weapon-throwable-019",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641758971691078",
+      "attachmentIds": [
+        "1476641758690410517"
+      ],
+      "name": "voltorb"
+    },
+    "1476641789644505119": {
+      "skinId": "weapon-throwable-020",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641789644505119",
+      "attachmentIds": [
+        "1476641789250375803"
+      ],
+      "name": "iphone_bocchi"
+    },
+    "1476641807923151004": {
+      "skinId": "weapon-throwable-021",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641807923151004",
+      "attachmentIds": [
+        "1476641807625617459"
+      ],
+      "name": "iphone_cat"
+    },
+    "1476641830325195049": {
+      "skinId": "weapon-throwable-022",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641830325195049",
+      "attachmentIds": [
+        "1476641830111023104"
+      ],
+      "name": "iphone_charlotte"
+    },
+    "1476641850134888538": {
+      "skinId": "weapon-throwable-023",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641850134888538",
+      "attachmentIds": [
+        "1476641849857937408"
+      ],
+      "name": "iphone_faker"
+    },
+    "1476641873824186521": {
+      "skinId": "weapon-throwable-024",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641873824186521",
+      "attachmentIds": [
+        "1476641873626923039"
+      ],
+      "name": "iphone_gaycat_laser"
+    },
+    "1476641896771354799": {
+      "skinId": "weapon-throwable-001",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641896771354799",
+      "attachmentIds": [
+        "1476641896435552428"
+      ],
+      "name": "doro"
+    },
+    "1476641931680546917": {
+      "skinId": "weapon-throwable-002",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641931680546917",
+      "attachmentIds": [
+        "1476641931361648813"
+      ],
+      "name": "fb_padoru"
+    },
+    "1476641955126710455": {
+      "skinId": "weapon-throwable-003",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641955126710455",
+      "attachmentIds": [
+        "1476641954677653730"
+      ],
+      "name": "fb_monster"
+    },
+    "1476641979860390129": {
+      "skinId": "weapon-throwable-004",
+      "subcategory": "throwable",
+      "mediaMessageId": "1476641979860390129",
+      "attachmentIds": [
+        "1476641979579502765"
+      ],
+      "name": "christmas_pl(event)"
+    },
+    "1492461336435753103": {
+      "skinId": "weapon-throwable-005",
+      "subcategory": "throwable",
+      "mediaMessageId": "1492461336435753103",
+      "attachmentIds": [
+        "1492461336532094996"
+      ],
+      "name": "meowl_sapper"
+    },
+    "1492461386821795990": {
+      "skinId": "weapon-throwable-006",
+      "subcategory": "throwable",
+      "mediaMessageId": "1492461386821795990",
+      "attachmentIds": [
+        "1492461386113224835"
+      ],
+      "name": "maxwell"
+    },
+    "1500755051722047580": {
+      "skinId": "weapon-throwable-007",
+      "subcategory": "throwable",
+      "mediaMessageId": "1500755072143986790",
+      "attachmentIds": [
+        "1500755071741329480"
+      ],
+      "name": "kirby (grenade)"
+    }
+  }
+}

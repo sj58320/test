@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "threadId": "1517475506771984574",
+  "items": {
+    "1517492415139942482": {
+      "skinId": "zombie-001",
+      "imageMessageId": "1517492431656980602",
+      "attachmentIds": [
+        "1517492414871244980",
+        "1517492431149600789"
+      ],
+      "name": "Chris Walker / motherzombie(default)",
+      "nameKo": "크리스 워커 / 숙주좀비(기본스킨)"
+    },
+    "1517493353351221339": {
+      "skinId": "zombie-002",
+      "imageMessageId": "1517493386993729596",
+      "attachmentIds": [
+        "1517493353430646855",
+        "1517493386591080529"
+      ],
+      "name": "Zombie",
+      "nameKo": "좀비"
+    },
+    "1517493677348487258": {
+      "skinId": "zombie-003",
+      "imageMessageId": "1517494376681705593",
+      "attachmentIds": [
+        "1517494363251540108",
+        "1517494376308408410"
+      ],
+      "name": "Frozen",
+      "nameKo": "프로즌"
+    },
+    "1517494527772856330": {
+      "skinId": "zombie-004",
+      "imageMessageId": "1517494576489693346",
+      "attachmentIds": [
+        "1517494527382782113",
+        "1517494576200421376"
+      ],
+      "name": "Cultist",
+      "nameKo": "컬티스트"
+    },
+    "1517494784942407840": {
+      "skinId": "zombie-005",
+      "imageMessageId": "1517494810293047357",
+      "attachmentIds": [
+        "1517494784103682220",
+        "1517494809797857350"
+      ],
+      "name": "MineCraft Zombie",
+      "nameKo": "마크좀비"
+    },
+    "1517494914873557042": {
+      "skinId": "zombie-006",
+      "imageMessageId": "1517495012458365082",
+      "attachmentIds": [
+        "1517494914575896576",
+        "1517495011933950073"
+      ],
+      "name": "Demogorgon",
+      "nameKo": "데모고르곤"
+    }
+  }
+}
