@@ -2,7 +2,7 @@
 
 RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitHub Pages에서 별도 서버 없이 동작하며 FAQ, 서버 규칙, 명령어 목록, 좀비탈출 용어 사전, 공지, 스킨 프리뷰, 후원 안내를 제공합니다.
 
-- 사이트: https://revenantze.github.io/rss-motd/
+- 사이트: https://revenantze.github.io/RSS-MOTD/
 - 지원 UI 언어: 한국어, English, 日本語
 - 용어 사전 데이터: 한국어, 日本語 제공 (English 준비 중)
 
