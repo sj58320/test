@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "updatedAt": "2026-07-20",
+  "updatedAt": "2026-07-22",
   "pages": [
     {
       "id": "basic",
@@ -112,6 +112,14 @@
                 "ko": "내 발사음 숨김 켜기/끄기",
                 "en": "Toggle hiding your own fire sound",
                 "jp": "自身の銃声のオン/オフを切り替え"
+              }
+            },
+            {
+              "command": "/knifesound",
+              "description": {
+                "ko": "다른 플레이어의 칼 공격음을 ON/OFF",
+                "en": "Toggle other players' knife attack sounds",
+                "jp": "他のプレイヤーのナイフ攻撃音をON/OFF"
               }
             }
           ]
