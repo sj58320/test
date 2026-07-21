@@ -12,6 +12,23 @@
   <meta property="og:description" content="FAQ, 명령어 목록, 좀비탈출 용어를 한곳에서 검색하세요." />
   <meta property="og:url" content="https://sj58320.github.io/test/" />
 
+  <script>
+    (() => {
+      try {
+        const saved = localStorage.getItem("themePreference");
+        const preference = ["default", "dark", "light"].includes(saved) ? saved : "default";
+        const resolved = preference === "default"
+          ? (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark")
+          : preference;
+        document.documentElement.dataset.themePreference = preference;
+        document.documentElement.dataset.theme = resolved;
+      } catch (_error) {
+        document.documentElement.dataset.themePreference = "default";
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+
   <!-- 스타일 css 경로 -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
@@ -37,6 +54,17 @@
         <button class="langbtn active" data-lang="ko" aria-label="한국어" aria-pressed="true">한국어</button>
         <button class="langbtn" data-lang="en" aria-label="English" aria-pressed="false">English</button>
         <button class="langbtn" data-lang="jp" aria-label="日本語" aria-pressed="false">日本語</button>
+      </div>
+      <div class="theme-picker" role="group" data-lang-aria="theme_picker" aria-label="배경 테마">
+        <button class="theme-option" type="button" data-theme-choice="default" data-lang-aria="theme_default" aria-label="기본 테마" aria-pressed="true">
+          <span aria-hidden="true">◐</span>
+        </button>
+        <button class="theme-option" type="button" data-theme-choice="dark" data-lang-aria="theme_dark" aria-label="다크 테마" aria-pressed="false">
+          <span aria-hidden="true">☾</span>
+        </button>
+        <button class="theme-option" type="button" data-theme-choice="light" data-lang-aria="theme_light" aria-label="화이트 테마" aria-pressed="false">
+          <span aria-hidden="true">☀</span>
+        </button>
       </div>
       <div class="social-links">
         <a class="social-link steam-link" href="https://steamcommunity.com/groups/Revenant_Server"

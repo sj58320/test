@@ -37,6 +37,8 @@ let favoriteCommandsOnly = false;
 let toastTimer = null;
 const NEWS_WIDTH_STORAGE_KEY = "newsPanelWidth";
 const RECENT_VIEWS_STORAGE_KEY = "recentViews";
+const THEME_STORAGE_KEY = "themePreference";
+const THEME_PREFERENCES = new Set(["default", "dark", "light"]);
 const NEWS_DEFAULT_WIDTH = 1160;
 const NEWS_MIN_WIDTH = 760;
 const NEWS_MAX_WIDTH = 1600;
@@ -145,6 +147,42 @@ function readStoredArray(key) {
     return [];
   }
 }
+
+const systemThemeQuery = window.matchMedia("(prefers-color-scheme: light)");
+
+function normalizeThemePreference(preference) {
+  return THEME_PREFERENCES.has(preference) ? preference : "default";
+}
+
+function resolveTheme(preference) {
+  return preference === "default" ? (systemThemeQuery.matches ? "light" : "dark") : preference;
+}
+
+function applyTheme(preference, persist = true) {
+  const normalized = normalizeThemePreference(preference);
+  const resolved = resolveTheme(normalized);
+  document.documentElement.dataset.themePreference = normalized;
+  document.documentElement.dataset.theme = resolved;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", resolved === "light" ? "#f7f9fc" : "#0b111c");
+  document.querySelectorAll("[data-theme-choice]").forEach(button => {
+    const isActive = button.dataset.themeChoice === normalized;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", isActive ? "true" : "false");
+  });
+  if (persist) writeStorage(THEME_STORAGE_KEY, normalized);
+}
+
+document.querySelectorAll("[data-theme-choice]").forEach(button => {
+  button.addEventListener("click", () => applyTheme(button.dataset.themeChoice));
+});
+
+systemThemeQuery.addEventListener?.("change", () => {
+  if (normalizeThemePreference(readStorage(THEME_STORAGE_KEY, "default")) === "default") {
+    applyTheme("default", false);
+  }
+});
+
+applyTheme(readStorage(THEME_STORAGE_KEY, "default"), false);
 
 function assetUrl(filename) {
   return new URL(filename, siteBase).toString();
@@ -717,7 +755,7 @@ function makeGlobalSearchGroup(type, total, items) {
 
 function setContentUpdatedAt(elementId, data) {
   const element = document.getElementById(elementId);
-  if (element) element.textContent = data?.updatedAt || "-";
+  if (element) element.textContent = formatContentDate(data?.updatedAt) || "-";
 }
 
 function navigateToDeepLink(targetId) {
@@ -1560,7 +1598,7 @@ async function loadNews() {
   try {
     newsData = await fetchJsonWithFallback("data/news.json");
     const updatedAt = document.getElementById("newsLastUpdate");
-    if (updatedAt) updatedAt.textContent = formatNewsDate(newsData.updatedAt) || "-";
+    if (updatedAt) updatedAt.textContent = formatContentDate(newsData.updatedAt) || "-";
     renderNews();
     renderGlobalSearch();
   } catch (err) {
@@ -1572,11 +1610,16 @@ async function loadNews() {
   }
 }
 
-function formatNewsDate(value) {
+function formatContentDate(value) {
   if (!value) return "";
+  const locale = getCurrentLang() === "jp" ? "ja-JP" : getCurrentLang() === "en" ? "en-US" : "ko-KR";
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (dateOnly) {
+    const date = new Date(Date.UTC(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3])));
+    return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "UTC" }).format(date);
+  }
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  const locale = getCurrentLang() === "jp" ? "ja-JP" : getCurrentLang() === "en" ? "en-US" : "ko-KR";
   return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }).format(date);
 }
 
@@ -1625,6 +1668,7 @@ function renderNewsMarkdown(container, value) {
 function renderNews() {
   const list = document.getElementById("newsList");
   if (!list || !newsData) return;
+  setContentUpdatedAt("newsLastUpdate", newsData);
 
   const items = Array.isArray(newsData.items) ? newsData.items : [];
   if (!items.length) {
@@ -1658,7 +1702,7 @@ function renderNews() {
     }
     const published = document.createElement("time");
     published.dateTime = item.publishedAt || "";
-    published.textContent = formatNewsDate(item.publishedAt);
+    published.textContent = formatContentDate(item.publishedAt);
     meta.appendChild(published);
     if (item.author) {
       const author = document.createElement("span");
@@ -1747,7 +1791,7 @@ async function loadSkins() {
     clearSkinCardCache();
     skinCardsRendered = false;
     const updatedAt = document.getElementById("skinLastUpdate");
-    if (updatedAt) updatedAt.textContent = formatNewsDate(skinData.updatedAt) || "-";
+    if (updatedAt) updatedAt.textContent = formatContentDate(skinData.updatedAt) || "-";
     if (document.body.dataset.activeTab === "skins") renderSkins();
     renderGlobalSearch();
   } catch (err) {
@@ -2043,6 +2087,7 @@ function clearSkinItemHash() {
 function renderSkins() {
   const grid = document.getElementById("skinGrid");
   if (!grid || !skinData) return;
+  setContentUpdatedAt("skinLastUpdate", skinData);
   skinCardsRendered = true;
   updateSkinFilterControls();
 
