@@ -1,7 +1,7 @@
 {
   "version": 5,
   "category": "human",
-  "updatedAt": "2026-07-17T12:28:00Z",
+  "updatedAt": "2026-07-19T04:49:16.591000+00:00",
   "items": [
     {
       "id": "001",
@@ -2072,6 +2072,121 @@
         }
       ],
       "sourceUrl": "https://discord.com/channels/574971804712435722/1517461614356594700/1517568326149341384"
+    },
+    {
+      "id": "091",
+      "order": 91,
+      "name": "Almond Eye (Umamusume)",
+      "nameKo": "아몬드 아이 (우마무스메)",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517461614356594700/1528116157201252513",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/091-third.webp",
+          "width": 800,
+          "height": 1054
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/091-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "092",
+      "order": 92,
+      "name": "Dorothy Serendipity (Nikke)",
+      "nameKo": "도로시 세렌디피티 (니케)",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517461614356594700/1528116534403141754",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/092-third.webp",
+          "width": 799,
+          "height": 1079
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/092-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "093",
+      "order": 93,
+      "name": "Koleda Swimsuit (GFL2)",
+      "nameKo": "콜레다 수영복 (소녀전선2)",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517461614356594700/1528117200190177423",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/093-third.webp",
+          "width": 730,
+          "height": 1079
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/093-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "094",
+      "order": 94,
+      "name": "Mamehinata (VRChat)",
+      "nameKo": "마메히나타 (VRChat)",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517461614356594700/1528117583184789505",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/094-third.webp",
+          "width": 800,
+          "height": 832
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/094-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "095",
+      "order": 95,
+      "name": "Vanya (Eternal Return)",
+      "nameKo": "바냐 (이터널리턴)",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1517461614356594700/1528117994553737470",
+      "media": [
+        {
+          "type": "image",
+          "role": "thirdPerson",
+          "src": "assets/skins/095-third.webp",
+          "width": 800,
+          "height": 963
+        },
+        {
+          "type": "image",
+          "role": "firstPerson",
+          "src": "assets/skins/095-first.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
     }
   ]
 }
