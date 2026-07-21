@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-21",
+  "types": {
+    "smg": [
+      "mp5",
+      "mp5sd",
+      "mp7",
+      "mp9",
+      "p90",
+      "ump",
+      "ump45",
+      "bizon",
+      "ppbizon",
+      "mac10"
+    ],
+    "rifle": [
+      "ak47",
+      "m4a1",
+      "m4a1s",
+      "m4a4",
+      "famas",
+      "aug",
+      "galil",
+      "galilar",
+      "sg553"
+    ],
+    "shotgun": [
+      "xm1014",
+      "sawedoff",
+      "nova",
+      "mag7"
+    ],
+    "machinegun": [
+      "m249",
+      "mg42",
+      "mg3",
+      "negev"
+    ],
+    "sniper": [
+      "awp",
+      "m200",
+      "ssg08",
+      "scar20",
+      "g3sg1"
+    ]
+  }
+}

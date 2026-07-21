@@ -1,4 +1,4 @@
-"""Synchronize the human skin catalog from one Discord thread.
+"""Synchronize a human or zombie skin catalog from one Discord thread.
 
 The thread format matches the original human-skin extractor:
 
@@ -33,9 +33,22 @@ from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CATALOG = ROOT / "data" / "skins" / "human.json"
-DEFAULT_STATE = ROOT / "data" / "skins" / "discord-human-state.json"
-DEFAULT_ASSET_DIR = ROOT / "assets" / "skins"
+CHARACTER_CONFIG = {
+    "human": {
+        "catalog": ROOT / "data" / "skins" / "human.json",
+        "state": ROOT / "data" / "skins" / "discord-human-state.json",
+        "asset_dir": ROOT / "assets" / "skins",
+        "asset_prefix": "assets/skins",
+        "id_prefix": "",
+    },
+    "zombie": {
+        "catalog": ROOT / "data" / "skins" / "zombie.json",
+        "state": ROOT / "data" / "skins" / "discord-zombie-state.json",
+        "asset_dir": ROOT / "assets" / "skins" / "zombie",
+        "asset_prefix": "assets/skins/zombie",
+        "id_prefix": "zombie-",
+    },
+}
 DISCORD_API = "https://discord.com/api/v10"
 MAX_MESSAGES = 2_000
 FETCH_ATTEMPTS = 4
@@ -49,7 +62,7 @@ def parse_skin_name(content: str) -> tuple[str, str] | None:
     if not match:
         return None
     lines = [line.strip() for line in match.group(1).splitlines() if line.strip()]
-    lines = [line for line in lines if not re.fullmatch(r"-+", line)]
+    lines = [line for line in lines if not re.fullmatch(r"[-=_]{3,}", line)]
     if not lines:
         return None
     return lines[0], " / ".join(lines[1:])
@@ -115,19 +128,23 @@ def source_message_id(item: dict[str, Any]) -> str:
     return match.group(1) if match else ""
 
 
-def next_human_id(items: list[dict[str, Any]]) -> str:
+def next_character_id(items: list[dict[str, Any]], category: str) -> str:
+    prefix = str(CHARACTER_CONFIG[category]["id_prefix"])
     numeric_ids = [
-        int(str(item.get("id")))
+        int(str(item.get("id")).removeprefix(prefix))
         for item in items
-        if str(item.get("id") or "").isdigit()
+        if str(item.get("id") or "").removeprefix(prefix).isdigit()
     ]
-    return f"{max(numeric_ids, default=0) + 1:03d}"
+    return f"{prefix}{max(numeric_ids, default=0) + 1:03d}"
 
 
-def media_paths(item_id: str) -> tuple[str, str]:
+def media_paths(item_id: str, category: str) -> tuple[str, str]:
+    prefix = str(CHARACTER_CONFIG[category]["id_prefix"])
+    file_id = item_id.removeprefix(prefix)
+    asset_prefix = str(CHARACTER_CONFIG[category]["asset_prefix"])
     return (
-        f"assets/skins/{item_id}-third.webp",
-        f"assets/skins/{item_id}-first.webp",
+        f"{asset_prefix}/{file_id}-third.webp",
+        f"{asset_prefix}/{file_id}-first.webp",
     )
 
 
@@ -261,6 +278,7 @@ def synchronize(
     guild_id: str,
     thread_id: str,
     asset_dir: Path,
+    category: str = "human",
 ) -> tuple[dict[str, Any], dict[str, Any], int, int]:
     items = [dict(item) for item in catalog.get("items", [])]
     by_message = {source_message_id(item): item for item in items if source_message_id(item)}
@@ -273,7 +291,7 @@ def synchronize(
         item = by_message.get(message_id)
         is_new = item is None
         if is_new:
-            item_id = next_human_id(items)
+            item_id = next_character_id(items, category)
             item = {"id": item_id, "order": max((int(x.get("order") or 0) for x in items), default=0) + 1}
             items.append(item)
             by_message[message_id] = item
@@ -294,9 +312,10 @@ def synchronize(
                 item.pop("nameKo", None)
         item["sourceUrl"] = f"https://discord.com/channels/{guild_id}/{thread_id}/{message_id}"
 
-        third_src, first_src = media_paths(item_id)
-        third_path = asset_dir / f"{item_id}-third.webp"
-        first_path = asset_dir / f"{item_id}-first.webp"
+        third_src, first_src = media_paths(item_id, category)
+        file_id = item_id.removeprefix(str(CHARACTER_CONFIG[category]["id_prefix"]))
+        third_path = asset_dir / f"{file_id}-third.webp"
+        first_path = asset_dir / f"{file_id}-first.webp"
         signature = attachment_signature(record)
         files_exist = third_path.exists() and first_path.exists()
         must_download = is_new or not files_exist or (
@@ -327,7 +346,7 @@ def synchronize(
     if catalog_changes or asset_changes:
         catalog["updatedAt"] = newest_timestamp(records)
     catalog["version"] = max(int(catalog.get("version") or 0), 5)
-    catalog["category"] = "human"
+    catalog["category"] = category
     catalog["items"] = items
     new_state = {"version": 1, "threadId": thread_id, "items": state_items}
     return catalog, new_state, catalog_changes, asset_changes
@@ -335,20 +354,29 @@ def synchronize(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
-    parser.add_argument("--state", type=Path, default=DEFAULT_STATE)
-    parser.add_argument("--asset-dir", type=Path, default=DEFAULT_ASSET_DIR)
+    parser.add_argument("--category", choices=sorted(CHARACTER_CONFIG), default="human")
+    parser.add_argument("--catalog", type=Path)
+    parser.add_argument("--state", type=Path)
+    parser.add_argument("--asset-dir", type=Path)
     parser.add_argument("--messages-json", type=Path, help="Use an offline Discord message array")
+    parser.add_argument("--allow-warnings", action="store_true")
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+    config = CHARACTER_CONFIG[args.category]
+    catalog_path = args.catalog or Path(config["catalog"])
+    state_path = args.state or Path(config["state"])
+    asset_dir = args.asset_dir or Path(config["asset_dir"])
     token = os.environ.get("DISCORD_BOT_TOKEN", "")
     guild_id = os.environ.get("DISCORD_SKIN_GUILD_ID") or os.environ.get("DISCORD_GUILD_ID", "")
-    thread_id = os.environ.get("DISCORD_HUMAN_SKIN_THREAD_ID", "")
+    thread_env = f"DISCORD_{args.category.upper()}_SKIN_THREAD_ID"
+    thread_id = os.environ.get(thread_env, "")
     if not guild_id or not thread_id:
-        raise SystemExit("DISCORD_SKIN_GUILD_ID (or DISCORD_GUILD_ID) and DISCORD_HUMAN_SKIN_THREAD_ID are required")
+        raise SystemExit(
+            "DISCORD_SKIN_GUILD_ID (or DISCORD_GUILD_ID) and " + thread_env + " are required"
+        )
 
     if args.messages_json:
         messages = read_json(args.messages_json, [])
@@ -360,18 +388,25 @@ def main() -> None:
     records, warnings = pair_skin_messages(messages)
     for warning in warnings:
         print(f"warning: {warning}", file=sys.stderr)
+    if warnings and not args.allow_warnings:
+        raise SystemExit(
+            f"Refusing to update {args.category}: {len(warnings)} malformed skin record(s)"
+        )
     if not records:
-        raise SystemExit("No complete human skin records were found in the Discord thread")
+        raise SystemExit(f"No complete {args.category} skin records were found in the Discord thread")
 
-    catalog = read_json(args.catalog, {"version": 5, "category": "human", "updatedAt": "", "items": []})
-    state = read_json(args.state, {"version": 1, "threadId": thread_id, "items": {}})
-    catalog, state, catalog_changes, asset_changes = synchronize(
-        records, catalog, state, guild_id, thread_id, args.asset_dir
+    catalog = read_json(
+        catalog_path,
+        {"version": 5, "category": args.category, "updatedAt": "", "items": []},
     )
-    catalog_written = write_if_changed(args.catalog, stable_json(catalog))
-    state_written = write_if_changed(args.state, stable_json(state))
+    state = read_json(state_path, {"version": 1, "threadId": thread_id, "items": {}})
+    catalog, state, catalog_changes, asset_changes = synchronize(
+        records, catalog, state, guild_id, thread_id, asset_dir, args.category
+    )
+    catalog_written = write_if_changed(catalog_path, stable_json(catalog))
+    state_written = write_if_changed(state_path, stable_json(state))
     print(
-        f"Synced {len(records)} human skins from thread {thread_id}; "
+        f"Synced {len(records)} {args.category} skins from thread {thread_id}; "
         f"catalogChanges={catalog_changes}, assetChanges={asset_changes}, "
         f"catalogWritten={str(catalog_written).lower()}, stateWritten={str(state_written).lower()}"
     )

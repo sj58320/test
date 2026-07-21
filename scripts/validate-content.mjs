@@ -18,6 +18,7 @@ const CONTENT_FILES = [
   "terms.json",
   "news.json",
   "support.json",
+  "skins/weapon-types.json",
   ...Object.values(SKIN_CATALOG_FILES)
 ];
 const failures = [];
@@ -329,6 +330,22 @@ checkUnique(
 const skinCategories = new Set(["human", "zombie", "weapon"]);
 const weaponCategories = new Set(["primary", "secondary", "melee", "throwable"]);
 const primaryWeaponTypes = new Set(["smg", "rifle", "shotgun", "machinegun", "sniper", "other"]);
+const weaponTypeConfig = content["skins/weapon-types.json"];
+check(weaponTypeConfig.version === 1, "skins/weapon-types.json.version must be 1.");
+check(weaponTypeConfig.types && typeof weaponTypeConfig.types === "object",
+  "skins/weapon-types.json.types must be an object.");
+const configuredAliases = [];
+for (const [weaponType, aliases] of Object.entries(weaponTypeConfig.types || {})) {
+  check(primaryWeaponTypes.has(weaponType) && weaponType !== "other",
+    "skins/weapon-types.json has unsupported type: " + weaponType);
+  check(Array.isArray(aliases) && aliases.length > 0,
+    "skins/weapon-types.json." + weaponType + " must not be empty.");
+  for (const alias of aliases || []) {
+    check(isText(alias), "skins/weapon-types.json." + weaponType + " contains an empty alias.");
+    configuredAliases.push(String(alias).toLocaleLowerCase().replace(/[-_\s]/g, ""));
+  }
+}
+checkUnique(configuredAliases, "Weapon type aliases");
 for (const [index, item] of skinItems.entries()) {
   const label = "skin items[" + index + "]";
   check(isText(item.name), label + ".name is required.");

@@ -33,6 +33,12 @@ class HumanSkinSyncTests(unittest.TestCase):
         )
         self.assertIsNone(sync.parse_skin_name("MasterChief (Halo)"))
 
+    def test_ignores_repeated_separator_styles(self) -> None:
+        self.assertEqual(
+            sync.parse_skin_name("```\nZombie\n==========\n좀비\n------------\n```"),
+            ("Zombie", "좀비"),
+        )
+
     def test_pairs_portrait_as_third_person_and_landscape_as_first_person(self) -> None:
         messages = [
             {
@@ -180,6 +186,16 @@ class HumanSkinSyncTests(unittest.TestCase):
         self.assertEqual(result["items"][0]["nameKo"], "변경된 이름")
         self.assertEqual(catalog_changes, 1)
         self.assertEqual(asset_changes, 0)
+
+    def test_creates_zombie_ids_and_media_paths(self) -> None:
+        self.assertEqual(sync.next_character_id([], "zombie"), "zombie-001")
+        self.assertEqual(
+            sync.media_paths("zombie-001", "zombie"),
+            (
+                "assets/skins/zombie/001-third.webp",
+                "assets/skins/zombie/001-first.webp",
+            ),
+        )
 
 
 if __name__ == "__main__":
