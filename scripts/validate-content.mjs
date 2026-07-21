@@ -9,7 +9,8 @@ const CONTENT_DIR = path.join(ROOT, "data");
 const SKIN_CATALOG_FILES = {
   human: "skins/human.json",
   zombie: "skins/zombie.json",
-  weapon: "skins/weapon.json"
+  weapon: "skins/weapon.json",
+  spray: "skins/spray.json"
 };
 const CONTENT_FILES = [
   "faq.json",
@@ -327,7 +328,7 @@ checkUnique(
   skinItems.map(item => [item.category, item.subcategory || "", item.order].join(":")),
   "Skin category order values"
 );
-const skinCategories = new Set(["human", "zombie", "weapon"]);
+const skinCategories = new Set(["human", "zombie", "weapon", "spray"]);
 const weaponCategories = new Set(["primary", "secondary", "melee", "throwable"]);
 const primaryWeaponTypes = new Set(["smg", "rifle", "shotgun", "machinegun", "sniper", "other"]);
 const weaponTypeConfig = content["skins/weapon-types.json"];
@@ -361,8 +362,8 @@ for (const [index, item] of skinItems.entries()) {
       check(item.weaponType == null, label + ".weaponType must be null outside primary weapons.");
     }
   } else {
-    check(item.subcategory == null, label + ".subcategory must be null for character skins.");
-    check(item.weaponType == null, label + ".weaponType must be absent for character skins.");
+    check(item.subcategory == null, label + ".subcategory must be absent outside weapon skins.");
+    check(item.weaponType == null, label + ".weaponType must be absent outside weapon skins.");
   }
   checkUrl(item.sourceUrl, label + ".sourceUrl", true);
   check(Array.isArray(item.media) && item.media.length > 0, label + ".media must not be empty.");

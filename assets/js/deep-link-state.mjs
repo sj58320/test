@@ -2,6 +2,7 @@ const FILTER_LINKS = new Map([
   ["skins-human", { tab: "skins", skinCategory: "human" }],
   ["skins-zombie", { tab: "skins", skinCategory: "zombie" }],
   ["skins-weapon", { tab: "skins", skinCategory: "weapon" }],
+  ["skins-spray", { tab: "skins", skinCategory: "spray" }],
   ["commands", { tab: "cmds", commandPage: "all" }],
   ["commands-donator", { tab: "cmds", commandPage: "donator" }]
 ]);
@@ -13,7 +14,7 @@ export function resolveFilterDeepLink(value) {
 }
 
 export function skinCategoryDeepLink(category) {
-  return ["human", "zombie", "weapon"].includes(category)
+  return ["human", "zombie", "weapon", "spray"].includes(category)
     ? `skins-${category}`
     : null;
 }

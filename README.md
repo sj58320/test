@@ -55,11 +55,13 @@ RSS 좀비탈출서버에서 사용하는 정적 안내 사이트입니다. GitH
 | `data/skins/human.json` | 인간 스킨 이름, 미디어 경로, Discord 원문 링크 |
 | `data/skins/zombie.json` | 좀비 스킨 이름, 미디어 경로, Discord 원문 링크 |
 | `data/skins/weapon.json` | 무기 스킨 분류, 이름, 미디어 경로, Discord 원문 링크 |
+| `data/skins/spray.json` | 스프레이 이름, 미디어 경로, Discord 원문 링크 |
 | `data/skins/weapon-types.json` | 주무기 이름의 마지막 괄호를 무기군으로 연결하는 설정 |
 | `assets/skins/` | GitHub Pages용 WebP·GIF·MP4 스킨 미리보기 |
 | `scripts/build_skin_previews.py` | 여섯 로컬 Discord 추출 폴더를 카테고리별 스킨 카탈로그로 변환 |
 | `scripts/sync-discord-human-skins.py` | Discord 인간·좀비 스킨 스레드에서 이름과 이미지를 동기화 |
 | `scripts/sync-discord-weapon-skins.py` | Discord 무기 스레드 네 개에서 이름과 이미지·영상을 동기화 |
+| `scripts/sync-discord-sprays.py` | Discord 스프레이 스레드에서 이름과 이미지·GIF·영상을 동기화 |
 | `scripts/sync-discord-news.mjs` | Discord 메시지를 `data/news.json`으로 변환 |
 | `scripts/validate-content.mjs` | JSON 구조, 연결된 항목, 이미지 경로, 번역 키 검증 |
 | `.github/workflows/sync-discord-news.yml` | 15분마다 `main`의 공지 동기화 후 변경 시 Pages 배포 |
@@ -184,6 +186,8 @@ python scripts/build_skin_previews.py
 
 무기는 스레드 ID로 주무기·보조무기·근접무기·투척무기를 구분합니다. 일반 텍스트와 코드 블록을 모두 허용하고 첫 번째 의미 있는 줄의 첫 `/` 앞부분만 이름으로 사용합니다. 이미지 또는 영상은 정확히 하나만 사용하며 같은 메시지나 바로 뒤의 미디어 메시지에서 찾습니다. 새 주무기는 `스킨이름(실제무기명)` 형식이어야 하며 마지막 괄호를 `data/skins/weapon-types.json`과 정확히 비교합니다. 인식할 수 없는 새 주무기나 미디어가 부족한 항목이 있으면 전체 커밋을 중단하고 Action 로그에 Discord 메시지 ID를 표시합니다.
 
+스프레이 스레드 `1438222899562545253`은 일반 텍스트 또는 코드 블록의 첫 번째 의미 있는 줄을 이름으로 사용합니다. `/` 뒤의 내용은 메타데이터로 보고 이름에서 제외합니다. 같은 메시지나 바로 다음 메시지에 이미지·GIF·영상 하나를 첨부해야 하며, 첨부 파일이 없거나 여러 개라서 연결이 모호하면 전체 커밋을 중단하고 Action 로그에 메시지 ID를 표시합니다.
+
 기존 `DISCORD_BOT_TOKEN` Secret을 함께 사용합니다. 다음 Repository Variable은 생략하면 현재 서버와 스레드 ID를 기본값으로 사용합니다.
 
 | 종류 | 이름 | 값 |
@@ -195,6 +199,7 @@ python scripts/build_skin_previews.py
 | Variable | `DISCORD_SECONDARY_WEAPON_SKIN_THREAD_ID` | 보조무기 스킨 스레드 ID |
 | Variable | `DISCORD_MELEE_WEAPON_SKIN_THREAD_ID` | 근접무기 스킨 스레드 ID |
 | Variable | `DISCORD_THROWABLE_WEAPON_SKIN_THREAD_ID` | 투척무기 스킨 스레드 ID |
+| Variable | `DISCORD_SPRAY_THREAD_ID` | 스프레이 스레드 ID |
 | Variable | `DISCORD_SKIN_SYNC_ENABLED` | 예약 실행을 시작하려면 `true` |
 
 수동 실행은 GitHub의 **Actions → Sync Discord skins → Run workflow**에서 할 수 있습니다. 첫 실행에서는 기존 미디어를 다시 변환하지 않고 Discord 첨부 파일 ID를 상태 JSON에 연결합니다. 이후 이름이나 첨부 파일이 바뀌면 해당 스킨만 갱신하며, 실제 변경이 있을 때만 커밋합니다. Discord에서 사라진 항목과 CMS에서 직접 추가한 항목은 자동 삭제하지 않습니다.
@@ -211,7 +216,7 @@ python scripts/build_skin_previews.py --overwrite-existing
 
 ### Pages CMS에서 스킨 수정하기
 
-루트의 `.pages.yml`은 카테고리별 스킨 JSON과 `assets/skins/`만 편집할 수 있는 스킨 관리 화면을 정의합니다. 인간·좀비·무기 카탈로그를 각각 열기 때문에 223개 항목을 한 화면에서 한꺼번에 처리하지 않습니다. 스킨 프리뷰 제목 옆의 **관리하기** 버튼은 Pages CMS의 `main` 브랜치를 직접 엽니다. GitHub로 로그인하면 다음 작업을 폼으로 처리할 수 있습니다.
+루트의 `.pages.yml`은 카테고리별 스킨 JSON과 `assets/skins/`만 편집할 수 있는 스킨 관리 화면을 정의합니다. 인간·좀비·무기·스프레이 카탈로그를 각각 열기 때문에 모든 항목을 한 화면에서 한꺼번에 처리하지 않습니다. 스킨 프리뷰 제목 옆의 **관리하기** 버튼은 Pages CMS의 `main` 브랜치를 직접 엽니다. GitHub로 로그인하면 다음 작업을 폼으로 처리할 수 있습니다.
 
 - 선택한 카테고리 안에서 표시 순서 수정
 - 한국어·영문 스킨 이름 수정

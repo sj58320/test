@@ -10,6 +10,8 @@ on:
       - scripts/test_sync_discord_human_skins.py
       - scripts/sync-discord-weapon-skins.py
       - scripts/test_sync_discord_weapon_skins.py
+      - scripts/sync-discord-sprays.py
+      - scripts/test_sync_discord_sprays.py
       - data/skins/weapon-types.json
   workflow_dispatch:
   schedule:
@@ -36,6 +38,7 @@ jobs:
       DISCORD_SECONDARY_WEAPON_SKIN_THREAD_ID: ${{ vars.DISCORD_SECONDARY_WEAPON_SKIN_THREAD_ID || '1476635695958462554' }}
       DISCORD_MELEE_WEAPON_SKIN_THREAD_ID: ${{ vars.DISCORD_MELEE_WEAPON_SKIN_THREAD_ID || '1476629319605555324' }}
       DISCORD_THROWABLE_WEAPON_SKIN_THREAD_ID: ${{ vars.DISCORD_THROWABLE_WEAPON_SKIN_THREAD_ID || '1476637634779414558' }}
+      DISCORD_SPRAY_THREAD_ID: ${{ vars.DISCORD_SPRAY_THREAD_ID || '1438222899562545253' }}
     steps:
       - name: Check out target branch
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -51,7 +54,7 @@ jobs:
         run: python -m pip install "Pillow==12.0.0"
 
       - name: Test skin converters
-        run: python -m unittest scripts/test_sync_discord_human_skins.py scripts/test_sync_discord_weapon_skins.py
+        run: python -m unittest scripts/test_sync_discord_human_skins.py scripts/test_sync_discord_weapon_skins.py scripts/test_sync_discord_sprays.py
 
       - name: Download human skins
         env:
@@ -67,6 +70,11 @@ jobs:
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
         run: python scripts/sync-discord-weapon-skins.py
+
+      - name: Download sprays
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: python scripts/sync-discord-sprays.py
 
       - name: Validate generated catalog
         run: node scripts/validate-content.mjs

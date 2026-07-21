@@ -1758,7 +1758,8 @@ window.addEventListener("load", loadNews);
 const SKIN_CATALOGS = [
   ["human", "data/skins/human.json"],
   ["zombie", "data/skins/zombie.json"],
-  ["weapon", "data/skins/weapon.json"]
+  ["weapon", "data/skins/weapon.json"],
+  ["spray", "data/skins/spray.json"]
 ];
 
 function clearSkinCardCache() {
@@ -1807,6 +1808,7 @@ async function loadSkins() {
 function getSkinCategoryLabel(category) {
   const key = category === "zombie" ? "skins_category_zombie"
     : category === "weapon" ? "skins_category_weapon"
+    : category === "spray" ? "skins_category_spray"
     : "skins_category_human";
   return window.LANG?.[getCurrentLang()]?.[key] || category;
 }
@@ -2057,6 +2059,7 @@ function updateSkinFilterControls() {
     skinCountHuman: skinCategoryCount("human"),
     skinCountZombie: skinCategoryCount("zombie"),
     skinCountWeapon: skinCategoryCount("weapon"),
+    skinCountSpray: skinCategoryCount("spray"),
     skinCountPrimary: skinCategoryCount("weapon", "primary"),
     skinCountSecondary: skinCategoryCount("weapon", "secondary"),
     skinCountMelee: skinCategoryCount("weapon", "melee"),

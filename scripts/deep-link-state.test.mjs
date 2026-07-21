@@ -20,6 +20,10 @@ test("resolves canonical skin category links", () => {
     tab: "skins",
     skinCategory: "weapon"
   });
+  assert.deepEqual(resolveFilterDeepLink("#skins-spray"), {
+    tab: "skins",
+    skinCategory: "spray"
+  });
 });
 
 test("resolves canonical command links", () => {
@@ -42,6 +46,7 @@ test("does not consume legacy or item links", () => {
 
 test("builds only the requested canonical links", () => {
   assert.equal(skinCategoryDeepLink("zombie"), "skins-zombie");
+  assert.equal(skinCategoryDeepLink("spray"), "skins-spray");
   assert.equal(skinCategoryDeepLink("unknown"), null);
   assert.equal(commandPageDeepLink("all"), "commands");
   assert.equal(commandPageDeepLink("donator"), "commands-donator");
