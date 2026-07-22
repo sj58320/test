@@ -26,3 +26,12 @@ test("adds the map music command as the sixth quick-start card", () => {
     jp: "マップの音楽音量を調整"
   });
 });
+
+test("documents the supported music volume range", () => {
+  const loudSound = faq.items.find(item => item.id === "loud_sound");
+  const musicVolume = loudSound?.body.find(
+    block => block.type === "inlineCode" && block.value.startsWith("snd_musicvolume")
+  );
+
+  assert.equal(musicVolume?.value, "snd_musicvolume (0.0~1.0)");
+});

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-19",
+  "updatedAt": "2026-07-22",
   "quickStart": [
     { "type": "faq", "id": "console_howto" },
     { "type": "command", "id": "/stopsound" },
@@ -54,7 +54,7 @@
       "question": { "langKey": "faq_3" },
       "body": [
         { "type": "text", "text": { "langKey": "answer_3_1" } },
-        { "type": "inlineCode", "value": "snd_musicvolume (0~2)" },
+        { "type": "inlineCode", "value": "snd_musicvolume (0.0~1.0)" },
         { "type": "text", "text": { "langKey": "answer_3_2", "prefix": " " } },
         { "type": "break" },
         { "type": "text", "text": { "langKey": "answer_3_3" } },
