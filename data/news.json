@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-19T09:12:00.550000+00:00",
+  "updatedAt": "2026-07-22T10:58:30.503000+00:00",
   "source": "discord",
   "guildId": "850664390779731978",
   "channels": [
@@ -14,6 +14,18 @@
     }
   ],
   "items": [
+    {
+      "id": "1529442511893037097",
+      "title": "패치노트",
+      "content": "## 노미네이트 토큰 소모량 증가\n\n* 토큰 10개 소모 -> 토큰 20개 소모\n* 주기적으로 변경될 수 있습니다\n\n## 후원자 혜택 추가\n* 서버가 풀방일 때 관전중인 플레이어를 추방하고 들어갈 수 있는 기능이 추가되었습니다.\n* 추방 대상에 어드민, 리더는 제외입니다.\n* 추방 회피를 위한 오더핑 사용은 제재당할 수 있습니다.\n\n## 무기 밸런스 패치\n* 같은 카테고리 무기는 같은 라운드에 재구매시 배율이 누적됩니다. (기관단총은 기관단총끼리, 소총은 소총끼리)\n* 예시로\n> 처음에 bizon을 사면 1배 가격으로 구매\n> 이후에 mp7을 사면 1.4배 가격으로 구매\n> 그 이후에 mp5sd를 사면 1.7배 가격으로 구매\n\n### 기관단총\n> * mp7 데미지 33 -> 31\n> * ump45 데미지 39 -> 41\n> * mp5sd 데미지 31-> 33\n\n### 기관총\n> * m249 데미지 32 -> 30\n\n### 소총\n> ### 장탄수 증가\n> * ak47            40 -> 45\n> * galilar         45 -> 50\n> * m4a1           42 -> 47\n> * m4a1-s       40 -> 45\n> * famas         45 -> 50\n> * aug              45 -> 50\n> * sg556         45 -> 50\n> ### 데미지 너프\n> * galilar         35 -> 34\n> * m4a1           34 -> 33\n> * m4a1-s       38 -> 37\n> * aug              33 -> 32\n> * sg556         33 -> 32\n\n### 수류탄\n* 기본가격 3000으로 인하\n* 최대 구매횟수 2회로 감소\n* 맵 마다 설정이 조금씩 다를 수 있습니다.\n\n## 스토어 개선\n\n> * 칼 스킨이 종류별로 분류됩니다.\n> ### 캐릭터 스킨 구매 기간 추가\n> * 캐릭터 스킨에 장기 구매 옵션과 할인 혜택이 추가됩니다.\n> * 8주 구매: 15% 할인\n> * 12주 구매: 20% 할인\n>\n> ### 구매 기간이 길수록 할인된 가격으로 구매\n>\n> 1주  : 100% 가격\n> 2주 : 190% 가격\n> 3주 : 280% 가격\n> 4주 : 360% 가격\n> 8주 : 680% 가격\n> 12주 : 960% 가격\n\n## 칼 공격음 설정 추가\n\n> * 다른 플레이어의 칼 공격음을 ON/OFF 할 수 있는 설정이 추가됩니다.\n> * 해당 설정은 사운드 설정 카테고리의 좀비 관련 항목으로 분류됩니다.\n> ### 명령어 추가\n> * `!knifesound`\n> * `!칼소리`\n> * `!타인칼소리`\n\n---\n\n# Patch Notes\n\n## Increased Nomination Token Cost\n\n* Token cost increased from 10 tokens to 20 tokens\n* The token cost may be adjusted periodically\n\n## New Donator Benefit\n* When the server is full, donator can kick spec players and join server\n* Admins and leaders are excluded from being kicked\n* Using leader to avoid being kicked from server may result in a punishment\n\n## Weapon Balance Update\n* Weapons within the same category now share a cumulative repurchase price multiplier in same round.\n* For example, SMGs share the same multiplier with other SMGs, while rifles share the same multiplier with other rifles.\n> * First purchase: Bizon at 1.0× the base price\n> * Second purchase: MP7 at 1.4× the base price\n> * Third purchase: MP5-SD at 1.7× the base price\n\n## Submachine Guns\n\n> * MP7 damage: 33 → 31\n> * UMP-45 damage: 39 → 41\n> * MP5-SD damage: 31 → 33\n\n## Machine Guns\n\n> * M249 damage: 32 → 30\n\n## Rifles\n\n> ### Increased Magazine Capacity\n> * AK-47              40 → 45\n> * Galil AR          45 → 50\n> * M4A4             42 → 47\n> * M4A1-S          40 → 45\n> * FAMAS           45 → 50\n> * AUG                45 → 50\n> * SG 553:          45 → 50\n>\n> ### Damage Reductions\n> * Galil AR          35 → 34\n> * M4A4              34 → 33\n> * M4A1-S           38 → 37\n> * AUG :               33 → 32\n> * SG 553            33 → 32\n\n## Grenades\n\n> * Base price reduced to 3,000\n> * Maximum number of purchases reduced to 2\n> * Grenade settings may vary slightly depending on the map.\n\n## Store Improvements\n\n> * Knife skins are now categorized by knife type.\n> ### Additional Character Skin Purchase Options\n> * Long-term purchase options and discount benefits have been added for character skins.\n> * 8-week purchase: 15% discount\n> * 12-week purchase: 20% discount\n> ### The longer the purchase duration, the bigger the discount.\n> 1-week  : 100% Price\n> 2-week : 190% Price\n> 3-week : 280% Price\n> 4-week : 360% Price\n> 8-week : 680% Price\n> 12-week : 960% Price\n\n## Knife Attack Sound Setting Added\n\n> * A new setting has been added that allows you to turn other players' knife attack sounds ON or OFF.\n> * This setting can be found in the zombie section of the Sound Settings category.\n> ### New Commands\n> * `!knifesound`\n\n@RSS Player",
+      "publishedAt": "2026-07-22T10:58:30.503000+00:00",
+      "editedAt": null,
+      "author": "투온전도사",
+      "channelId": "853637982552326144",
+      "channelName": "🍀┆𝐏𝐚𝐭𝐜𝐡𝐍𝐨𝐭𝐞",
+      "url": "https://discord.com/channels/850664390779731978/853637982552326144/1529442511893037097",
+      "attachments": []
+    },
     {
       "id": "1528261491298537572",
       "title": "에셋 업데이트 (Asset Update)",
@@ -372,18 +384,6 @@
       "channelId": "853637982552326144",
       "channelName": "🍀┆𝐏𝐚𝐭𝐜𝐡𝐍𝐨𝐭𝐞",
       "url": "https://discord.com/channels/850664390779731978/853637982552326144/1513499253228703886",
-      "attachments": []
-    },
-    {
-      "id": "1513320950848946307",
-      "title": "에셋 업데이트 (Asset update)",
-      "content": "- 인간 스킨이 추가되었습니다 (add human skin)\n\nhttps://discord.com/channels/850664390779731978/1424467148574691540/1513319652581703941\n```Ciaccona (WuWa) / 샤콘(명조)\nGalbrena (WuWa) / 갈브레나(명조)\nGalbrena Overclock (WuWa) / 갈브레나 오버클럭(명조)\nHiyuki (WuWa) / 히유키 (명조)\nHiyuki Frost (WuWa) / 히유키 서리 (명조)\nLacrimosa (NTE) / 라크리모사 (이환)\nShinku (NTE) / 신쿠 (이환)\nSigrika (WuWa) / 시그리카 (명조)\nZani (WuWa) / 젠니 (명조)\nBuling (WuWa) / 복링 (명조)```\n\n에러 뜨시는 분들은 아래 링크 구독 후 게임을 재시작 해주세요 (If you're experiencing an error, please subscribe using the link below and restart the game.)\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3671104537\n\n@RSS Player",
-      "publishedAt": "2026-06-07T23:17:10.826000+00:00",
-      "editedAt": "2026-06-08T07:31:21.938000+00:00",
-      "author": "``Asmodeus``",
-      "channelId": "853637982552326144",
-      "channelName": "🍀┆𝐏𝐚𝐭𝐜𝐡𝐍𝐨𝐭𝐞",
-      "url": "https://discord.com/channels/850664390779731978/853637982552326144/1513320950848946307",
       "attachments": []
     },
     {
