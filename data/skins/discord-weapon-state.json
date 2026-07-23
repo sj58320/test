@@ -1302,6 +1302,15 @@
         "1500755071741329480"
       ],
       "name": "kirby (grenade)"
+    },
+    "1529697013694730311": {
+      "skinId": "weapon-throwable-025",
+      "subcategory": "throwable",
+      "mediaMessageId": "1529697013694730311",
+      "attachmentIds": [
+        "1529697013321695273"
+      ],
+      "name": "fb_Ducktoy (Flashbang)"
     }
   }
 }

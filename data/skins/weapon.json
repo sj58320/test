@@ -1,7 +1,7 @@
 {
   "version": 5,
   "category": "weapon",
-  "updatedAt": "2026-07-18T12:02:54.870000+00:00",
+  "updatedAt": "2026-07-23T03:49:48.461000+00:00",
   "items": [
     {
       "id": "weapon-primary-001",
@@ -2371,6 +2371,22 @@
           "type": "image",
           "role": "preview",
           "src": "assets/skins/weapon/throwable/024-01.webp",
+          "width": 1280,
+          "height": 720
+        }
+      ]
+    },
+    {
+      "id": "weapon-throwable-025",
+      "subcategory": "throwable",
+      "order": 25,
+      "name": "fb_Ducktoy (Flashbang)",
+      "sourceUrl": "https://discord.com/channels/574971804712435722/1476637634779414558/1529697013694730311",
+      "media": [
+        {
+          "type": "image",
+          "role": "preview",
+          "src": "assets/skins/weapon/throwable/025-01.webp",
           "width": 1280,
           "height": 720
         }
