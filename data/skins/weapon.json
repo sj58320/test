@@ -1,7 +1,7 @@
 {
   "version": 5,
   "category": "weapon",
-  "updatedAt": "2026-08-13T11:59:17.912000+00:00",
+  "updatedAt": "2026-08-13T12:17:11.391000+00:00",
   "items": [
     {
       "id": "weapon-primary-001",
@@ -1356,7 +1356,7 @@
       "id": "weapon-secondary-012",
       "subcategory": "secondary",
       "order": 12,
-      "name": "forerunner_glock",
+      "name": "forerunner_glock(glock)",
       "media": [
         {
           "type": "video",
@@ -1372,7 +1372,7 @@
       "id": "weapon-secondary-013",
       "subcategory": "secondary",
       "order": 13,
-      "name": "ups_sussurro",
+      "name": "ups_sussurro(usp)",
       "media": [
         {
           "type": "video",
@@ -2685,7 +2685,7 @@
       "id": "weapon-secondary-014",
       "subcategory": "secondary",
       "order": 14,
-      "name": "batrinity_elite [F]",
+      "name": "batrinity_elite [F](elite)",
       "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1531618471303970827",
       "media": [
         {
@@ -2701,7 +2701,7 @@
       "id": "weapon-secondary-015",
       "subcategory": "secondary",
       "order": 15,
-      "name": "batrinity_usp_mika [F]",
+      "name": "batrinity_usp_mika [F](usp)",
       "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1531618677449818132",
       "media": [
         {
@@ -2717,7 +2717,7 @@
       "id": "weapon-secondary-016",
       "subcategory": "secondary",
       "order": 16,
-      "name": "batrinity_usp_nagisa [F]",
+      "name": "batrinity_usp_nagisa [F](usp)",
       "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1531618832370897017",
       "media": [
         {
@@ -2733,7 +2733,7 @@
       "id": "weapon-secondary-017",
       "subcategory": "secondary",
       "order": 17,
-      "name": "kayoko_elite[F]",
+      "name": "kayoko_elite[F](elite)",
       "sourceUrl": "https://discord.com/channels/574971804712435722/1476635695958462554/1535752839278886943",
       "media": [
         {
@@ -2845,7 +2845,7 @@
       "id": "weapon-melee-045",
       "subcategory": "melee",
       "order": 45,
-      "name": "ba_noa_classicknife",
+      "name": "ba_noa_classicknife(classic)",
       "sourceUrl": "https://discord.com/channels/574971804712435722/1476629319605555324/1535754119380205618",
       "media": [
         {

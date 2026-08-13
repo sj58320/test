@@ -734,7 +734,7 @@
       "attachmentIds": [
         "1500754964782252162"
       ],
-      "name": "forerunner_glock"
+      "name": "forerunner_glock(glock)"
     },
     "1510433445590073495": {
       "skinId": "weapon-secondary-013",
@@ -743,7 +743,7 @@
       "attachmentIds": [
         "1510433444566536192"
       ],
-      "name": "ups_sussurro"
+      "name": "ups_sussurro(usp)"
     },
     "1476629327155302411": {
       "skinId": "weapon-melee-001",
@@ -1472,7 +1472,7 @@
       "attachmentIds": [
         "1531618471086133308"
       ],
-      "name": "batrinity_elite [F]"
+      "name": "batrinity_elite [F](elite)"
     },
     "1531618677449818132": {
       "skinId": "weapon-secondary-015",
@@ -1481,7 +1481,7 @@
       "attachmentIds": [
         "1531618677068402808"
       ],
-      "name": "batrinity_usp_mika [F]"
+      "name": "batrinity_usp_mika [F](usp)"
     },
     "1531618832370897017": {
       "skinId": "weapon-secondary-016",
@@ -1490,7 +1490,7 @@
       "attachmentIds": [
         "1531618832077033542"
       ],
-      "name": "batrinity_usp_nagisa [F]"
+      "name": "batrinity_usp_nagisa [F](usp)"
     },
     "1535752839278886943": {
       "skinId": "weapon-secondary-017",
@@ -1499,7 +1499,7 @@
       "attachmentIds": [
         "1535752839010328737"
       ],
-      "name": "kayoko_elite[F]"
+      "name": "kayoko_elite[F](elite)"
     },
     "1531617992360591452": {
       "skinId": "weapon-melee-039",
@@ -1562,7 +1562,7 @@
       "attachmentIds": [
         "1535754119032344780"
       ],
-      "name": "ba_noa_classicknife"
+      "name": "ba_noa_classicknife(classic)"
     },
     "1531616495958757377": {
       "skinId": "weapon-throwable-026",
