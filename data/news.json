@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-01T07:50:30.641000+00:00",
+  "updatedAt": "2026-10-01T14:30:48.733000+00:00",
   "source": "discord",
   "guildId": "850664390779731978",
   "channels": [
@@ -14,6 +14,18 @@
     }
   ],
   "items": [
+    {
+      "id": "1555225478359556109",
+      "title": "RSS 에셋 업데이트",
+      "content": "# 캐릭터 스킨 추가\n\n## -일반-\nhttps://discord.com/channels/850664390779731978/1517461614356594700/1555222126246494208\n- 카시마 (함대 컬렉션)\n\n## -히든-\nhttps://discord.com/channels/850664390779731978/1533778592100646962/1555222833825587332\n- 카레니나: 신항 (퍼니싱: 그레이 레이븐) [C][H]\n\n# 무기 스킨 추가\n\n## -히든-\nhttps://discord.com/channels/850664390779731978/1533778687600754708/1555223212592205904\n- Block MG [A][H]\n\n### 에러가 발생하는 경우 아래 에셋을 구독한 후 게임을 재시작해 주세요.\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782730321\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782731016\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782731693\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782732358\n\n---\n\n# RSS Asset Update\n\n# New Character skins added\n\n## -Normal-\nhttps://discord.com/channels/850664390779731978/1517461614356594700/1555222126246494208\n- Kashima (Kantai Collection)\n\n## -Hidden-\nhttps://discord.com/channels/850664390779731978/1533778592100646962/1555222833825587332\n- Karenina: Effulgence (Punishing: Gray Raven) [C][H]\n\n# New Weapon skins added\n\n## -Hidden-\nhttps://discord.com/channels/850664390779731978/1533778687600754708/1555223212592205904\n- Block MG [A][H]\n\n### If you encounter any errors, subscribe to the assets below and restart the game.\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782730321\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782731016\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782731693\nhttps://steamcommunity.com/sharedfiles/filedetails/?id=3782732358\n\n@Ze Player @Mg Player",
+      "publishedAt": "2026-10-01T14:30:48.733000+00:00",
+      "editedAt": null,
+      "author": "``Asmodeus``",
+      "channelId": "853637982552326144",
+      "channelName": "🍀┆𝐏𝐚𝐭𝐜𝐡𝐍𝐨𝐭𝐞",
+      "url": "https://discord.com/channels/850664390779731978/853637982552326144/1555225478359556109",
+      "attachments": []
+    },
     {
       "id": "1555120303217053747",
       "title": "RSS ZE 플러그인 패치노트 (2/2)",
@@ -476,18 +488,6 @@
       "channelId": "853637982552326144",
       "channelName": "🍀┆𝐏𝐚𝐭𝐜𝐡𝐍𝐨𝐭𝐞",
       "url": "https://discord.com/channels/850664390779731978/853637982552326144/1537762617332994139",
-      "attachments": []
-    },
-    {
-      "id": "1537444566368522280",
-      "title": "미니게임 업데이트",
-      "content": "# 코스 기록 시스템\n* 타이머가 설정된 맵에서 시작 구역을 벗어나면 타이머가 자동으로 시작되며, 도착 구역에 진입하면 기록이 저장됩니다.\n* 개인 최고 기록(PB) 표시\n* 서버 최고 기록(SR) 및 기록 보유자 표시\n* 서버 최고 기록 갱신 시 전체 채팅 알림\n* 최고 기록 1위부터 5위까지 지원\n* 관전 중인 플레이어의 타이머 HUD 지원\n* !restart, !r, !start 명령어 추가 — 코스 시작 지점으로 이동\n\n# 기록 확인 명령어\n* !maptop — 현재 맵의 서버 기록 TOP 5 확인\n* !myrecords — 자신의 기록 내역을 콘솔에서 확인\n\n# 일시정지 기능\n* 코스 진행 중 잠시 쉬거나 리플레이를 확인할 수 있도록 일시정지 기능이 추가되었습니다.\n* !pause — 현재 위치를 저장하고 타이머 및 움직임 정지\n* !resume — 저장된 위치로 돌아가 타이머 재개\n* 일시정지한 시간은 최종 기록에 포함되지 않음\n* 관전 또는 리플레이 확인 후에도 저장된 위치에서 재개 가능\n* 관전 상태에서 재개하면 자동으로 팀에 참가하고 스폰한 뒤 복귀\n\n# 서버 최고 기록 리플레이\n* 각 코스의 서버 최고 기록을 봇 리플레이로 관전할 수 있습니다.\n* !replay — 서버 최고 기록 리플레이 관전\n* !replaynext — 30초 앞으로 이동\n* !replayprev — 30초 뒤로 이동\n* !replaygoto <초> — 지정한 시간으로 이동\n* 리플레이 종료 시 봇 자동 제거\n* 리플레이 봇은 맵의 trigger_* 엔티티에 영향을 주지 않음\n\n# 코스 클리어 보상 업데이트\n* 타이머가 활성화 된 맵을 클리어시 (100 * tier) 만큼의 크레딧을 지급합니다.\n* 타이머가 활성화 된 맵 첫 클리어시 (2500 * tier) 만큼의 크레딧을 지급합니다.\n* 타이머가 활성화 된 맵 서버 최고 기록 경신 시 100 크레딧을 지급합니다.\n\n# 현재 코스 타이머가 활성화 된 맵 리스트\n* (C1)mg_nxr_course_v2\n* (C2)mg_minecraft_adventure\n* (C2)mg_zeizeiii\n* (C2+)mg_nothing\n* (C3)mg_100traps_r\n* (C3)mg_dobaba_t\n* (C3+)mg_minecraft_course_jb\n* (C3+)mg_yourstory_t\n* (C4)mg_nothing_hard\n* (C4)mg_fiery_t\n* (C4)mg_koaes_t\n* (C5)kzpro_only_up_extended\n* (C5+)mg_saturn\n* (C6) mg_terminal\n* (C6+)mg_danes_hard_max_t",
-      "publishedAt": "2026-08-13T12:55:48.961000+00:00",
-      "editedAt": null,
-      "author": "bunnyhop",
-      "channelId": "853637982552326144",
-      "channelName": "🍀┆𝐏𝐚𝐭𝐜𝐡𝐍𝐨𝐭𝐞",
-      "url": "https://discord.com/channels/850664390779731978/853637982552326144/1537444566368522280",
       "attachments": []
     },
     {
